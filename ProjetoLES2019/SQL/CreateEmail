@@ -1,0 +1,6 @@
+CREATE TABLE `fatec2019`.`email` 
+(	`id` INT NOT NULL AUTO_INCREMENT, 
+	`ema_cli_id` INT NOT NULL, 
+	`adress` VARCHAR(500) NOT NULL, 
+	PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci;

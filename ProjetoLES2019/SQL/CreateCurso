@@ -1,0 +1,11 @@
+CREATE TABLE `fatec2019`.`curso` 
+(	`id` INT NOT NULL AUTO_INCREMENT, 
+	`cur_cli_id` INT NOT NULL, 
+	`instrutor` VARCHAR(500) NOT NULL, 
+	`categoria` VARCHAR(500) NOT NULL , ]
+	`titulo` VARCHAR(500) NOT NULL, 
+	`descricao` VARCHAR(500) NOT NULL, 
+	`valor` DOUBLE NOT NULL, 
+	`gr_precos` DOUBLE NOT NULL, 
+	PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8mb4 COLLATE utf8mb4_unicode_ci;

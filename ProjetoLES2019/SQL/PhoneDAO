@@ -1,0 +1,46 @@
+package br.edu.les2019.dao;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import br.edu.les2019.domain.Client;
+import br.edu.les2019.domain.EntityDomain;
+import br.edu.les2019.domain.Phone;
+
+public class PhoneDAO extends AbstractDAO 
+{	@Override public void save(EntityDomain ed) 
+	{	Phone phone = (Phone)ed;
+		this.table = phone.getClass().getSimpleName().toLowerCase();
+		try
+		{	this.ps = this.connection.prepareStatement("INSERT INTO " +
+				this.table + "(pho_cli_id, number, ddd, type)VALUES(?, ?, ?)");
+			this.ps.setInt(1, phone.getClient().getId());
+			this.ps.setString(2, phone.getNumber());
+			this.ps.setString(3, phone.getDdd());
+			this.ps.setString(4, phone.getType());
+			
+			this.connection.commit();
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+	}
+
+	@Override public void update(EntityDomain ed) 
+	{	
+	}
+
+	@Override public List<EntityDomain> search(EntityDomain ed) 
+	{	return null;
+	}
+}

@@ -1,0 +1,8 @@
+CREATE TABLE `fatec2019`.`phone` 
+(	`id` INT NOT NULL AUTO_INCREMENT, 
+	`pho_cli_id` INT NOT NULL, 
+	`number` VARCHAR(10) NOT NULL, 
+	`ddd` CHAR(2) NOT NULL, 
+	`type` VARCHAR(10) NOT NULL, 
+	PRIMARY KEY (`id`)
+) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci;

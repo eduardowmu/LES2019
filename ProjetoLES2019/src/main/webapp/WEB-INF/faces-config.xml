@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+    xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd"
+    version="2.2">
+	<managed-bean>
+		<managed-bean-name>nomesBean</managed-bean-name>
+		<managed-bean-class>
+			com.algaworks.financeiro.controller.NomesBean
+		</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	<!-- A regra que acabamos de declarar define que a ação de nome "oi" a partir da origem
+		/Nomes.xhtml deve encaminhar para a página /Ola.xhtml. Para usar esta regra,
+		podemos simplesmente adicionar um botão na página Nomes.xhtml com a
+		propriedade action referenciando o outcome. -->
+	<navigation-rule>
+		<!-- Podemos usar wildcard no elemento from-view-id para selecionar diversos arquivos
+			de origem, como por exemplo * ou /admin/*. 
+		<from-view-id>/Nomes.xhtml</from-view-id>-->
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>oi</from-outcome>
+			<to-view-id>/Ola.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+</faces-config>

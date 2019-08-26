@@ -1,0 +1,8 @@
+CREATE TABLE `fatec2019`.`Client` 
+(	`id` INT NOT NULL AUTO_INCREMENT, 
+	`name` VARCHAR(500) NOT NULL, 
+	`surname` VARCHAR(500) NOT NULL, 
+	`genero` VARCHAR(1) NOT NULL, 
+	`password` VARCHAR(500) NOT NULL, 
+	PRIMARY KEY (`id`)
+)ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_unicode_ci;
