@@ -12,7 +12,7 @@
 		<title>Página Inicial - Aluno</title>
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="CSS/loginAluno.css" rel="stylesheet">
-    </head>
+	</head>
 	<body>
 		<div>
 		<%	Result result = (Result)session.getAttribute("result"); %>
@@ -49,8 +49,8 @@
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="principal.html">Página Inicial</a></li>
-							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a name="cursos" class="barra-direita" href="cursos_compra.jsp">Cursos</a></li>
+							<li><a name="logout" class="barra-direita" href="loginAluno.html">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -78,14 +78,18 @@
 							</td>
 							<td align="center">
 								<button type="submit" class="btn btn-primary form-control" name="action" id="action"
-									value="delete">Encerrar Conta
+									value="delete" onclick="delete()">Encerrar Conta
 								</button>
 							</td>
 						</tr>
 						<tr>
 							<td>
-								<a name="curso" class="btn btn-primary form-control" value="meusCursos" href="ListaCursos.jsp">
+								<a name="curso" class="btn btn-primary form-control" value="meusCursos" href="meusCursos.jsp">
 								Meus Cursos</a>
+							</td>
+							<td align="center">
+								<a class="btn btn-primary form-control" id="logout" href="principal.html">
+								Sair</a>
 							</td>
 						</tr>
 						<tr>
@@ -93,23 +97,15 @@
 								<a class="btn btn-primary form-control" value="LogarFuncionario" href="alterarSenha.html">
 									Alterar Senha</a>
 							</td>
-						</tr>
-						<tr>
 							<td align="center">
-								<a class="btn btn-primary form-control" id="carrinho" href="carrinho.html">
-									Carrinho</a>
+								<a class="btn btn-primary form-control" id="carrinho" href="meusCupons.jsp">
+									Meus Cupons</a>
 							</td>
 						</tr>
 						<tr>
 							<td align="center">
 								<a class="btn btn-primary form-control" id="transacoes" href="transacoes.html">
 								Histórico de Transações</a>
-							</td>
-						</tr>
-						<tr>
-							<td align="center">
-								<a class="btn btn-primary form-control" id="logout" href="principal.html">
-								Sair</a>
 							</td>
 						</tr>
 					</table>

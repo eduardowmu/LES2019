@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 public class Client extends EntityDomain
-{	String surname;
+{	Image img;
+	String surname;
 	String genero;
 	String cpf;
 	List<String> emails;
@@ -13,6 +14,9 @@ public class Client extends EntityDomain
 	Phone phone;
 	User user;
 	CreditCard card;
+	
+	public Image getImg() {return img;}
+	public void setImg(Image img) {this.img = img;}
 	
 	public String getSurname() {return surname;}
 	public void setSurname(String surname) 

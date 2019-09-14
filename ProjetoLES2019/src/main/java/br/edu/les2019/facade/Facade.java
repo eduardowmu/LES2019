@@ -23,13 +23,16 @@ import br.edu.les2019.strategy.ConfirmaSenhas;
 import br.edu.les2019.strategy.IStrategy;
 import br.edu.les2019.strategy.ValidadorCPF;
 import br.edu.les2019.strategy.ValidadorCartao;
+import br.edu.les2019.strategy.ValidadorCategoria;
 import br.edu.les2019.strategy.ValidadorDados;
 import br.edu.les2019.strategy.ValidadorEmail;
 import br.edu.les2019.strategy.ValidadorExistencia;
+import br.edu.les2019.strategy.ValidadorGrupo;
 import br.edu.les2019.strategy.ValidadorImagem;
 import br.edu.les2019.strategy.ValidadorLogin;
 import br.edu.les2019.strategy.ValidadorPhone;
 import br.edu.les2019.strategy.ValidadorSenha;
+import br.edu.les2019.strategy.ValidarCurso;
 
 public class Facade implements IFacade
 {	Map<String, IDAO> daos;//map of DAOs
@@ -51,7 +54,7 @@ public class Facade implements IFacade
 		daos.put(Course.class.getName(), codao);
 		daos.put(Video.class.getName(), vdao);
 		
-		//instantiating each Strategies
+		//instantiating each Strategies for clients
 		ValidadorDados vdd = new ValidadorDados();
 		ValidadorCPF vcpf = new ValidadorCPF();
 		ValidadorEmail vemail = new ValidadorEmail();
@@ -62,8 +65,13 @@ public class Facade implements IFacade
 		ConfirmaSenhas cs = new ConfirmaSenhas();
 		ValidadorSenha vs = new ValidadorSenha();
 		ValidadorLogin vl = new ValidadorLogin();
+		//strategies for courses
+		ValidadorCategoria vcat = new ValidadorCategoria();
+		ValidadorGrupo vgrupo = new ValidadorGrupo();
+		ValidarCurso vcurso = new ValidarCurso();
 		
-		//listas de todas as regras
+		
+		//listas de todas as regras para clientes
 		List<IStrategy> rnSalvarClient = new ArrayList<>();
 		List<IStrategy> rnAlterarClient = new ArrayList<>();
 		List<IStrategy> rnAtivarClient = new ArrayList<>();
@@ -87,7 +95,7 @@ public class Facade implements IFacade
 		rnLogin.add(vs);
 		rnLogin.add(vl);
 		
-		//regras para mostrar dados do cliente
+		//regras para alterar dados do cliente
 		rnAlterarClient.add(vdd);
 		rnAlterarClient.add(vcpf);
 		rnAlterarClient.add(vemail);
@@ -99,20 +107,51 @@ public class Facade implements IFacade
 		
 		//regras para deletar clientes
 		
-		//mapeamento de todas as regras para o cliente
-		Map<String, List<IStrategy>> regrasClient = new HashMap<String, 
-				List<IStrategy>>();
 		
+		//mapeamento de todas as regras para o cliente
+		Map<String, List<IStrategy>> regrasClient = 
+				new HashMap<String, List<IStrategy>>();
+				
 		//Cada chave (KEY) desse Map é o valor ("value") armazenadas nas tags 
 		//<input type="submit"/> das páginas HTML, e os valores são as regras de negócios
 		//para cada evento
 		regrasClient.put("save", rnSalvarClient);
 		regrasClient.put("login", rnLogin);
 		regrasClient.put("update", rnAlterarClient);
+				
+		
+		//Lista de regras para cursos
+		List<IStrategy> rnSalvarCurso = new ArrayList<>();
+		List<IStrategy> rnAlterarCurso = new ArrayList<>();
+		List<IStrategy> rnConsultarCurso = new ArrayList<>();
+		List<IStrategy> rnDeletarCurso = new ArrayList<>();
+		
+		//regras para salvar curso
+		rnSalvarCurso.add(vcat);
+		rnSalvarCurso.add(vgrupo);
+		rnSalvarCurso.add(vex);
+		
+		//regras para alterar curso
+		rnAlterarCurso.add(vcat);
+		rnAlterarCurso.add(vgrupo);
+		
+		//regras para buscar curso
+		rnConsultarCurso.add(vcurso);
+		
+		//mapeamento de todas as regras para o cliente
+		Map<String, List<IStrategy>> regrasCourse = 
+			new HashMap<String, List<IStrategy>>();
+		
+		//para cada evento associado a Cursos
+		regrasCourse.put("save", rnSalvarCurso);
+		regrasCourse.put("update", rnAlterarCurso);
+		regrasCourse.put("delete", rnDeletarCurso);
+		regrasCourse.put("search", rnConsultarCurso);
 		
 		/*Adiciona o mapa com as regras indexadas pelas operações no mapa 
 		geral indexado pelo nome da entidade*/
 		busRules.put(Client.class.getName(), regrasClient);
+		busRules.put(Course.class.getName(), regrasCourse);
 	}
 	
 	//execução das regras de negócio
@@ -141,7 +180,13 @@ public class Facade implements IFacade
 		List<EntityDomain> entities = new ArrayList<>();
 		if(this.executeRules(ed, "save") == null)
 		{	IDAO dao = daos.get(ed.getClass().getName());
-			try	{dao.save(ed);}
+			try	
+			{	dao.save(ed);
+				for(EntityDomain e:dao.search())
+				{	if(ed.getId() == e.getId())
+					{ed.setRegistry(e.getRegistry());}
+				}
+			}
 			catch(Exception e)
 			{	System.out.println(e.getMessage());
 				result.setMsg("Estamos com um problema, "
@@ -149,6 +194,10 @@ public class Facade implements IFacade
 			}
 		}
 		else result.setMsg(this.executeRules(ed, "save"));
+		//adiciona a entidade salva na lista de entidades a
+		//ser enviado para a página destino
+		entities.add(ed);
+		result.setEntities(entities);
 		return result;
 	}
 	
@@ -158,7 +207,13 @@ public class Facade implements IFacade
 		entities.add(ed);
 		if(this.executeRules(ed, "update") == null)
 		{	IDAO dao = daos.get(ed.getClass().getName());
-			try	{dao.update(ed);}
+			try	
+			{	dao.update(ed);
+				for(EntityDomain e:dao.search())
+				{	if(ed.getId() == e.getId())
+					{ed.setRegistry(e.getRegistry());}
+				}
+			}
 			catch(Exception e)
 			{	System.out.println(e.getMessage());
 				result.setMsg("Estamos com um problema, "
@@ -215,12 +270,12 @@ public class Facade implements IFacade
 	
 	@Override public Result login(EntityDomain ed) 
 	{	result = new Result();
-		Client client = (Client)ed;
+		//Client client = (Client)ed;
 		List<EntityDomain> entities = new ArrayList<>();
-		if(this.executeRules(client, "login") == null)
-		{	ClientDAO cdao = new ClientDAO();
+		/*if(this.executeRules(client, "login") == null)
+		{	IDAO dao = daos.get(ed.getClass().getName());
 			try
-			{	for(EntityDomain entity:cdao.search())
+			{	for(EntityDomain entity:dao.search())
 				{	Client cli = (Client)entity;
 					if(cli.getEmails() != null)
 					{	if(cli.getEmails().get(0).equals(client.getEmails().get(0)) &&
@@ -237,7 +292,7 @@ public class Facade implements IFacade
 			result.setEntities(entities);
 		}
 		
-		else result.setMsg(this.executeRules(ed, "login"));
+		else result.setMsg(this.executeRules(ed, "login"));*/
 		return result;
 	}
 	
@@ -253,6 +308,10 @@ public class Facade implements IFacade
 	}
 
 	@Override public Result show(EntityDomain ed) 
-	{	return null;
+	{	result = new Result();
+		IDAO dao = daos.get(ed.getClass().getName());
+		result.setMsg("Dados do curso");
+		result.setEntities(dao.search(ed));
+		return result;
 	}
 }

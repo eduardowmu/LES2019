@@ -69,6 +69,9 @@
 						}
 					}
 				%>
+				<form action="MyServlet" enctype="multipart/form-data">
+					<input type="file" id="action" name="action" value="load"/>
+				</form>
 				<legend>Cadastro de Usuário</legend>
 				<form action="ClientServlet" method="post">
 						Nome:

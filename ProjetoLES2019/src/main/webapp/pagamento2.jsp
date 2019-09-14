@@ -97,9 +97,9 @@
                                       <div class="navbar-inner">
                                         <div class="container">
                                     <ul>
-                                        <!-- <li><a href="#tab3" data-toggle="tab">Pedido</a></li> -->
+                                        <li><a href="#tab3" data-toggle="tab">Pedido</a></li>
                                         <li><a href="#tab4" data-toggle="tab">Forma de Pagamento</a></li>
-                                        <!-- <li><a href="#tab5" data-toggle="tab">Finalizar Compra</a></li> -->
+                                        <li><a href="#tab5" data-toggle="tab">Finalizar Compra</a></li>
                                     </ul>
                                      </div>
                                       </div>
@@ -138,7 +138,7 @@
                                                 <div class="control-group">
                                                     <label class="control-label">Email</label>
                                                     <div class="controls">
-                                                        <span class="input-xlarge uneditable-input">joao.silva@gmail.com</span>
+                                                        <span class="input-xlarge uneditable-input">eduardo@gmail.com</span>
                                                     </div>
                                                 </div>                                                
                                               </fieldset>                                               
@@ -268,15 +268,15 @@
                                                     <td>1234-5678-9012-3456</td>
                                                     <td class="center">
                                                     	<input type="text" id="id_valor_parcela">
-                                                    	<input type="button" class="btn btn-warning" type="button" id="ajustar" onclick="atualizar_parcelas()" value="Ajustar"/>
-                                                    	<button type="button" class="btn btn-success" onclick="alertaSalvo()">Salvar</button>
+                                                    	<input type="button" id="ajustar" class="btn btn-warning" type="button" onclick="atualizar_parcelas()" value="Ajustar"/>
+                                                    	<button type="button" class="btn btn-success" id="save2" onclick="alertaSalvo()">Salvar</button>
                               						</td>
-					
+
                                                 </tr>
                                                 </tbody>
                                                 </table>    
                                                 <div>
-                                                    <input type="button" id="outros" value="Outros Cartões" onclick="add_cartao()">
+                                                    <input type="button" value="Outros Cartões" id="outros" onclick="add_cartao()">
                                                     <!-- <input style="margin-left: 400px" type="button" onclick="atualizar_parcelas()" value="Ajustar"/> -->
                                                 </div>
                                                 
@@ -321,30 +321,24 @@
                                                     <button class="btn btn-warning btn-mini">Editar</button>
                                                     <button class="btn btn-danger btn-mini" value="Excluir" onclick="deleteRow(this)">Excluir</button>
                                                 </td>
-                                                
-											</tr>
-                                        </tbody>
+                                            </tr>
+                                            <tr class="odd gradeX">
+                                                <td><img src="imagens/visa.png" alt="" /></td>
+                                                <td class="center">####-####-####-3456</td>
+												<td class="center">05/25</td>
+                                                <td class="center">Eduardo W Murakoshi</td>
+                                                <td class="center"><input type="checkbox" name="card"></td>
+                                                <td>
+                                                    <button class="btn btn-warning btn-mini">Editar</button>
+                                                    <button class="btn btn-danger btn-mini" value="Excluir" onclick="deleteRow(this)">Excluir</button>
+                                                </td>
+                                            </tr>
+										</tbody>
 									</table>
-										<label class="control-label">Código do Pedido</label>
-                                                  <div class="controls">
-                                                    <span class="input-xlarge uneditable-input">00000115</span>
-                                                  </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Data do Pedido</label>
-                                                    <div class="controls">
-                                                        <span class="input-xlarge uneditable-input">12/08/2019</span>
-                                                    </div>
-                                                </div>
-                                                  <div class="control-group">
-                                                  <label class="control-label">Total</label>
-                                                  <div class="controls">
-                                                    <span class="input-xlarge uneditable-input">R$ 140,00</span>
-                                                  </div>
-                                                </div>
-										<div style="text-align: right">
-                                            <button type="button" class="btn btn-success" onclick="alertaSalvo()">Salvar</button>
-										</div>
+										<p style="text-align: right">
+                                            
+                                            <button type="button" class="btn btn-success" id="save" onclick="alertaSalvo()">Salvar</button>
+										</p>
                                             
                                         </fieldset>
                                                       
@@ -384,8 +378,9 @@
                                                     </span>
                                                   </div>
                                                 </div>
+                                                
                                                 <p style="text-align: center">
-                                                     <a href="inicialAluno.jsp" style="color: white" 
+                                                     <a href="inicialAluno.jsp" id="compra" style="color: white" 
                                                      	onclick="alerta()" class="btn btn-success btn-large">
                                                       	Finalizar Compra
                                                      </a>

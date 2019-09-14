@@ -116,7 +116,7 @@ public class ClientView implements IViewHelper
 	@Override public void setView(Result result, HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException 
 	{	RequestDispatcher rd = null;	//direciona os resultados para a página 
-										//de gerenciamento de funcionarios
+										//de gerenciamento de clientes
 	
 		switch(request.getParameter("action"))
 		{	case "save":

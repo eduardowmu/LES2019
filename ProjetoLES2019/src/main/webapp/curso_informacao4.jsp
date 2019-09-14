@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Courses</title>
+		<title>Cursos</title>
 		<!-- Bootstrap -->
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements
@@ -22,7 +22,7 @@
 	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
 	    </script>
 	    <![endif]-->
-	    <link href="CSS/estrutura.css" rel="stylesheet">
+	    <link href="CSS/informacao.css" rel="stylesheet">
     </head>
 	<body>
 		<div>
@@ -45,10 +45,10 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Cursos On-Line</b></h2>
+						<h2 class="barra"><b id=titulo>ULearn Cursos de TI</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a name="logout" class="barra-direita" href="principal.html">Logout</a></li>
+							<li><a class="barra-direita" href="#">Login</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
@@ -59,67 +59,33 @@
 		<div id="form" align="center">
 			<form action="MyServlet" method="post">
 				<fieldset>
-					<legend>Angular</legend>
-					<iframe width="560" height="315" 
-						src="https://www.youtube.com/embed/tPOMG0D57S0" 
-						frameborder="0" 
-						allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-						allowfullscreen>
-					</iframe>
-					<aside>
-						<div class="playlist-items yt-scrollbar-dark style-scope ytd-playlist-panel-renderer">
-							<table>
-								<tr class="video">
-									<td><a href="#">Video 1 - Titulo 1</a></td>
-									<td> </td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 2 - Titulo 2</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 3 - Titulo 3</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 4 - Titulo 4</a></td>
-									<td> </td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 5 - Titulo 5</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 6 - Titulo 6</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 7 - Titulo 7</a></td>
-									<td> </td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 8 - Titulo 8</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 9 - Titulo 9</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 10 - Titulo 10</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 11 - Titulo 11</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 12 - Titulo 12</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 13 - Titulo 13</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 14 - Titulo 14</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 15 - Titulo 15</a></td>
-								</tr>
-							</table>
-						</div>
-					</aside>
+					<legend>Photoshop</legend>
+					<table>
+						<tr>
+							<td>
+								<!-- <iframe width="560" height="315" padding-left="15px"
+									src="https://www.youtube.com/embed/tPOMG0D57S0" 
+									frameborder="0" 
+									allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+									allowfullscreen>
+								</iframe> -->
+							</td>
+							<td>
+								<p align="left">
+									<b>Descrição:</b><br/>Photoshop é um programa profissional de edição de imagem 
+									muito famoso, que funciona em Windows, Mac, e tem versão para celular (Androd, 
+									iPhone e Windows Phone).  Entretando, não existe uma versão para web, ou seja, 
+									não é possível usá-lo online. O editor é pago, porém pode ser grátis durante 30 
+									dias, para testes de novos usuários. Ele está diponível em português na maior 
+									parte das suas versões.<br/><br/>
+									R$35,00 - (Certificado incluso se atingir a média nas avaliações)
+								</p>
+								<a name="comprar" class="btn btn-primary" href="meuCarrinho4.jsp">
+									Comprar <img src="imagens/bandeiras.jpg"/>
+								</a>
+							</td>
+						</tr>
+					</table>
 				</fieldset>
 			</form>
 		</div>

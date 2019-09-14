@@ -22,7 +22,11 @@
 	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
 	    </script>
 	    <![endif]-->
-	    <link href="CSS/estrutura.css" rel="stylesheet">
+	    <link href="CSS/pagamento.css" rel="stylesheet">
+	    <script>
+	    	function alerta()
+	    	{alert("Parabéns seu curso foi comprado com sucesso");}
+	    </script>
     </head>
 	<body>
 		<div>
@@ -48,7 +52,7 @@
 						<h2 class="barra"><b id=titulo>Cursos On-Line</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a name="logout" class="barra-direita" href="principal.html">Logout</a></li>
+							<li><a class="barra-direita" href="#">Login</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
@@ -59,67 +63,41 @@
 		<div id="form" align="center">
 			<form action="MyServlet" method="post">
 				<fieldset>
-					<legend>Angular</legend>
-					<iframe width="560" height="315" 
-						src="https://www.youtube.com/embed/tPOMG0D57S0" 
-						frameborder="0" 
-						allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-						allowfullscreen>
-					</iframe>
-					<aside>
-						<div class="playlist-items yt-scrollbar-dark style-scope ytd-playlist-panel-renderer">
-							<table>
-								<tr class="video">
-									<td><a href="#">Video 1 - Titulo 1</a></td>
-									<td> </td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 2 - Titulo 2</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 3 - Titulo 3</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 4 - Titulo 4</a></td>
-									<td> </td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 5 - Titulo 5</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 6 - Titulo 6</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 7 - Titulo 7</a></td>
-									<td> </td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 8 - Titulo 8</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 9 - Titulo 9</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 10 - Titulo 10</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 11 - Titulo 11</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 12 - Titulo 12</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 13 - Titulo 13</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 14 - Titulo 14</a></td>
-								</tr>
-								<tr class="video">
-									<td><a href="#">Video 15 - Titulo 15</a></td>
-								</tr>
-							</table>
-						</div>
-					</aside>
+					<legend>Falta pouco para iniciar seu novo curso</legend>
+					<table>
+						<tr>
+							<td>
+								<label>Cartão de Crédito:</label>
+								<input type="radio" id="cartao" name="cartao" value="principal" checked/>
+								<label>Principal</label>
+								<input type="radio" id="cartao" name="cartao" value="outro"/>
+								<label>Outro</label><br/>
+								<label>Bandeira:</label>
+								<input type="radio" id="bandeira" name="bandeira" value="visa" checked/>
+								<img src="imagens/visa.png"/>
+								<input type="radio" id="bandeira" name="bandeira" value="master"/>
+								<img src="imagens/master.png"/>
+								<input type="number" id="numero" name="numero" class="form-control" 
+									placeholder="Digite os 16 números do cartão"/>
+								<input type="text" id="nome" name="nome" class="form-control"
+									placeholder="Nome do proprietário no cartão"/>
+							</td>
+						</tr>
+					</table>
+					<table>
+						<tr>
+							<td>
+								<input type="radio" id="pagamento" name="pagamento" value="a vista" checked/>
+								<label>a vista</label>
+								<input type="radio" id="pagamento" name="pagamento" value="a prazo"/>
+								<label>a prazo</label><br/>
+								<input type="radio" id="duasX" name="duasX" value="2"/><label>2x</label>
+								<input type="radio" id="tresX" name="tresX" value="3"/><label>3x</label>
+								<input type="radio" id="quatroX" name="quatroX" value="4"/><label>4x</label>
+							</td>
+							<td><a name="pagar" class="btn btn-primary form-control" onclick="alerta()" href="inicialAluno.html">Finalizar</a></td>
+						</tr>
+					</table>
 				</fieldset>
 			</form>
 		</div>
@@ -157,8 +135,7 @@
 			    					<img src="imagens/eu.png" class="img-circle">
 			    					<br/>
 			    					Eduardo<br/>
-			    					Full Stack<br/>
-			    					developer
+			    					Murakoshi
 			    				</a></li>
 			    			</ul>
 			    		</div>

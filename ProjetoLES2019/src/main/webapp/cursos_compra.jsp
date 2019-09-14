@@ -45,12 +45,11 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>ULearn Cursos em TI</b></h2>
+						<h2 class="barra"><b id=titulo>Cursos</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Login</a></li>
-							<li><a class="barra-direita" href="#">Contato</a></li>
-							<li><a class="barra-direita" href="#">Empresa</a></li>
+							<li><a class="barra-direita" href="inicialAluno.jsp">| Paginal Inicial |</a></li>
+							<li><a class="barra-direita" href="#">| Sair |</a></li>
 						</ul>
 					</div>
 				</div>
@@ -59,7 +58,7 @@
 		<div id="form" align="center">
 			<form action="MyServlet" method="post">
 				<fieldset>
-					<legend>Tour Virtual</legend>
+					<legend>Cursos Disponíveis</legend>
 					<table>
 						<thead>
 							<tr>
@@ -67,25 +66,25 @@
 									<!-- <a href="carrinho.html"> -->
 									<a href="curso_informacao.jsp" name="angular_info">
 										<img src="imagens/angular.PNG" width="250px"/>
-										Curso de Angular<br/>R$ 10,00
+										Angular<br/>R$ 50,00
 									</a>
 								</td>
 								<td class="video">
-									<a>
+									<a href="curso_informacao2.jsp">
 										<img src="imagens/engenharia.PNG" width="250px"/>
-										Engenharia de Software<br/>R$ 10,00
+										Curso Básico de Python<br/>R$ 25,00
 									</a>
 								</td>
 								<td class="video">
-									<a href="#">
+									<a href="curso_informacao3.jsp">
 										<img src="imagens/tortoise.PNG" width="250px"/>
-										Versionamento com Tortoise<br/>R$ 10,00
+										Curso de Orientação a Objetos com Java<br/>R$ 60,00
 									</a>
 								</td>
 								<td class="video">
-									<a href="#">
+									<a href="curso_informacao4.jsp">
 										<img src="imagens/project.PNG" width="250px"/>
-										MS Project 2016<br/>R$ 10,00
+										Curso Completo de Photoshop<br/>R$ 35,00
 									</a>
 								</td>
 							</tr>

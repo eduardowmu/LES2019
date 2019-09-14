@@ -78,9 +78,9 @@
 									compartilhando entre as páginas. Isso traz melhoras para a experiência do usuário e 
 									tráfego de dados. Ele tem crescido muito em adoção e é um dos frameworks mais 
 									importantes da atualidade.<br/><br/>
-									R$10,00 - (Certificado incluso se atingir a média nas avaliações)
+									R$50,00 - (Certificado incluso se atingir a média nas avaliações)
 								</p>
-								<a name="comprar" class="btn btn-primary" href="pagamento.jsp">
+								<a name="comprar" class="btn btn-primary" href="meuCarrinho.jsp">
 									Comprar <img src="imagens/bandeiras.jpg"/>
 								</a>
 							</td>

@@ -49,8 +49,8 @@ b#titulo {color:#FFFFFF;}
 #rodape h4 {color:white;}
 
 div#rodape2 
-{	padding-top: 100px;
-	position: absolute;
+{	padding-top: 300px;
+	/*position: absolute;*/
 	width: 100%;
 	left: 0;
 	bottom: 0;

@@ -9,7 +9,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/*import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;*/
 import br.edu.les2019.command.DeleteCommand;
 import br.edu.les2019.command.ICommand;
 import br.edu.les2019.command.LoginCommand;
@@ -44,7 +47,7 @@ public class MyServlet extends HttpServlet
     	this.commands.put("delete", new DeleteCommand());
     	this.commands.put("search", new SearchCommand());
     	this.commands.put("login", new LoginCommand());
-    	//this.commands.put("show", new ShowCommand());
+    	this.commands.put("show", new ShowCommand());
     	
     	//instanciateing ViewHelper
     	this.views = new HashMap<String, IViewHelper>();
@@ -59,7 +62,9 @@ public class MyServlet extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException 
-	{	}
+	{	//ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+		
+	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

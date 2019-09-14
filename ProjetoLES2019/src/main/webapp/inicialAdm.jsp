@@ -118,10 +118,11 @@
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="gerenciarCursos.jsp"> | Gerenciar Cursos |</a></li>
+							<li><a class="barra-direita" href="gerenciarPedidos.jsp"> | Gerenciar Pedidos |</a></li>
 							<li><a class="barra-direita" href="gerenciarCupons.jsp"> | Gerenciar Cupons |</a></li>
 							<li><a class="barra-direita" href="gerenciarClientes.jsp"> | Gerenciar Clientes |</a></li>
-							<li><a class="barra-direita" href="gerarRelatórios.jsp">| Relatórios/Gráficos |</a></li>
-							<li><a class="barra-direita" href="principal.jsp">| Logout |</a></li>
+							<li><a class="barra-direita" href="gerarRelatórios.jsp">| Gerar Relatórios |</a></li>
+							<li><a class="barra-direita" href="principal.jsp">| Sair |</a></li>
 						</ul>
 					</div>
 				</div>

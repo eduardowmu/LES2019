@@ -43,14 +43,21 @@ td {padding-top:3px;}
 
 b#titulo {color:#FFFFFF;}
 
+input.cupom 
+{	margin-left:30px;
+	-webkit-margin-left:30px;
+}
+
 button#envio
 {	margin-left:5px;
 	margin-top:20px;
 }
 
-a#salvar 
-{	margin-top:20px;
-}
+.btn {margin-left:30px;}
+
+
+
+#salvar {margin-top:20px;}
 
 #alterar 
 {	margin-left:10px;
