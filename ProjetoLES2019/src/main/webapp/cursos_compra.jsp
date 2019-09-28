@@ -1,5 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.util.*,br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
+<%@ page import = "java.text.DecimalFormat.*"%>
+<%@ page import = "java.text.DecimalFormatSymbols.*"%>
 <!--possibilita usar a tag core, que chama o looping forEach--> 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -8,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8">
 		<title>Courses</title>
 		<!-- Bootstrap -->
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,8 +26,13 @@
 	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
 	    </script>
 	    <![endif]-->
-	    <link href="CSS/cursos.css" rel="stylesheet">
-    </head>
+	    <script
+		  src="https://code.jquery.com/jquery-3.4.1.min.js"
+		  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+		  crossorigin="anonymous">
+	    </script>
+	   	<link href="CSS/cursos.css" rel="stylesheet">
+	</head>
 	<body>
 		<div>
     		<nav class="navbar navbar-fixed-top navbar-inverse navbar-transparente">
@@ -32,12 +41,12 @@
 					<div class="navbar-header">
 						<!-- na classe foi inserido o mesmo nome dado a
 							classe da <div></div> para linkar as listas
-							ao botão -->
+							ao botÃ£o -->
 						<button type="button" class="navbar-toggle collapsed" 
 							data-toggle="collapse" data-target="#barra-navegacao">
-							<!-- botão que aparece quando a tela fica menor
-								de forma que não fique visível alguns componentes -->
-							<span class="sr-only">Alternar navegação</span>
+							<!-- botÃ£o que aparece quando a tela fica menor
+								de forma que nÃ£o fique visÃ­vel alguns componentes -->
+							<span class="sr-only">Alternar navegaÃ§Ã£o</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -49,75 +58,113 @@
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="inicialAluno.jsp">| Paginal Inicial |</a></li>
-							<li><a class="barra-direita" href="#">| Sair |</a></li>
+							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
     	</div>
 		<div id="form" align="center">
-			<form action="MyServlet" method="post">
-				<fieldset>
-					<legend>Cursos Disponíveis</legend>
-					<table>
-						<thead>
-							<tr>
-								<td class="video">
-									<!-- <a href="carrinho.html"> -->
-									<a href="curso_informacao.jsp" name="angular_info">
-										<img src="imagens/angular.PNG" width="250px"/>
-										Angular<br/>R$ 50,00
-									</a>
-								</td>
-								<td class="video">
-									<a href="curso_informacao2.jsp">
-										<img src="imagens/engenharia.PNG" width="250px"/>
-										Curso Básico de Python<br/>R$ 25,00
-									</a>
-								</td>
-								<td class="video">
-									<a href="curso_informacao3.jsp">
-										<img src="imagens/tortoise.PNG" width="250px"/>
-										Curso de Orientação a Objetos com Java<br/>R$ 60,00
-									</a>
-								</td>
-								<td class="video">
-									<a href="curso_informacao4.jsp">
-										<img src="imagens/project.PNG" width="250px"/>
-										Curso Completo de Photoshop<br/>R$ 35,00
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<td class="video">
-									<a  href="#">
-										<img src="imagens/segurança.PNG" width="250px"/>
-										Segurança da Informação<br/>R$ 10,00
-									</a>
-								</td>
-								<td class="video">
-									<a href="#">
-										<img src="imagens/mean.PNG" width="250px"/>
-										Curso de CRUD Mean<br/>R$ 10,00
-									</a>
-								</td>
-								<td class="video">
-									<a href="#">
-										<img src="imagens/Csharp.PNG" width="250px"/>
-										Cursod e POO com C#<br/>R$ 10,00
-									</a>
-								</td>
-								<td class="video">
-									<a href="#">
-										<img src="imagens/sql.PNG" width="250px"/>
-										SQL Server<br/>R$ 10,00
-									</a>
-								</td>
-							</tr>
-						</thead>
-					</table>
-				</fieldset>
-			</form>
+			<%	Result result = (Result)session.getAttribute("result");
+				int clientID = 0;
+				if(result != null)
+				{	if(result.getEntities() != null &&
+						!result.getEntities().isEmpty())
+					{	for(EntityDomain ed:result.getEntities())
+						{	if(ed instanceof Client)
+							{	clientID = ed.getId();
+								break;
+							}
+						}
+					}
+				}
+			%>
+			<fieldset>
+				<legend>Cursos DisponÃ­veis</legend>
+				<table class="table table-striped table-bordered table-hover table-condensed">
+					<thead>
+						<tr>
+							<td class="tabela">Curso</td>
+							<td class="tabela">Titulo</td>
+							<td class="tabela">Valor (R$)</td>
+						</tr>
+						<%	if(result != null)
+							{	for(EntityDomain ed:result.getEntities())
+								{	if(ed instanceof Course)
+									{	Course course = (Course)ed;
+										out.print("<form action='MyServlet2' method='get'>" +
+													"<input type='hidden' id='clientID' name='clientID' value='" + clientID + "'/>" +
+											 		"<input type='hidden' id='courseID' name='courseID' value='" + ed.getId() + "'/>" +
+												 	"<tr><td class='linha' align='center'>" +
+													  		"<button type='submit' class='btn btn-link' name='action' value='viewItem'>" + 
+													 			"<img src='" + ed.getPhoto() + "' width='50px' height='50'/>" +
+													  		"</button></td>" +
+														"<td class='linha' align='center'>" + ed.getName() + "</td>" +
+														"<td class='linha' align='center'>" + course.RealFormat(course.getPrice()) + "</td>" +
+													"</tr>" + 
+												  "</form>");
+									}
+									
+									else continue;
+								}
+							}
+						%>
+						<!-- <tr>
+							<td class="video">
+								<a href="carrinho.html">
+								<a href="curso_informacao.jsp" name="angular_info">
+									<img src="imagens/angular.PNG" width="250px"/>
+									Angular<br/>R$ 50,00
+								</a>
+							</td>
+							<td class="video">
+								<a href="curso_informacao2.jsp">
+									<img src="imagens/engenharia.PNG" width="250px"/>
+									Curso BÃ¡sico de Python<br/>R$ 25,00
+								</a>
+							</td>
+							<td class="video">
+								<a href="curso_informacao3.jsp">
+									<img src="imagens/tortoise.PNG" width="250px"/>
+									Curso de OrientaÃ§Ã£o a Objetos com Java<br/>R$ 60,00
+								</a>
+							</td>
+							<td class="video">
+								<a href="curso_informacao4.jsp">
+									<img src="imagens/project.PNG" width="250px"/>
+									Curso Completo de Photoshop<br/>R$ 35,00
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td class="video">
+								<a  href="#">
+									<img src="imagens/seguranÃ§a.PNG" width="250px"/>
+									SeguranÃ§a da InformaÃ§Ã£o<br/>R$ 10,00
+								</a>
+							</td>
+							<td class="video">
+								<a href="#">
+									<img src="imagens/mean.PNG" width="250px"/>
+									Curso de CRUD Mean<br/>R$ 10,00
+								</a>
+							</td>
+							<td class="video">
+								<a href="#">
+									<img src="imagens/Csharp.PNG" width="250px"/>
+									Cursod e POO com C#<br/>R$ 10,00
+								</a>
+							</td>
+							<td class="video">
+								<a href="#">
+									<img src="imagens/sql.PNG" width="250px"/>
+									SQL Server<br/>R$ 10,00
+								</a>
+							</td>
+						</tr> -->
+					</thead>
+				</table>
+			</fieldset>
 		</div>
 		<div id="rodape2">
 	    	<footer id="rodape">
@@ -136,7 +183,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">Portfólio</a></li>
+			    				<li class="item"><a href="#">PortfÃ³lio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">
@@ -147,7 +194,7 @@
 			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/junior-cesar-57710a133/">
 			    					<img src="imagens/sergio.jpg" class="img-circle">
 			    					<br/>
-			    					Sérgio<br/>
+			    					SÃ©rgio<br/>
 			    					Ferreira<br/>
 			    				</a></li><li class="item-rede-social"><a href="https://www.linkedin.com/in/emurakoshi/">
 			    					<img src="imagens/eu.png" class="img-circle">

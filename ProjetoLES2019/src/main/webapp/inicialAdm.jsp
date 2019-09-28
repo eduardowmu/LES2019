@@ -117,8 +117,9 @@
 																	} %></b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="gerenciarCursos.jsp"> | Gerenciar Cursos |</a></li>
-							<li><a class="barra-direita" href="gerenciarPedidos.jsp"> | Gerenciar Pedidos |</a></li>
+							<li><a class="barra-direita" href="cadastroCursos.jsp"> | Gerenciar Cursos |</a></li>
+							<li><a name ="gerpedidos" class="barra-direita" href="gerenciarVendas.jsp"> | Gerenciar Vendas |</a></li>
+							<li><a name ="gertrocacancel" class="barra-direita" href="gerTrocaCancel.jsp"> | Gerenciar Trocas/Cancelamentos |</a></li>
 							<li><a class="barra-direita" href="gerenciarCupons.jsp"> | Gerenciar Cupons |</a></li>
 							<li><a class="barra-direita" href="gerenciarClientes.jsp"> | Gerenciar Clientes |</a></li>
 							<li><a class="barra-direita" href="gerarRelatórios.jsp">| Gerar Relatórios |</a></li>

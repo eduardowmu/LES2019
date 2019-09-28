@@ -1,5 +1,6 @@
 package br.edu.les2019.domain;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +15,10 @@ public class Course extends EntityDomain
 	Double valor;
 	String grupoP;
 	Image img;
+	
+	public Course()	{}
+	
+	public Course(int id)	{this.id = id;}
 	
 	public Image getImg() {return img;}
 	public void setImg(Image img) {this.img = img;}
@@ -40,8 +45,8 @@ public class Course extends EntityDomain
 	public void setValor(Double valor) {this.valor = valor;}
 	
 	public String RealFormat(double price)
-	{	Locale local = new Locale("pt", "br");
-		NumberFormat nf = NumberFormat.getCurrencyInstance(local);
+	{	//Locale local = new Locale("pt", "br");
+		DecimalFormat nf = new DecimalFormat("#,##0.00");
 		return nf.format(price);
 	}
 }

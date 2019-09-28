@@ -1,5 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.util.*,br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
+<%@ page import = "java.text.DecimalFormat.*"%>
+<%@ page import = "java.text.DecimalFormatSymbols.*"%>
 <!--possibilita usar a tag core, que chama o looping forEach--> 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -8,6 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta charset="UTF-8">
 		<title>Cursos</title>
 		<!-- Bootstrap -->
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -22,8 +26,13 @@
 	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
 	    </script>
 	    <![endif]-->
-	    <link href="CSS/informacao.css" rel="stylesheet">
-    </head>
+	    <script
+		  src="https://code.jquery.com/jquery-3.4.1.min.js"
+		  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+		  crossorigin="anonymous">
+	    </script>
+	   	<link href="CSS/informacao.css" rel="stylesheet">
+	</head>
 	<body>
 		<div>
     		<nav class="navbar navbar-fixed-top navbar-inverse navbar-transparente">
@@ -32,12 +41,12 @@
 					<div class="navbar-header">
 						<!-- na classe foi inserido o mesmo nome dado a
 							classe da <div></div> para linkar as listas
-							ao botão -->
+							ao botÃ£o -->
 						<button type="button" class="navbar-toggle collapsed" 
 							data-toggle="collapse" data-target="#barra-navegacao">
-							<!-- botão que aparece quando a tela fica menor
-								de forma que não fique visível alguns componentes -->
-							<span class="sr-only">Alternar navegação</span>
+							<!-- botÃ£o que aparece quando a tela fica menor
+								de forma que nÃ£o fique visÃ­vel alguns componentes -->
+							<span class="sr-only">Alternar navegaÃ§Ã£o</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -48,7 +57,7 @@
 						<h2 class="barra"><b id=titulo>ULearn Cursos de TI</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Login</a></li>
+							<li><a class="barra-direita" href="login.jsp">sair</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
@@ -57,32 +66,52 @@
 			</nav>
     	</div>
 		<div id="form" align="center">
-			<form action="MyServlet" method="post">
+			<form action="ShopCarServlet" method="post">
+				<%  Result result = (Result)session.getAttribute("result"); 
+					Course course = null;
+					Client client = null;
+					ShopCar scar = null;
+					if(result != null)
+					{	for(EntityDomain ed:result.getEntities())
+						{	if(ed instanceof ShopCar)
+							{	scar = (ShopCar)ed;
+								client = scar.getClient();
+								course = scar.getCourses().get(0);
+							}
+							
+						}
+					}
+				%>
 				<fieldset>
-					<legend>Angular</legend>
+					<legend><% if(course != null) 
+								{out.print(course.getName());}
+							%></legend>
 					<table>
 						<tr>
 							<td>
-								<!-- <iframe width="560" height="315" padding-left="15px"
-									src="https://www.youtube.com/embed/tPOMG0D57S0" 
-									frameborder="0" 
-									allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-									allowfullscreen>
-								</iframe> -->
+								<img width="560" height="315"
+									src="<%	if(course != null)
+											{out.print(course.getPhoto());}
+										 %>">
+								</img>
 							</td>
 							<td>
 								<p align="left">
-									<b>Descrição:</b><br/>O Angular é um framework JavaScript, criado pelo Google, no estilo 
-									MVC e usa o conceito de SPA (Single Page Application). Nesse tipo de aplicação, 
-									apenas uma parte dela muda e a outra permanece fixa, fazendo parte de um template 
-									compartilhando entre as páginas. Isso traz melhoras para a experiência do usuário e 
-									tráfego de dados. Ele tem crescido muito em adoção e é um dos frameworks mais 
-									importantes da atualidade.<br/><br/>
-									R$50,00 - (Certificado incluso se atingir a média nas avaliações)
+									<b>DescriÃ§Ã£o:</b><br/>
+									<%	if(course != null) 
+										{out.print(course.getDescricao());}
+									%>
+									.<br/><br/>
+									<%	if(course != null) 
+										{out.print(course.RealFormat(course.getPrice()));}
+									%> - (Certificado incluso se atingir a mÃ©dia nas avaliaÃ§Ãµes)
 								</p>
-								<a name="comprar" class="btn btn-primary" href="meuCarrinho.jsp">
+								<input type="hidden" name="itemID" value="<%	if(scar != null)	out.print(scar.getId());%>"/>
+								<input type="hidden" name="clientID" value="<%	if(client != null)	out.print(client.getId());%>"/>
+								<input type="hidden" name="courseID" value="<%	if(course != null)	out.print(course.getId());%>"/>
+								<button type="submit" name="action" class="btn btn-primary" value="save">
 									Comprar <img src="imagens/bandeiras.jpg"/>
-								</a>
+								</button>
 							</td>
 						</tr>
 					</table>
@@ -106,7 +135,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">Portfólio</a></li>
+			    				<li class="item"><a href="#">PortfÃ³lio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">
@@ -117,7 +146,7 @@
 			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/junior-cesar-57710a133/">
 			    					<img src="imagens/sergio.jpg" class="img-circle">
 			    					<br/>
-			    					Sérgio<br/>
+			    					SÃ©rgio<br/>
 			    					Ferreira<br/>
 			    				</a></li><li class="item-rede-social"><a href="https://www.linkedin.com/in/emurakoshi/">
 			    					<img src="imagens/eu.png" class="img-circle">

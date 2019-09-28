@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.result.Result;
@@ -76,7 +77,7 @@ public class CourseView implements IViewHelper
 				course.setInstructor("");
 				course.setCategoria("");
 				break;
-				
+			
 			case "delete":
 				course.setId(Integer.parseInt(request.getParameter("codigo")));
 				break;
@@ -127,6 +128,11 @@ public class CourseView implements IViewHelper
 			case "show":
 				request.getSession().setAttribute("result", result);
 				rd = request.getRequestDispatcher("alteraCursos.jsp");
+				break;
+			
+			case "view":
+				request.getSession().setAttribute("result", result);
+				rd = request.getRequestDispatcher("curso_informacao.jsp");
 				break;
 				
 			case "delete":

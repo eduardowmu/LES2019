@@ -19,7 +19,9 @@ public class ClientDAO extends AbstractDAO
 	{	this.client = (Client)ed;
 		this.table = this.client.getClass().getSimpleName().toLowerCase();
 		try //código SQL para inserção de dados
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}	
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("INSERT INTO " + 
 				this.table + "(name, surname, nascimento, cpf, genero, password, cadastro) " + 
 				"VALUES(?, ?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
@@ -44,7 +46,7 @@ public class ClientDAO extends AbstractDAO
 			EmailDAO edao = new EmailDAO();
 			edao.ctrlTransaction = false;
 			edao.connection = this.connection;
-			edao.save(client);
+			edao.save(this.client);
 			
 			//save all client's phones number
 			PhoneDAO pdao = new PhoneDAO();
@@ -52,13 +54,15 @@ public class ClientDAO extends AbstractDAO
 			client.getPhone().setClient(client);
 			pdao.ctrlTransaction = false;
 			pdao.connection = this.connection;
-			pdao.save(client.getPhone());
+			pdao.save(this.client.getPhone());
 			
 			//save all credit card
 			CardDAO carDAO = new CardDAO();
 			carDAO.ctrlTransaction = false;
 			carDAO.connection = this.connection;
-			carDAO.save(client.getCard());
+			for(CreditCard card:this.client.getCards())
+			{carDAO.save(card);}
+			//carDAO.save(client.getCard());
 			
 			//confirma a query
 			this.connection.commit();
@@ -72,7 +76,7 @@ public class ClientDAO extends AbstractDAO
 		finally
 		{	try
 			{	ps.close();
-				this.connection.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}
@@ -82,7 +86,9 @@ public class ClientDAO extends AbstractDAO
 	{	this.client = (Client)ed;
 		this.table = this.client.getClass().getSimpleName().toLowerCase();
 		try //código SQL para inserção de dados
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("UPDATE " + 
 				this.table + " SET name = ?, surname = ?, nascimento = ?, cpf = ?, genero = ? " + 
 				"WHERE id = ?");
@@ -117,8 +123,10 @@ public class ClientDAO extends AbstractDAO
 			CardDAO carDAO = new CardDAO();
 			carDAO.ctrlTransaction = false;
 			carDAO.connection = this.connection;
-			this.client.getCard().setClient(client);
-			carDAO.update(client.getCard());
+			for(CreditCard card:this.client.getCards())
+			{carDAO.update(card);}
+			/*this.client.getCard().setClient(client);
+			carDAO.update(client.getCard());*/
 			
 			//confirma a query
 			this.connection.commit();
@@ -132,7 +140,7 @@ public class ClientDAO extends AbstractDAO
 		finally
 		{	try
 			{	ps.close();
-				this.connection.close();
+			if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}
@@ -196,7 +204,8 @@ public class ClientDAO extends AbstractDAO
 				for(EntityDomain entity2:carDAO.search(this.client))
 				{	if(entity2 != null)
 					{	CreditCard card = (CreditCard)entity2;
-						cli.setCard(card);
+						cli.setCards(new ArrayList<>());
+						cli.getCards().add(card);
 					}
 				}
 				entities.add(cli);
@@ -209,7 +218,7 @@ public class ClientDAO extends AbstractDAO
 		finally
 		{	try
 			{	ps.close();
-				this.connection.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}
@@ -219,7 +228,10 @@ public class ClientDAO extends AbstractDAO
 	@Override public List<EntityDomain> search()
 	{	List<EntityDomain> entities = new ArrayList<>();
 		try
-		{	this.ps = this.connection.prepareStatement("SELECT * FROM client");
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.ps = this.connection.prepareStatement("SELECT * FROM client");
 		
 			this.rs = this.ps.executeQuery();
 			
@@ -256,7 +268,8 @@ public class ClientDAO extends AbstractDAO
 				for(EntityDomain entity2:carDAO.search(this.client))
 				{	if(entity2 != null)
 					{	CreditCard card = (CreditCard)entity2;
-						this.client.setCard(card);
+						this.client.setCards(new ArrayList<>());
+						this.client.getCards().add(card);
 					}
 				}
 				entities.add(this.client);
@@ -269,7 +282,7 @@ public class ClientDAO extends AbstractDAO
 		finally
 		{	try
 			{	ps.close();
-				this.connection.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}

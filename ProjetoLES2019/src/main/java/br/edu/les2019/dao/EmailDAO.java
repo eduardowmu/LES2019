@@ -11,7 +11,9 @@ public class EmailDAO extends AbstractDAO
 {	@Override public void save(EntityDomain ed) 
 	{	Client client = (Client)ed;
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("INSERT INTO email " + 
 				"(ema_cli_id, adress) VALUES(?, ?)");
 			this.ps.setInt(1, client.getId());
@@ -37,7 +39,9 @@ public class EmailDAO extends AbstractDAO
 	@Override public void update(EntityDomain ed) 
 	{	Client client = (Client)ed;
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("UPDATE email SET " + 
 				"adress = ? WHERE ema_cli_id = ?");
 			this.ps.setString(1, client.getEmails().get(0));
@@ -114,7 +118,9 @@ public class EmailDAO extends AbstractDAO
 	public void delete2(EntityDomain ed)
 	{	Client client = (Client)ed;
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("DELETE FROM email " +
 				"WHERE ema_cli_id = ?");
 			this.ps.setInt(1, client.getId());

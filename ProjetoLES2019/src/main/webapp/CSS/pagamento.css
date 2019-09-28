@@ -30,8 +30,14 @@ fieldset
 
 #form {padding-top:110px;}
 
+#pedido 
+{	padding-top:100px;
+	padding-left:25px;
+	padding-bottom:300px;
+}
+/*
 input {margin-top:10px;}
-
+*/
 td {padding:10px;}
 
 b {color:#000000;}
@@ -44,11 +50,19 @@ b#titulo {color:#FFFFFF;}
 }
 /*rodapé*/
 
-#rodape {background: rgba(0, 0, 0, 0.9);}
+#rodape 
+{	margin-top:50px;
+	background: rgba(0, 0, 0, 0.9);
+}
 
 #rodape h4 {color:white;}
 
-div#rodape2 {padding-top: 50px;}
+div#rodape2 
+{	padding-top:50px;
+  	left: 0;
+ 	bottom: 0;
+  	width: 100%;	
+}
 
 /*flutuação de componentes a direita da página*/
 .item-rede-social {float: right;}

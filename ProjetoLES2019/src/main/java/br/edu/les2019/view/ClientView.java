@@ -20,6 +20,7 @@ public class ClientView implements IViewHelper
 {	Client client;
 	@Override public EntityDomain getEntity(HttpServletRequest request) 
 	{	client = new Client();
+		CreditCard card = new CreditCard();
 		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		switch(request.getParameter("action"))
 		{	case "save"://nome completo do cliente
@@ -42,12 +43,19 @@ public class ClientView implements IViewHelper
 				client.getPhone().setDdd(request.getParameter("ddd"));
 				client.getPhone().setNumber(request.getParameter("fone"));
 				//cartão de credito
-				client.setCard(new CreditCard());
+				client.setCards(new ArrayList<CreditCard>());
+				card.setClient(client);
+				card.setName(request.getParameter("cardName"));
+				card.setNumber(request.getParameter("cardNumber"));
+				card.setBanner(request.getParameter("banner"));
+				card.setCode(request.getParameter("seg"));
+				client.getCards().add(card);
+				/*client.setCard(new CreditCard());
 				client.getCard().setClient(client);
 				client.getCard().setName(request.getParameter("cardName"));
 				client.getCard().setNumber(request.getParameter("cardNumber"));
 				client.getCard().setBanner(request.getParameter("banner"));
-				client.getCard().setCode(request.getParameter("seg"));
+				client.getCard().setCode(request.getParameter("seg"));*/
 				//senha
 				client.setPassword(request.getParameter("pass"));
 				client.setPassword2(request.getParameter("pass2"));
@@ -80,12 +88,19 @@ public class ClientView implements IViewHelper
 				client.getPhone().setDdd(request.getParameter("ddd"));
 				client.getPhone().setNumber(request.getParameter("fone"));
 				//cartão de credito
-				client.setCard(new CreditCard());
+				client.setCards(new ArrayList<CreditCard>());
+				card.setClient(client);
+				card.setName(request.getParameter("cardName"));
+				card.setNumber(request.getParameter("cardNumber"));
+				card.setBanner(request.getParameter("banner"));
+				card.setCode(request.getParameter("seg"));
+				client.getCards().add(card);
+				/*client.setCard(new CreditCard());
 				client.getCard().setClient(client);
 				client.getCard().setName(request.getParameter("cardName"));
 				client.getCard().setNumber(request.getParameter("cardNumber"));
 				client.getCard().setBanner(request.getParameter("banner"));
-				client.getCard().setCode(request.getParameter("seg"));
+				client.getCard().setCode(request.getParameter("seg"));*/
 				break;
 				
 			case "search":
@@ -115,8 +130,7 @@ public class ClientView implements IViewHelper
 
 	@Override public void setView(Result result, HttpServletRequest request, HttpServletResponse response)
 		throws IOException, ServletException 
-	{	RequestDispatcher rd = null;	//direciona os resultados para a página 
-										//de gerenciamento de clientes
+	{	RequestDispatcher rd = null;	//direciona os resultados para a página de gerenciamento de clientes
 	
 		switch(request.getParameter("action"))
 		{	case "save":
@@ -142,6 +156,7 @@ public class ClientView implements IViewHelper
 							{	rd = request.getRequestDispatcher("inicialAdm.jsp");
 								break;
 							}
+						
 							else
 							{	rd = request.getRequestDispatcher("inicialAluno.jsp");
 								break;

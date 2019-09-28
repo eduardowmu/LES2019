@@ -71,30 +71,30 @@
 				<legend>Dados do Pedido</legend>
 				<form action="ClientServlet" method="post">
 						<b>Número:  </b>00000115
-						<!-- <input type="text" name="nome" value="<% if(client != null)	
-																 {out.print(client.getName());}
-																%>" required/> -->
-						<br/>
-						<b>Valor Total:  </b>R$ 80,00
-						<!-- <input type="text" name="sobrenome" value="<% if(client != null)	
-							 										  {out.print(client.getSurname());}
+						<!-- <input type="text" name="nome" value="<% 	if(client != null)	
+																 		{out.print(client.getName());}
 																	%>" required/> -->
 						<br/>
+						<b>Valor Total:  </b>R$ 80,00
+						<!-- <input type="text" name="sobrenome" value="<% 	if(client != null)	
+							 										 		{out.print(client.getSurname());}
+																		%>" required/> -->
+						<br/>
 						<b>Data de Realização:  </b>09/09/2019
-						<!-- <input type="text" name="cpf" value="<% if(client != null)	
-							 									{out.print(client.getCpf());}
-															 %>" required/> -->
+						<!-- <input type="text" name="cpf" value="<% 	if(client != null)	
+							 											{out.print(client.getCpf());}
+																	%>" required/> -->
 						<br/>
 						<b>Pagamento:</b>Aprovado
 						<br/>
 						<b>Status de Entrega: </b>
 						<select name="banner">
-							<option><!--<%	if(client == null || client.getCard().getBanner().equals("Entregue"))	
-				 			 			{out.print("selected");} 
-				 			 		%>-->Entregue</option>
-							<option> <!--<%	if(client != null && client.getCard().getBanner().equals("Cancelado"))	
-				 			 			{out.print("selected");} 
-				 			 		%>-->Cancelado</option>
+							<option><!--	<%	if(client != null || client.getCards().get(0).getBanner().equals("Entregue"))
+				 			 					{out.print("selected");} 
+				 			 				%>-->Entregue</option>
+							<option> <!--<%		if(client != null && client.getCards().get(0).getBanner().equals("Cancelado"))	
+				 			 					{out.print("selected");} 
+				 			 				%>-->Cancelado</option>
 						</select>
 						<br/><br/>
 						<a name="action" id="action" class="btn btn-primary" value="save" href='gerenciarPedidos2.jsp'>

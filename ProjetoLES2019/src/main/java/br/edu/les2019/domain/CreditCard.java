@@ -1,10 +1,12 @@
 package br.edu.les2019.domain;
 
+import java.util.Date;
+
 public class CreditCard extends EntityDomain
 {	String banner;
 	String number;
 	String code;
-	Client client;
+	Date deadline;
 	
 	public String getBanner() {return banner;}
 	public void setBanner(String banner) {this.banner = banner;}
@@ -15,6 +17,6 @@ public class CreditCard extends EntityDomain
 	public String getCode() {return code;}
 	public void setCode(String code) {this.code = code;}
 	
-	public Client getClient() {return client;}
-	public void setClient(Client client) {this.client = client;}
+	public Date getDeadline() {return deadline;}
+	public void setDeadline(Date deadline) {this.deadline = deadline;}
 }

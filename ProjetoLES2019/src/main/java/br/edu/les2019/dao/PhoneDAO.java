@@ -13,7 +13,9 @@ public class PhoneDAO extends AbstractDAO
 	{	Phone phone = (Phone)ed;
 		this.table = phone.getClass().getSimpleName().toLowerCase();
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("INSERT INTO " +
 				this.table + "(pho_cli_id, number, ddd, type)VALUES(?, ?, ?, ?)",
 				this.ps.RETURN_GENERATED_KEYS);
@@ -45,7 +47,9 @@ public class PhoneDAO extends AbstractDAO
 	{	Phone phone = (Phone)ed;
 		this.table = phone.getClass().getSimpleName().toLowerCase();
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("UPDATE " +
 				this.table + " SET number = ?, ddd = ?, type = ? WHERE pho_cli_id = ?");
 			this.ps.setString(1, phone.getNumber());
@@ -75,7 +79,9 @@ public class PhoneDAO extends AbstractDAO
 		Phone phone = null;
 		List<EntityDomain> entities = new ArrayList<>();
 		try
-		{	this.ps = this.connection.prepareStatement(
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.ps = this.connection.prepareStatement(
 				"SELECT * FROM phone WHERE pho_cli_id = ?");
 			this.ps.setInt(1, client.getId());
 			this.rs = this.ps.executeQuery();

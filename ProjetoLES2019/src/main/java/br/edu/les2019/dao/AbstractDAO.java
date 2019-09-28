@@ -31,6 +31,7 @@ public abstract class AbstractDAO implements IDAO
 		try
 		{	Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(this.path, this.user, this.password);
+			this.connection.setAutoCommit(false);
 		}
 		catch(SQLException | ClassNotFoundException e)
 		{System.out.println(e.getMessage());}

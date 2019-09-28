@@ -40,17 +40,25 @@ b#titulo {color:#FFFFFF;}
 
 button.btn-primary {margin-left:10px;}
 
+.table {padding-botton:10px;}
+
 #alterar 
 {	margin-left:10px;
 	margin-top:10px;
 }
 /*rodapé*/
 
-#rodape {background: rgba(0, 0, 0, 0.9);}
+#rodape 
+{	background: rgba(0, 0, 0, 0.9);
+	padding-botton: 0px;
+}
 
 #rodape h4 {color:white;}
 
-div#rodape2 {padding-top: 200px;}
+div#rodape2 
+{	padding-botton: 0px;
+	padding-top:750px;
+}
 
 /*flutuação de componentes a direita da página*/
 .item-rede-social {float: right;}

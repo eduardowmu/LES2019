@@ -7,11 +7,18 @@ import br.edu.les2019.domain.EntityDomain;
 public class ValidadorCartao extends AbstractStrategy 
 {	@Override public String process(EntityDomain ed) 
 	{	Client client = (Client)ed;
-		if(client.getCard().getBanner().equals("") && 
+		for(int i = 0; i < client.getCards().size(); i++)
+		{	if(client.getCards().get(i).getBanner().equals("") &&
+				client.getCards().get(i).getCode().equals("") &&
+				client.getCards().get(i).getName().equals("") &&
+				client.getCards().get(i).getNumber().equals(""))
+			{return "Invalid card";}
+		}
+		/*if(client.getCard().getBanner().equals("") && 
 			client.getCard().getCode().equals("") &&
 			client.getCard().getName().equals("") &&
 			client.getCard().getNumber().equals(""))
-		{return "Invalid card";}
+		{return "Invalid card";}*/
 		
 		return null;
 	}

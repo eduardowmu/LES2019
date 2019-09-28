@@ -15,15 +15,19 @@ public class CardDAO extends AbstractDAO
 	{	card = (CreditCard)ed;
 		this.table = card.getClass().getSimpleName().toLowerCase();
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("INSERT INTO " + 
-				this.table + "(car_cli_id, name, number, banner, code) " + 
-				"VALUES(?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
+				this.table + "(car_cli_id, name, number, banner, code, deadline) " + 
+				"VALUES(?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
+			
 			this.ps.setInt(1, card.getClient().getId());
 			this.ps.setString(2, card.getName());
 			this.ps.setString(3, card.getNumber());
 			this.ps.setString(4, card.getBanner());
 			this.ps.setString(5, card.getCode());
+			this.ps.setDate(6, new java.sql.Date(card.getDeadline().getTime()));
 			this.ps.executeUpdate();
 			this.rs = this.ps.getGeneratedKeys();
 			if(this.rs.next()) card.setId(this.rs.getInt(1));
@@ -48,7 +52,9 @@ public class CardDAO extends AbstractDAO
 	{	card = (CreditCard)ed;
 		this.table = card.getClass().getSimpleName().toLowerCase();
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("UPDATE " + 
 				this.table + "(name = ?, number = ?, banner = ?, code = ? WHERE car_cli_id = ?)");
 			this.ps.setString(1, card.getName());
@@ -79,16 +85,21 @@ public class CardDAO extends AbstractDAO
 		CreditCard cc = null;
 		List<EntityDomain> entities = new ArrayList<>();
 		try
-		{	this.ps = this.connection.prepareStatement(
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.ps = this.connection.prepareStatement(
 				"SELECT * FROM creditcard WHERE car_cli_id = ?");
 			this.ps.setInt(1, client.getId());
 			this.rs = this.ps.executeQuery();
 			while(this.rs.next())
 			{	cc = new CreditCard();
+				cc.setClient(client);
+				cc.setId(this.rs.getInt(1));
 				cc.setName(this.rs.getString("name"));
 				cc.setNumber(this.rs.getString("number"));
 				cc.setBanner(this.rs.getString("banner"));
 				cc.setCode(this.rs.getString("code"));
+				cc.setDeadline(new java.sql.Date(this.rs.getDate("deadline").getTime()));
 				entities.add(cc);
 			}
 		}
@@ -112,7 +123,9 @@ public class CardDAO extends AbstractDAO
 	public void delete2(EntityDomain ed)
 	{	Client client = (Client)ed;
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("DELETE FROM creditcard " +
 				"WHERE car_cli_id = ?");
 			this.ps.setInt(1, client.getId());

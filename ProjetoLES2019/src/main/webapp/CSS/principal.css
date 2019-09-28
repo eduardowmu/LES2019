@@ -63,7 +63,10 @@ button.btn-primary
 #rodape h4 {color:white;}
 
 div#rodape2 
-{	padding-top:500px;
+{	position: fixed;
+  	left: 0;
+ 	bottom: 0;
+  	width: 100%;
 }
 
 /*flutua��o de componentes a direita da p�gina*/

@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, br.edu.les2019.domain.*" %>
-<%@ page import="java.util.*, br.edu.les2019.result.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.util.*,br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
+<%@ page import = "java.text.DecimalFormat.*"%>
+<%@ page import = "java.text.DecimalFormatSymbols.*"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -34,12 +35,12 @@
 					<div class="navbar-header">
 						<!-- na classe foi inserido o mesmo nome dado a
 							classe da <div></div> para linkar as listas
-							ao botão -->
+							ao botÃ£o -->
 						<button type="button" class="navbar-toggle collapsed" 
 							data-toggle="collapse" data-target="#barra-navegacao">
-							<!-- botão que aparece quando a tela fica menor
-								de forma que não fique visível alguns componentes -->
-							<span class="sr-only">Alternar navegação</span>
+							<!-- botÃ£o que aparece quando a tela fica menor
+								de forma que nÃ£o fique visÃ­vel alguns componentes -->
+							<span class="sr-only">Alternar navegaÃ§Ã£o</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -50,7 +51,7 @@
 						<h2 class="barra"><b id=titulo>Meu Carrinho</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="principal.html">Página Inicial</a></li>
+							<li><a class="barra-direita" href="principal.html">PÃ¡gina Inicial</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
@@ -59,47 +60,89 @@
 			</nav>
     	</div>
 		<div style="padding-top:200px;">
+		<form action="MyServlet2" method="get">
+			<%	Result result = (Result)session.getAttribute("result");
+				Client client = null;
+				ShopCar scar = null;
+				Course course = null;
+				double total = 0;
+				if(result != null)
+				{	for(EntityDomain ed:result.getEntities())
+					{	if(ed instanceof ShopCar)
+						{	scar = (ShopCar)ed;
+							client = scar.getClient();
+							break;
+						}
+					}
+				}
+			%>
+			<input type="hidden" id="clientID" name="clientID" value="<%	if(client != null)	
+																			{out.print(client.getId());}
+																		%>"/>
 			<table cellpadding="0" cellspacing="0" border="0"
 				class="table table-striped table-bordered" id="example">
 				<thead>
 					<tr>
 						<th>Cod. Produto</th>
-						<th>Descrição do Produto</th>
-						<th>Preço Unit</th>
-						<th>Valores</th>
-						<th>Ação</th>
+						<th>Titulo</th>
+						<th>PreÃ§o Unit</th>
+						<th>AÃ§Ã£o</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr class="odd gradeX">
-						<td>AAAAAAA</td>
-						<td>Angular</td>
-						<td class="center">R$ 50,00</td>
-						<td class="center">R$ 50,00</td>
-						<td class="center">
-							<button type="submit" class="btn btn-danger"
-								id="action" name="action" value="delete">
-								Trocar
-							</button>
-						</td>
-					</tr>
-					
+					<%	if(scar != null)
+						{	if(scar.getCourses() != null && !scar.getCourses().isEmpty())
+							{	int i = 0;
+								for(EntityDomain ed:scar.getCourses())
+								{	course = (Course)ed;
+									String code = "";
+									code += String.valueOf(client.getId());
+									code += "-";
+									code += String.valueOf(course.getId());
+									out.print("<tr class='odd gradeX'>" + 
+													"<input type='hidden' name='code"+i+"' id='code' value='"+ code +"'/>" +
+													"<input type='hidden' name='courseID"+i+"' value='"+course.getId()+"'/>" +
+													"<td class='center'>" + code + "</td>" + 
+													"<td class='center'>" + course.getName() + "</td>" +
+													"<td class='center'>" + course.RealFormat(course.getPrice()) + "</td>" +
+													"<td class='center'>" +
+														"<button type='submit' class='btn btn-danger'" +
+															"id='action' name='action' value='delete'>Retirar" +
+														"</button>" +
+													"</td>" +
+											 "</tr>");
+									i++;
+								}
+								out.print("<input type='hidden' name='qtd_itens' value='"+i+"'/>");
+							}
+						}
+					%>
 					<tr>
-						<td></td>
 						<td></td>
 						<td>Subtotal R$</td>
 						<td>
-							<input type="number" id="subTotal" name="subTotal" value="50" 
-								disabled="disabled"/>
+							<input type="text" id="subtotal" name="subtotal" value="<%	if(scar != null)
+																						{	if(scar.getCourses() != null && 
+																								!scar.getCourses().isEmpty())
+																							{	Course c = null;
+																								for(EntityDomain e:scar.getCourses())
+																								{	c = (Course)e;
+																									total += c.getPrice();
+																								}
+																								out.print(c.RealFormat(total));
+																							}
+																						}
+																					%>"disabled="disabled"/>
 						</td>
 					</tr>
 					<tr>
 						<td></td>
-						<td></td>
 						<td>Total R$</td>
 						<td>
-							<input type="number" id="total" name="total" value="50"
-								disabled="disabled"/>
+							<input type="text" value="<%	if(course != null)
+															{out.print(course.RealFormat(total));}
+														%>" disabled="disabled"/>
+							<input type="hidden" name="total" id="total" value="<%out.print(total);%>"/>
 						</td>
 						<td>
 							<button type="button" class="btn btn-warning" onclick="resetarTotal()">
@@ -113,11 +156,11 @@
 				<tr>
 					<td>
 						<input type="text" id="cupom1" name="cupom1" class="cupom form-control"
-							placeholder="Código do 1º cupom"/>
+							placeholder="CÃ³digo do 1Âº cupom"/>
 					</td>
 					<td>
 						<input type="text" id="cupom2" name="cupom2" class="cupom form-control" 
-							placeholder="Código do 2º cupom"/>
+							placeholder="CÃ³digo do 2Âº cupom"/>
 					</td>
 					<td>
 						<button type="button" class="btn btn-primary form-control" 
@@ -132,11 +175,13 @@
 						</a>
 					</td>
 					<td>
-						<a class="btn btn-success form-control" href="pagamento.jsp">Finalizar</a>
+						<button type="submit" class="btn btn-success form-control" 
+							name="action" id="action" value="viewSale">Finalizar
+						</button>
 					</td>
 				</tr>
 			</table>
-			
+		</form>
 		</div>
 		<div id="rodape2" align="bottom">
 	    	<footer id="rodape">
@@ -155,7 +200,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">Portfólio</a></li>
+			    				<li class="item"><a href="#">PortfÃ³lio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">

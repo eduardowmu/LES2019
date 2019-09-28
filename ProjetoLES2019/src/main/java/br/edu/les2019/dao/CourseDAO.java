@@ -16,7 +16,9 @@ public class CourseDAO extends AbstractDAO
 	{	this.course = (Course)ed;
 		this.table = this.course.getClass().getSimpleName().toLowerCase();
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+				this.connection = this.getConnection();
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("INSERT INTO " + this.table + 
 				"(instrutor, categoria, titulo, descricao, valor, gr_precos) VALUES"+
 				"(?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
@@ -43,7 +45,7 @@ public class CourseDAO extends AbstractDAO
 		finally
 		{	try
 			{	ps.close();
-				this.connection.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){System.out.println(e2.getMessage());}
 		}
@@ -53,7 +55,9 @@ public class CourseDAO extends AbstractDAO
 	{	this.course = (Course)ed;
 		this.table = this.course.getClass().getSimpleName().toLowerCase();
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+				this.connection = this.getConnection();
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("UPDATE " + this.table + 
 				" SET instrutor = ?, categoria = ?, titulo = ?, descricao = ?, "
 				+ "valor = ?, gr_precos = ? WHERE id = ?");
@@ -79,7 +83,7 @@ public class CourseDAO extends AbstractDAO
 		finally
 		{	try
 			{	ps.close();
-				this.connection.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2)	{System.out.println(e2.getMessage());}
 		}
@@ -101,17 +105,17 @@ public class CourseDAO extends AbstractDAO
 			
 			else this.ps.setInt(1, 0);
 			
-			if(!this.course.getName().equals(""))
+			if(this.course.getName() != null && !this.course.getName().equals(""))
 			{this.ps.setString(2, this.course.getName() + "%");}
 			
 			else this.ps.setString(2, "");
 			
-			if(!this.course.getInstructor().equals(""))
+			if(this.course.getInstructor() != null && !this.course.getInstructor().equals(""))
 			{this.ps.setString(3, this.course.getInstructor() + "%");}
 			
 			else this.ps.setString(3, "");
 			
-			if(!this.course.getCategoria().equals(""))
+			if(this.course.getCategoria() != null && !this.course.getCategoria().equals(""))
 			{this.ps.setString(4, this.course.getCategoria());}
 			
 			else this.ps.setString(4, "");
@@ -127,6 +131,7 @@ public class CourseDAO extends AbstractDAO
 				this.course.setPrice(this.rs.getDouble(6));
 				this.course.setGrupoP(this.rs.getString(7));
 				this.course.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
+				this.course.setPhoto(this.rs.getString(9));
 				eds.add(this.course);
 			}
 		}
@@ -144,7 +149,9 @@ public class CourseDAO extends AbstractDAO
 	@Override public List<EntityDomain> search() 
 	{	List<EntityDomain> eds = new ArrayList<>();
 		try
-		{	this.ps = this.connection.prepareStatement("SELECT * FROM course");
+		{	if(this.connection == null || this.connection.isClosed())
+				this.connection = this.getConnection();
+			this.ps = this.connection.prepareStatement("SELECT * FROM course");
 			this.rs = this.ps.executeQuery();
 			while(this.rs.next())
 			{	this.course = new Course();
@@ -156,6 +163,7 @@ public class CourseDAO extends AbstractDAO
 				this.course.setPrice(this.rs.getDouble(6));
 				this.course.setGrupoP(this.rs.getString(7));
 				this.course.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
+				this.course.setPhoto(this.rs.getString(9));
 				eds.add(this.course);
 			}
 		}

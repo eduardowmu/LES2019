@@ -20,17 +20,22 @@ import br.edu.les2019.command.SaveCommand;
 import br.edu.les2019.command.SearchCommand;
 import br.edu.les2019.command.ShowCommand;
 import br.edu.les2019.command.UpdateCommand;
+import br.edu.les2019.domain.CreditCard;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.result.Result;
+import br.edu.les2019.view.CardView;
 import br.edu.les2019.view.ClientView;
 import br.edu.les2019.view.CourseView;
 import br.edu.les2019.view.IViewHelper;
+import br.edu.les2019.view.SaleView;
+import br.edu.les2019.view.ShopCarView;
 import br.edu.les2019.view.VideoView;
 
 /**
  * Servlet implementation class MyServlet
  */
-@WebServlet({ "/MyServlet", "/ClientServlet", "/CourseServlet", "/VideoServlet" })
+@WebServlet({ "/MyServlet", "/ClientServlet", "/CourseServlet", "/VideoServlet",
+			  "/ShopCarServlet", "/SaleServlet"})
 public class MyServlet extends HttpServlet 
 {	private static final long serialVersionUID = 1L;
     //command maps
@@ -55,6 +60,9 @@ public class MyServlet extends HttpServlet
     	this.views.put("/ProjetoLES2019/ClientServlet", new ClientView());
     	this.views.put("/ProjetoLES2019/CourseServlet", new CourseView());
     	this.views.put("/ProjetoLES2019/VideoServlet", new VideoView());
+    	this.views.put("/ProjetoLES2019/CardServlet", new CardView());
+    	this.views.put("/ProjetoLES2019/SaleServlet", new SaleView());
+    	this.views.put("/ProjetoLES2019/ShopCarServlet", new ShopCarView());
     }
 
 	/**
@@ -62,9 +70,7 @@ public class MyServlet extends HttpServlet
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException 
-	{	//ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
-		
-	}
+	{this.ProcessRequest(request, response);}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)

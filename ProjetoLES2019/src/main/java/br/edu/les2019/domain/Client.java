@@ -13,7 +13,10 @@ public class Client extends EntityDomain
 	Date birthday;
 	Phone phone;
 	User user;
-	CreditCard card;
+	List<CreditCard> cards;
+	Item item;
+	Sale sale;
+	ShopCar scar;
 	
 	public Image getImg() {return img;}
 	public void setImg(Image img) {this.img = img;}
@@ -46,6 +49,15 @@ public class Client extends EntityDomain
 	public Phone getPhone() {return phone;}
 	public void setPhone(Phone phone) {this.phone = phone;}
 	
-	public CreditCard getCard() {return card;}
-	public void setCard(CreditCard card) {this.card = card;}
+	public Item getItem() {return item;}
+	public void setItem(Item item) {this.item = item;}
+	
+	public Sale getSale() {return sale;}
+	public void setSale(Sale sale) {this.sale = sale;}
+	
+	public ShopCar getScar() {return scar;}
+	public void setScar(ShopCar scar) {this.scar = scar;}
+	
+	public List<CreditCard> getCards() {return cards;}
+	public void setCards(List<CreditCard> cards) {this.cards = cards;}
 }

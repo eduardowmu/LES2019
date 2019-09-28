@@ -50,7 +50,7 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="principal.html">Página Inicial</a></li>
 							<li><a name="cursos" class="barra-direita" href="cursos_compra.jsp">Cursos</a></li>
-							<li><a name="logout" class="barra-direita" href="loginAluno.html">Sair</a></li>
+							<li><a name="logout" class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -97,6 +97,8 @@
 								<a class="btn btn-primary form-control" value="LogarFuncionario" href="alterarSenha.html">
 									Alterar Senha</a>
 							</td>
+						</tr>
+						<tr>
 							<td align="center">
 								<a class="btn btn-primary form-control" id="carrinho" href="meusCupons.jsp">
 									Meus Cupons</a>

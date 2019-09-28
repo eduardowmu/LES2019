@@ -126,25 +126,25 @@
 						<b>Cartão de Crédito</b><br/>
 						Nome no Cartão:
 						<input type="text" id="cardName" name="cardName" value="<% if(client != null)	
-																			 		{out.print(client.getCard().getName());}
+																			 		{out.print(client.getCards().get(0).getName());}
 																		 		 %>" required/><br/><br/>
 						Numero:
 						<input type="number" id="cardNumber" name="cardNumber" value="<% if(client != null)	
-																			 			 {out.print(client.getCard().getNumber());}
+																			 			 {out.print(client.getCards().get(0).getNumber());}
 																		 		 		%>" maxlength="16" required/>
 						<select name="banner">
-							<option <%	if(client == null || client.getCard().getBanner().equals("Master"))	
+							<option <%	if(client == null || client.getCards().get(0).getBanner().equals("Master"))	
 				 			 			{out.print("selected");} 
 				 			 		%>>Master
 				 			</option>
-							<option <%	if(client != null && client.getCard().getBanner().equals("Visa"))	
+							<option <%	if(client != null && client.getCards().get(0).getBanner().equals("Visa"))	
 				 			 			{out.print("selected");} 
 				 			 		%>>Visa
 				 			</option>
 						</select><br/>
 						Codigo de Segurança:
 						<input type="number" id="seg" name="seg" value="<% if(client != null)	
-																		   {out.print(client.getCard().getCode());}
+																		   {out.print(client.getCards().get(0).getCode());}
 																		 %>" maxlength="3" required/><br/><br/>'
 						Senha:<input type="password" id="pass" name="pass" <% if(client != null)	
 																		   	  {out.print(client.getPassword());}
