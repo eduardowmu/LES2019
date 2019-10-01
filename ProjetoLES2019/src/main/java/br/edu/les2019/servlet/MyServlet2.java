@@ -94,7 +94,7 @@ public class MyServlet2 extends HttpServlet
 					for(EntityDomain ed:eds)
 					{course = (Course)ed;}
 					scar.getCourses().add(course);
-					Item item = new Item(course, request.getParameter("code"+(i+1)));
+					Item item = new Item(course, request.getParameter("code"+i));
 					itens.add(item);
 				}
 				

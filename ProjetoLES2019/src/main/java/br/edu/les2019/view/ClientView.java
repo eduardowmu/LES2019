@@ -158,7 +158,7 @@ public class ClientView implements IViewHelper
 							}
 						
 							else
-							{	rd = request.getRequestDispatcher("inicialAluno.jsp");
+							{	rd = request.getRequestDispatcher("meusCursos2.jsp");
 								break;
 							}
 						}

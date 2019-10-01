@@ -16,13 +16,21 @@ public class PayDAO extends AbstractDAO
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 		
-			this.ps = this.connection.prepareStatement("INSERT INTO " +
-				this.table + " (pay_sal_id, pay_car_id, total, status)");
+			this.connection.setAutoCommit(false);
 			
-			this.ps.setInt(1, this.payment.getSale().getId());
-			this.ps.setInt(2, this.payment.getCard().getId());
-			this.ps.setDouble(3, this.payment.getValor());
-			this.ps.setString(4, "pendente");
+			for(int i = 0; i < this.payment.getPaymap().size(); i++)
+			{	this.ps = this.connection.prepareStatement("INSERT INTO " +
+					this.table + " (pay_sal_id, pay_car_id, total, status)");
+				
+				this.ps.setInt(1, this.payment.getSale().getId());
+				this.ps.setInt(2, this.payment.getClient().getCards().get(i).getId());
+				this.ps.setDouble(3, this.payment.getPaymap().get(this.payment.getClient().getCards().get(i)));
+				this.ps.setString(4, "pendente");
+				
+				this.ps.executeUpdate();
+			}
+			
+			this.connection.commit();
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());

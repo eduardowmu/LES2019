@@ -125,9 +125,12 @@
 	                        </tr>
 	                        <tr>
 	                        	<td>Total: R$
-	                        		<input type="text" name="total" id="total" value="<%	if(sale != null)
-															                        		{out.print(sale.RealFormat(sale.getTotal()));}
-	                        															%>" disabled="disabled"/><br/><br/>
+	                        		<input type="text" value="<%	if(sale != null)
+															        {out.print(sale.RealFormat(sale.getTotal()));}
+	                        									%>" disabled="disabled"/><br/><br/>
+	                        		<input type="hidden" name="total" id="total" value="<%	if(sale != null)
+																					        {out.print(sale.getTotal());}
+							                        									%>"/>
 	                        		<input style="width: 40px" id="id_qtde" name="id_qtde" type="number" min="1" max="12" value="1" 
 	                        			onclick="calcular_parcelas()">
 	                        		<span> x </span>
@@ -176,7 +179,7 @@
                                	   				%>"/>
                                </td>
                                <td class="center">
-                               	<input type="text" id="id_valor_parcela">
+                               	<input type="text" id="id_valor_parcela" name="id_valor_parcela">
                                    <input type="button" class="btn btn-warning" type="button" id="ajustar" onclick="atualizar_parcelas()" value="Ajustar"/>
                                    <button type="button" class="btn btn-success" onclick="alertaSalvo()">Salvar</button>
                              	</td>
@@ -190,35 +193,42 @@
 							<th class="center">Nr do cartão</th>
 							<th class="center">Dt Venc.</th>
 							<th class="center">Nome do Titular</th>
+							<th class="center">Valor</th>
                             <th class="center">Incluir</th>
 							<!-- <th class="center">Ação</th>  -->
                     	</tr>
                     	<%	int k = 0;
             				if(client != null)
 	                    	{	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-	                    		for(k = 0; k < client.getCards().size(); k++)
-		                    	{	if(k > 0)
-			                    	{	out.print("<input type='hidden' id='cardID"+k+"' name='cardID"+
-		                    							k+"' value='"+client.getCards().get(k).getId()+"'/>");
+	                    		for(int i = 0; i < client.getCards().size(); i++)
+		                    	{	if(i > 0)
+			                    	{	out.print("<input type='hidden' id='cardID"+i+"' name='cardID"+
+		                    							i+"' value='"+client.getCards().get(k).getId()+"'/>");
 		                    			out.print("<tr><td class='center'>");
-			                    		if(client.getCards().get(k) != null)
-		                    			{	if(client.getCards().get(k).getBanner().equalsIgnoreCase("master"))
+			                    		if(client.getCards().get(i) != null)
+		                    			{	if(client.getCards().get(i).getBanner().equalsIgnoreCase("master"))
 		                    				{out.print("<img src='imagens/master.png'/></td>");}
 	                    					
 		                    				else out.print("<img src='imagens/visa.png'/></td>");
 		                    				
 				                    			out.print("<td class='center'>" + 
-				                    				client.getCards().get(k).getNumber() + "</td>");
+				                    				client.getCards().get(i).getNumber() + "</td>");
 				                    			
 				                    			out.print("<td class='center'>" + 
-				                    				df.format(client.getCards().get(k).getDeadline()) + "</td>");
+				                    				df.format(client.getCards().get(i).getDeadline()) + "</td>");
 				                    			
 				                    			out.print("<td class='center'>" + 
-					                    			client.getCards().get(k).getName() + "</td>");
+					                    			client.getCards().get(i).getName() + "</td>");
+				                    			
+				                    			out.print("<td class='center'>" + 
+						                    				"<input type='text' id='parcela' name='parcela'/>" + 
+				                    					  "</td>");
 					                    		
 				                    			out.print("<td class='center'>" +
-				                    						"<input type='checkbox' id='selCARD"+k+"' name='selCARD"+k+"' value='"+
-				                    						client.getCards().get(k).getId()+"'/></td></tr>");
+				                    						"<input type='checkbox' id='selCARD"+i+"' name='selCARD"+i+"' value='"+
+				                    						client.getCards().get(i).getId()+"' onclick=setValue()/></td></tr>");
+				                    			
+				                    			
 			                    		}
 			                    	}
 		                    	}

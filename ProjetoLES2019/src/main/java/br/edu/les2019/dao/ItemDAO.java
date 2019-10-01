@@ -46,7 +46,7 @@ public class ItemDAO extends AbstractDAO
 		finally
 		{	try
 			{	ps.close();
-				this.connection.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}

@@ -7,18 +7,18 @@ public class Sale extends EntityDomain
 {	List<Item> listItem;
 	Double total;
 	String saleStatus;
-	List<Payment> payments;
+	Payment payment;
 	String code;
 	
 	public Sale() {}
 	
 	public Sale(List<Item> listItem, Double total, String code,
-		String saleStatus, Client client, List<Payment> payments) 
+		String saleStatus, Client client, Payment payment) 
 	{	this.listItem = listItem;
 		this.total = total;
 		this.saleStatus = saleStatus;
 		this.client = client;
-		this.payments = payments;
+		this.payment = payment;
 		this.code = code;
 	}
 	
@@ -32,8 +32,8 @@ public class Sale extends EntityDomain
 	public Double getTotal() {return total;}
 	public void setTotal(Double total) {this.total = total;}
 	
-	public List<Payment> getPayments() {return payments;}
-	public void setPayments(List<Payment> payments) {this.payments = payments;}
+	public Payment getPayment() {return payment;}
+	public void setPayments(Payment payment) {this.payment = payment;}
 
 	public String getCode() {return code;}
 	public void setCode(String code) {this.code = code;}

@@ -2,7 +2,9 @@ package br.edu.les2019.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,21 +28,21 @@ public class SaleView implements IViewHelper
 		Course course = null;
 		Item item = null;
 		Payment payment = null;
+		Map<CreditCard, Double> paymap = null;
 		List<Item> itens = new ArrayList<>();
 		Client client = new Client();
 		
 		switch(request.getParameter("action"))
 		{	case "save":
 				for(int i = 0; i < Integer.parseInt(request.getParameter("qtd_itens")); i++)
-				{	course = new Course(Integer.parseInt(request.getParameter("courseID"+(i+1))));
+				{	course = new Course(Integer.parseInt(request.getParameter("courseID"+i)));
 					course.setName("");
 					course.setInstructor("");
 					course.setCategoria("");
 					List<EntityDomain> eds = new CourseDAO().search(course);
 					for(EntityDomain ed:eds)
 					{course = (Course)ed;}
-					item = new Item(course, request.getParameter("itemCode"+(i+1)));
-					item.setId(Integer.parseInt(request.getParameter("itemID"+(i+1))));
+					item = new Item(course, request.getParameter("itemCode"+i));
 					itens.add(item);
 				}
 				
@@ -53,35 +55,33 @@ public class SaleView implements IViewHelper
 					{client = (Client)ed;}
 				}
 				
-				List<Payment> pays = new ArrayList<>();
 				payment = new Payment();
-				
-				payment.setQtdParcelas(Integer.parseInt("id_qtde"));
+				payment.setClient(client);
+				payment.setQtdParcelas(Integer.parseInt(request.getParameter("id_qtde")));
 				payment.setStatus("pendente");
-				payment.setCard(client.getCards().get(0));
-				pays.add(payment);
+				paymap = new HashMap<>();
+				if(payment.getQtdParcelas() == 1)
+				{paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("total")));}
 				
-				if(Integer.parseInt(request.getParameter("qtd_card")) > 0)
+				else	paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("id_valor_parcela")));
+				/*if(Integer.parseInt(request.getParameter("qtd_card")) > 0)
 				{	int k = 1;
 					for(int i = 1; i <= Integer.parseInt(request.getParameter("qtd_card")); i++)
 					{	if(request.getParameter("selCARD"+i) != null && 
 							!request.getParameter("selCARD"+i).equals(""))
-						{	pays.add(new Payment());
-							pays.get(k).setCard(client.getCards().get(Integer.parseInt(request.getParameter("selCARD"+i))));
+						{	CreditCard card = new CreditCard();
+							card.setId(Integer.parseInt(request.getParameter("cardID"+k)));
+							client.getCards().add(card);
+							paymap.put(client.getCards().get(k), Double.parseDouble("parcela"));
 							k++;
 						}
 					}
-				}
+				}*/
 				
-				if(pays.size() == 1)
-				{	sale = new Sale(itens, Double.parseDouble(request.getParameter("total")), 
-						request.getParameter("pedido"), "pendente", client, pays);
-				}
+				payment.setPaymap(paymap);
 				
-				else
-				{	sale = new Sale(itens, Double.parseDouble(request.getParameter("total")), 
-						request.getParameter("pedido"), "pendente", client, pays);
-				}
+				sale = new Sale(itens, Double.parseDouble(request.getParameter("total")), 
+					request.getParameter("pedido"), "pendente", client, payment);
 				
 				break;
 		}
@@ -96,7 +96,7 @@ public class SaleView implements IViewHelper
 		{	case "save":
 				request.getSession().setAttribute("result", result);
 				if(result.getMsg() == null)
-				{rd = request.getRequestDispatcher("inicialAluno.jsp");}
+				{rd = request.getRequestDispatcher("meusCursos.jsp");}
 				
 				else
 				{rd = request.getRequestDispatcher("pagamento2.jsp");}

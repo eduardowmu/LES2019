@@ -44,6 +44,7 @@ public abstract class AbstractDAO implements IDAO
 		{	this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("DELETE FROM " +
 				this.table + " WHERE id = ?");	
+			//this.ps.setInt(1, ed.getId());
 			this.ps.setInt(1, ed.getId());
 			this.ps.executeUpdate();
 			this.connection.commit();

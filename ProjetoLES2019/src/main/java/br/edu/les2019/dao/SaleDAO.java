@@ -3,15 +3,16 @@ package br.edu.les2019.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import br.edu.les2019.domain.CreditCard;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
 import br.edu.les2019.domain.Payment;
 import br.edu.les2019.domain.Sale;
 
 public class SaleDAO extends AbstractDAO 
-{	Sale sale = null;
+{	public SaleDAO()	{super();}
+	Sale sale = null;
 	Item item = null;
-	Payment payment = null;
 	@Override public void save(EntityDomain ed) 
 	{	this.sale = (Sale)ed;
 		this.table = this.sale.getClass().getSimpleName();
@@ -30,7 +31,7 @@ public class SaleDAO extends AbstractDAO
 			
 			this.ps.executeUpdate();
 			
-			this.rs = this.ps.executeQuery();
+			this.rs = this.ps.getGeneratedKeys();
 			
 			if(this.rs.next())	this.sale.setId(this.rs.getInt(1));
 			
@@ -46,11 +47,13 @@ public class SaleDAO extends AbstractDAO
 			PayDAO pdao = new PayDAO();
 			pdao.ctrlTransaction = false;
 			pdao.connection = this.connection;
-			for(EntityDomain e2:this.sale.getPayments())
-			{	this.payment = (Payment)e2;
-				this.payment.setSale(this.sale);
-				pdao.save(this.payment);
-			}
+			this.sale.getPayment().setSale(sale);
+			pdao.save(this.sale.getPayment());
+			
+			CarDAO cardao = new CarDAO();
+			cardao.ctrlTransaction = false;
+			cardao.connection = this.connection;
+			cardao.deleteCourses(this.sale.getClient());
 			
 			this.connection.commit();
 		}

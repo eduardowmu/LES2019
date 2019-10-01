@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!--Importação de Lista e pacote onde estão as classes de dominio e controle-->
-<%@ page import = "java.text.*" %>
-<%@ page import="java.util.*, br.edu.les2019.domain.*" %>
-<%@ page import="java.util.*, br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
+<%@ page import = "java.text.DecimalFormat.*"%>
+<%@ page import = "java.text.DecimalFormatSymbols.*"%>
+<%@ page import = "java.text.*"%>
 <!--possibilita usar a tag core, que chama o looping forEach--> 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -74,7 +75,7 @@
 							<li><a class="barra-direita" href="alterarUsuario.jsp">| Dados Pessoais |</a></li>
 							<li><a class="barra-direita" href="alterarSenha.html">| Alterar Senha |</a></li>
 							<li><a class="barra-direita" href="meusCupons.jsp">| Meus Cupons |</a></li>
-							<li><a class="barra-direita" href="cursos.jsp">| Comprar Cursos |</a></li>
+							<li><a class="barra-direita" href="cursos_compra.jsp">| Comprar Cursos |</a></li>
 							<li><a class="barra-direita" href="transacoes.jsp">| Histórico de Transações |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
@@ -83,6 +84,7 @@
 			</nav>
     	</div>
 		<div id="form">
+			<%	Result result = (Result)session.getAttribute("result"); %>
 			<form action="CourseServlet" method="post">
 				<table align="center">
 					<thead>
@@ -131,7 +133,7 @@
 						<td class="tabela"><b>Realizar Prova</b></td>
 						<td class="tabela"><b>Solicitar Certificado</b></td>
 						<td class="tabela"><b>Solicitar Troca</b></td>
-					</tr>
+					</tr> <!-- 
 					<tr>
 						<td class="linha" align="center">Angular</td>
 						<td class="linha" align="center">Linguagem de Programação</td>
@@ -171,7 +173,7 @@
 						<td class="linha" align="center"><a href="#"><img src="imagens/prova.png"></a></td>
 						<td class="linha" align="center"><a href="#"><img src="imagens/diploma.png"></a></td>
 						<td class="linha" align="center"><a href="#"><img src="imagens/troca.png"></a></td>
-					</tr>
+					</tr> -->
 				</table>
 		</div>
 		<div id="rodape2">
