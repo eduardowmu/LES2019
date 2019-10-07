@@ -141,6 +141,8 @@ public class CarDAO extends AbstractDAO
 			
 			this.ps.setInt(1, client.getId());
 			
+			this.ps.executeUpdate();
+			
 			this.connection.commit();
 		}
 		catch(SQLException e)

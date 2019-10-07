@@ -8,6 +8,7 @@ import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
+import br.edu.les2019.domain.Sale;
 
 public class ItemDAO extends AbstractDAO 
 {	String table;
@@ -60,33 +61,24 @@ public class ItemDAO extends AbstractDAO
 
 	@Override public List<EntityDomain> search(EntityDomain ed) 
 	{	List<EntityDomain> itens = new ArrayList<>();
-		if(ed instanceof Client)
-		{	this.item = new Item();
-			this.item.setClient((Client)ed);
-		}
-		else this.item = (Item)ed;
-		Item it = null;
-		this.table = item.getClass().getSimpleName().toLowerCase();
+		Sale sale = (Sale)ed;
 		try
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 			
-			this.ps = this.connection.prepareStatement("SELECT * FROM " +
-					this.table + " WHERE ite_alu_id = ?");
+			this.ps = this.connection.prepareStatement("SELECT * FROM item WHERE ite_sal_id = ?");
 			
-			this.ps.setInt(1, item.getClient().getId());
+			this.ps.setInt(1, sale.getId());
 			
 			this.rs = this.ps.executeQuery();
 			
 			while(this.rs.next())
-			{	it = new Item();
-			//System.out.println(this.rs.getInt(1));
-				it.setId(this.rs.getInt(1));
-				it.setClient(new Client());
-				it.getClient().setId(2);
-				it.setCourse(new Course());
-				it.getCourse().setId(3);
-				itens.add(it);
+			{	this.item = new Item();
+				this.item.setId(this.rs.getInt(1));
+				this.item.setCode(this.rs.getString(2));
+				this.item.setCourse(new Course());
+				this.item.getCourse().setId(this.rs.getInt(3));
+				itens.add(this.item);
 			}
 		}
 		catch(SQLException e)

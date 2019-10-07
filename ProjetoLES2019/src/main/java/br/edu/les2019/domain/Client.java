@@ -15,8 +15,10 @@ public class Client extends EntityDomain
 	User user;
 	List<CreditCard> cards;
 	Item item;
-	Sale sale;
+	List<Sale> sales;
+	//Sale sale;
 	ShopCar scar;
+	List<Cupom> cupons;
 	
 	public Image getImg() {return img;}
 	public void setImg(Image img) {this.img = img;}
@@ -51,13 +53,19 @@ public class Client extends EntityDomain
 	
 	public Item getItem() {return item;}
 	public void setItem(Item item) {this.item = item;}
-	
+	/*
 	public Sale getSale() {return sale;}
 	public void setSale(Sale sale) {this.sale = sale;}
-	
+	*/
 	public ShopCar getScar() {return scar;}
 	public void setScar(ShopCar scar) {this.scar = scar;}
 	
 	public List<CreditCard> getCards() {return cards;}
 	public void setCards(List<CreditCard> cards) {this.cards = cards;}
+	
+	public List<Sale> getSales() {return sales;}
+	public void setSales(List<Sale> sales) {this.sales = sales;}
+	
+	public List<Cupom> getCupons() {return cupons;}
+	public void setCupons(List<Cupom> cupons) {this.cupons = cupons;}
 }

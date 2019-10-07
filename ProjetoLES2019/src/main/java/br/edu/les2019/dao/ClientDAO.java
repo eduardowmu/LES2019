@@ -6,8 +6,11 @@ import java.util.List;
 
 import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.CreditCard;
+import br.edu.les2019.domain.Cupom;
 import br.edu.les2019.domain.EntityDomain;
+import br.edu.les2019.domain.Item;
 import br.edu.les2019.domain.Phone;
+import br.edu.les2019.domain.Sale;
 
 public class ClientDAO extends AbstractDAO
 {	Client client;
@@ -154,19 +157,19 @@ public class ClientDAO extends AbstractDAO
 		List<EntityDomain> entities = new ArrayList<>();
 		try
 		{	if(this.connection == null || this.connection.isClosed())
-				this.connection = this.getConnection();
+			{this.connection = this.getConnection();}
 			
 			this.ps = this.connection.prepareStatement("SELECT * FROM " + 
 				this.table + " WHERE id = ? OR name LIKE ? OR surname LIKE ?");
 			
 			this.ps.setInt(1, this.client.getId());
 			
-			if(this.client.getName().equals(""))
+			if(this.client.getName() == null || this.client.getName().equals(""))
 			{this.ps.setString(2, this.client.getName());}
 			
 			else this.ps.setString(2, this.client.getName() + "%");
 			
-			if(this.client.getSurname().equals(""))
+			if(this.client.getSurname() == null || this.client.getSurname().equals(""))
 			{this.ps.setString(3, this.client.getSurname());}
 			
 			else this.ps.setString(3, this.client.getSurname() + "%");
@@ -180,6 +183,10 @@ public class ClientDAO extends AbstractDAO
 				cli.setBirthday(this.rs.getDate(4));
 				cli.setCpf(this.rs.getString(5));
 				cli.setGenero(this.rs.getString(6));
+				cli.setPassword(this.rs.getString(7));
+				cli.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
+				if(this.rs.getString(9) != null)
+				{cli.setPhoto(this.rs.getString(9));}
 				EmailDAO edao = new EmailDAO();
 				edao.ctrlTransaction = false;
 				edao.connection = this.connection;
@@ -187,6 +194,7 @@ public class ClientDAO extends AbstractDAO
 				{	cli.setEmails(new ArrayList<String>());
 					cli.getEmails().add(email);
 				}
+				
 				//get all client's phones number
 				PhoneDAO pdao = new PhoneDAO();
 				pdao.ctrlTransaction = false;
@@ -197,15 +205,38 @@ public class ClientDAO extends AbstractDAO
 						cli.setPhone(phone);
 					}
 				}
+				
 				//get all credit card
 				CardDAO carDAO = new CardDAO();
 				carDAO.ctrlTransaction = false;
 				carDAO.connection = this.connection;
-				for(EntityDomain entity2:carDAO.search(this.client))
+				for(EntityDomain entity2:carDAO.search(cli))
 				{	if(entity2 != null)
 					{	CreditCard card = (CreditCard)entity2;
 						cli.setCards(new ArrayList<>());
 						cli.getCards().add(card);
+					}
+				}
+				
+				SaleDAO sdao = new SaleDAO();
+				sdao.ctrlTransaction = false;
+				sdao.connection = this.connection;
+				for(EntityDomain entity3:sdao.search(cli))
+				{	if(entity3 != null)
+					{	Sale sale = (Sale)entity3;
+						cli.setSales(new ArrayList<Sale>());
+						cli.getSales().add(sale);
+					}
+				}
+				
+				CupomDAO cupdao = new CupomDAO();
+				cupdao.ctrlTransaction = false;
+				cupdao.connection = this.connection;
+				for(EntityDomain entity4:cupdao.search(cli))
+				{	if(entity4 != null)
+					{	Cupom cupom = (Cupom)entity4;
+						cli.setCupons(new ArrayList<Cupom>());
+						cli.getCupons().add(cupom);
 					}
 				}
 				entities.add(cli);
@@ -244,10 +275,15 @@ public class ClientDAO extends AbstractDAO
 				this.client.setCpf(this.rs.getString(5));
 				this.client.setGenero(this.rs.getString(6));
 				this.client.setPassword(this.rs.getString(7));
+				this.client.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
+				if(this.rs.getString(9) != null)
+				{this.client.setPhoto(this.rs.getString(9));}
+				
 				EmailDAO edao = new EmailDAO();
 				edao.ctrlTransaction = false;
 				edao.connection = this.connection;
-				for(String email:edao.searchEmail(this.client))
+				List<String> emails = edao.searchEmail(this.client);
+				for(String email:emails)
 				{	this.client.setEmails(new ArrayList<String>());
 					this.client.getEmails().add(email);
 				}
@@ -272,6 +308,30 @@ public class ClientDAO extends AbstractDAO
 						this.client.getCards().add(card);
 					}
 				}
+				
+				SaleDAO sdao = new SaleDAO();
+				sdao.ctrlTransaction = false;
+				sdao.connection = this.connection;
+				for(EntityDomain entity3:sdao.search(this.client))
+				{	if(entity3 != null)
+					{	Sale sale = (Sale)entity3;
+						this.client.setSales(new ArrayList<Sale>());
+						this.client.getSales().add(sale);
+						break;
+					}
+				}
+				
+				CupomDAO cupdao = new CupomDAO();
+				cupdao.ctrlTransaction = false;
+				cupdao.connection = this.connection;
+				for(EntityDomain entity4:cupdao.search(this.client))
+				{	if(entity4 != null)
+					{	Cupom cupom = (Cupom)entity4;
+						this.client.setCupons(new ArrayList<Cupom>());
+						this.client.getCupons().add(cupom);
+					}
+				}
+				
 				entities.add(this.client);
 			}
 		}
@@ -286,6 +346,6 @@ public class ClientDAO extends AbstractDAO
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}
-			return entities;
+		return entities;
 	}
 }

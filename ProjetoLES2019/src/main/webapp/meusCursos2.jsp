@@ -33,10 +33,10 @@
 	   	<script>
 	    	$(document).ready(function()
 	    	{	confirmouSla = false;
-	    		$(".btn-excluir").on("click", function(e) 
+	    		$(".btn-troca").on("click", function(e) 
 	    		{	if (!confirmouSla) 
 	    			{	e.preventDefault();
-	    				confirmouSla = confirm("Tem certeza que deseja excluir?");
+	    				confirmouSla = confirm("Tem certeza que deseja gerar um cupom de troca?");
 		    			if(confirmouSla) {$(this).click();}
 	    			} 
 	    		});
@@ -47,7 +47,7 @@
 	</head>
 	<body>
 		<div>
-    		<nav class="navbar navbar-fixed-top navbar-inverse navbar-transparente">
+			<nav class="navbar navbar-fixed-top navbar-inverse navbar-transparente">
 				<div class="container">
 					<!-- Estrutura de Header -->
 					<div class="navbar-header">
@@ -67,8 +67,18 @@
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
 						<h2 class="barra">
-							<b id=titulo>Meus Cursos</b><br/>
-							
+							<b id=titulo>Meus Cursos</b>
+							<%	Result result = (Result)session.getAttribute("result");
+							Client client = null;
+							if(result != null)
+							{	for(EntityDomain ed:result.getEntities())
+								{	if(ed instanceof Client)
+									{	client = (Client)ed;
+										out.print("<br/>" +client.getName());
+									}
+								}
+							}
+						%>
 						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
@@ -78,27 +88,29 @@
 							<li><a class="barra-direita" href="cursos_compra.jsp">| Comprar Cursos |</a></li>
 							<li><a class="barra-direita" href="transacoes.jsp">| Histórico de Transações |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
-						</ul>
+						</ul><br><br>
 					</div>
 				</div>
 			</nav>
     	</div>
 		<div id="form">
-			<%	Result result = (Result)session.getAttribute("result"); %>
-			<form action="CourseServlet" method="post">
+			<form action="CourseServlet" method="get">
+				<%	if(client != null)
+					{out.print("<input type='hidden' name='clientID' value='"+client.getId()+"'/>");}
+				%>
 				<table align="center">
 					<thead>
 					<tr>
 						<td class="formulario"><br/>
-							<input type="text" id="nome" name="nome" placeholder="Nome do curso" 
-								size="30" class="form-control"/>
+							<!-- <input type="text" id="nome" name="nome" placeholder="Nome do curso" 
+								size="30" class="form-control"/> -->
 						</td>
 						<td class="formulario"><br/>
-							<input type="text" name="instrutor" placeholder="Nome do instrutor" max="11"
-								size="30" class="form-control"/>
+							<!-- <input type="text" name="instrutor" placeholder="Nome do instrutor" max="11"
+								size="30" class="form-control"/> -->
 						</td>
 						<td class="formulario"><br/>
-							<label>Categoria:</label>
+							<!-- <label>Categoria:</label>
 							<select name="categoria" id="categoria">
 								<option></option>
 								<option>Programação</option>
@@ -107,7 +119,7 @@
 								<option>Sistemas</option>
 								<option>Segurança</option>
 								<option>Redes</option>
-							</select>
+							</select> -->
 						</td>
 					</tr>
 					</thead>
@@ -115,14 +127,14 @@
 				<table align="center">
 					<tr>
 						<td class="formulario"><br/>
-							<button type="submit" name="action" id="search" value="search" 
-								class="btn btn-primary form-control">Consultar</button>
+							<!-- <button type="submit" name="action" id="action" value="search" 
+								class="btn btn-primary form-control">Consultar</button> -->
 						</td>
 					</tr>
 				</table>
 			</div><br/>
 			</form>
-			<div>
+			<div id="tabela">
 				<table class="table table-striped table-bordered table-hover table-condensed">
 					<tr align="center">
 						<td class="tabela"><b>Nome</b></td>
@@ -133,47 +145,45 @@
 						<td class="tabela"><b>Realizar Prova</b></td>
 						<td class="tabela"><b>Solicitar Certificado</b></td>
 						<td class="tabela"><b>Solicitar Troca</b></td>
-					</tr> <!-- 
-					<tr>
-						<td class="linha" align="center">Angular</td>
-						<td class="linha" align="center">Linguagem de Programação</td>
-						<td class="linha" align="center">Loiane Groner</td>
-						<td class="linha" align="center">R$ 50,00</td>
-						<td class="linha" align="center"><a href="videos.jsp"><img src="imagens/video.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/prova.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/diploma.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/troca.png"></a></td>
 					</tr>
-					<tr>
-						<td class="linha" align="center">Curso Básico de Python</td>
-						<td class="linha" align="center">Linguagem de Programação</td>
-						<td class="linha" align="center">Gustavo Guanabara</td>
-						<td class="linha" align="center">R$ 25,00</td>
-						<td class="linha" align="center"><a href="videos.jsp"><img src="imagens/video.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/prova.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/diploma.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/troca.png"></a></td>
-					</tr>
-					<tr>
-						<td class="linha" align="center">Curso Orientação a Objetos com Java</td>
-						<td class="linha" align="center">Linguagem de Programação</td>
-						<td class="linha" align="center">Gustavo Guanabara</td>
-						<td class="linha" align="center">R$ 60,00</td>
-						<td class="linha" align="center"><a href="videos.jsp"><img src="imagens/video.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/prova.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/diploma.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/troca.png"></a></td>
-					</tr>
-					<tr>
-						<td class="linha" align="center">Curso Completo de Photoshop</td>
-						<td class="linha" align="center">Software</td>
-						<td class="linha" align="center">Gustavo Guanabara</td>
-						<td class="linha" align="center">R$ 35,00</td>
-						<td class="linha" align="center"><a href="videos.jsp"><img src="imagens/video.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/prova.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/diploma.png"></a></td>
-						<td class="linha" align="center"><a href="#"><img src="imagens/troca.png"></a></td>
-					</tr> -->
+				<%	if(result != null)
+					{	if(client != null)
+						{	if(client.getSales() != null && !client.getSales().isEmpty())
+							{	for(Sale sale:client.getSales())
+								{	for(Item item:sale.getListItem())
+									{	out.print("<form action='MyServlet2' method='post'>"+
+														"<input type='hidden' id='cliID' name='cliID' value="+client.getId()+"/>" + 
+														"<tr align='center'>" +
+															"<input type='hidden' name='item_id' value='"+item.getId()+"'/>" +
+															"<input type='hidden' name='item_code' value='"+item.getCode()+"'/>" +
+															"<input type='hidden' name='sale_id' value='"+sale.getId()+"'/>" +
+															"<input type='hidden' name='course_id' value='"+item.getCourse().getId()+"'/>" +
+															"<input type='hidden' name='course_name' value='"+item.getCourse().getName()+"'/>" +
+															"<td class='linha'>" + 
+																item.getCourse().getName() + "</td>" +
+															"<input type='hidden' name='categoria' value='"+item.getCourse().getCategoria()+"'/>" +
+															"<td class='linha'>" + 
+																item.getCourse().getCategoria() + "</td>" +
+															"<input type='hidden' name='categoria' value='"+item.getCourse().getInstructor()+"'/>" +
+															"<td class='linha'>" + 
+																item.getCourse().getInstructor() + "</td>" +
+															"<input type='hidden' name='valor' value='"+item.getCourse().getPrice()+"'/>" +
+															"<td class='linha'> R$" + 
+																item.getCourse().RealFormat(item.getCourse().getPrice()) + "</td>" +
+															"<input type='hidden' name='valor' value='"+item.getCourse().getPrice()+"'/>" +
+															"<td class='linha'><a href='videos.jsp'><img src='imagens/video.png'></a></td>" +
+															"<td class='linha'><a href='#'><img src='imagens/prova.png'></a></td>" + 
+															"<td class='linha' align='center'><a href='#'><img src='imagens/diploma.png'></a></td>" +
+															"<td class='linha' align='center'>" +
+																"<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' value='gerarCupom'>" +
+																	"<img src='imagens/troca.png'></button></td>" +
+														"<tr/></form>");
+									}
+								}
+							}
+						}
+					}
+				%>
 				</table>
 		</div>
 		<div id="rodape2">

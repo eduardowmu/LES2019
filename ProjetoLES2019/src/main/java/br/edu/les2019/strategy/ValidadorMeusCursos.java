@@ -11,7 +11,7 @@ import br.edu.les2019.domain.ShopCar;
 
 public class ValidadorMeusCursos extends AbstractStrategy 
 {	@Override public String process(EntityDomain ed) 
-	{	IDAO idao = new ItemDAO();
+	{	/*IDAO idao = new ItemDAO();
 		IDAO cadao = new CarDAO();
 		ShopCar sc = (ShopCar)ed;
 		List<EntityDomain> list = idao.search(sc.getClient());
@@ -29,7 +29,7 @@ public class ValidadorMeusCursos extends AbstractStrategy
 				{return "Curso já consta no seu carrinho!";}
 				i++;
 			}
-		}
+		}*/
 			
 		return null;
 	}

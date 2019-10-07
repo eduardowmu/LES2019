@@ -68,7 +68,18 @@
 			</nav>
     	</div>
 		<div id="form">
-			<form action="CourseServlet" method="post">
+			<%	Result result = (Result)session.getAttribute("result");
+				Client client = null;
+				if(result != null)
+				{	if(result.getEntities() != null && !result.getEntities().isEmpty())
+					{	for(EntityDomain ed:result.getEntities())
+						{	if(ed instanceof Client)
+							{client = (Client)ed;}
+						}
+					}
+				}
+			%>
+			<form action="CupomServlet" method="post">
 				<table align="center">
 					<thead>
 					<tr>
@@ -102,9 +113,31 @@
 					<tr align="center">
 						<td class="tabela"><b>Código</b></td>
 						<td class="tabela"><b>Valor</b></td>
-						<td class="tabela"><b>Validade</b></td>
 						<td class="tabela"><b>Tipo</b></td>
+						<td class="tabela"><b>Status</b></td>
 					</tr>
+					<%	if(client != null)
+						{	NumberFormat nf = new DecimalFormat("0.00");
+							//StringBuilder sb = new StringBuilder();
+							for(Cupom cupom:client.getCupons())
+							{	out.print("<tr align='center'>" +
+												"<td class='linha' align='center'>" +
+													cupom.getCodigo() + 
+												"</td>" +
+												"<td class='linha' align='center'>" + 
+													"R$" + nf.format(cupom.getValue()) +
+												"</td>" + 
+												"<td class='linha' align='center'>" + 
+													cupom.getTipo() + 
+												"</td>" +
+												"<td class='linha' align='center'>" +
+													cupom.getStatus() +
+												"</td>" +
+											"</tr>");
+							}
+						}
+					%>
+					<!--  
 					<tr>
 						<td class="linha" align="center">CT000000101</td>
 						<td class="linha" align="center">R$ 30,00</td>
@@ -129,7 +162,7 @@
 						<td class="linha" align="center">R$ 10,00</td>
 						<td class="linha" align="center">31/12/2019</td>
 						<td class="linha" align="center">Promocional</td>
-					</tr>
+					</tr>-->
 				</table>
 		</div>
 		<div id="rodape2">

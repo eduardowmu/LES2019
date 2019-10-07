@@ -3,14 +3,14 @@ package br.edu.les2019.domain;
 import java.util.Date;
 
 public abstract class EntityDomain 
-{	int id;
+{	Integer id;
 	String name;
 	String photo;
 	Date registry;
 	Client client;
 	
-	public int getId() {return this.getId();}
-	public void setId(int id) {this.id = id;}
+	public Integer getId() {return this.id;}
+	public void setId(Integer id) {this.id = id;}
 	
 	public String getName() {return name;}
 	public void setName(String name) {this.name = name;}

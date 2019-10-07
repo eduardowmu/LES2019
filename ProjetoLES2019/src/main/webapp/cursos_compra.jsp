@@ -66,7 +66,7 @@
     	</div>
 		<div id="form" align="center">
 			<%	Result result = (Result)session.getAttribute("result");
-				int clientID = 0;
+				Integer clientID = 0;
 				if(result != null)
 				{	if(result.getEntities() != null &&
 						!result.getEntities().isEmpty())

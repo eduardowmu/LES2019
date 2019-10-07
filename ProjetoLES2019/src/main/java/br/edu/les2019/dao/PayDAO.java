@@ -20,7 +20,8 @@ public class PayDAO extends AbstractDAO
 			
 			for(int i = 0; i < this.payment.getPaymap().size(); i++)
 			{	this.ps = this.connection.prepareStatement("INSERT INTO " +
-					this.table + " (pay_sal_id, pay_car_id, total, status)");
+					this.table + " (pay_sal_id, pay_car_id, total, status)" +
+					" VALUES(?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
 				
 				this.ps.setInt(1, this.payment.getSale().getId());
 				this.ps.setInt(2, this.payment.getClient().getCards().get(i).getId());
@@ -28,9 +29,13 @@ public class PayDAO extends AbstractDAO
 				this.ps.setString(4, "pendente");
 				
 				this.ps.executeUpdate();
+				
+				this.rs = this.ps.getGeneratedKeys();
+				
+				if(this.rs.next())	this.payment.setId(this.rs.getInt(1));
+				
+				this.connection.commit();
 			}
-			
-			this.connection.commit();
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());

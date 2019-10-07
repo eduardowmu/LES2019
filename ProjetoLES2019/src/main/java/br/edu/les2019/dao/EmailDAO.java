@@ -8,7 +8,8 @@ import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.EntityDomain;
 
 public class EmailDAO extends AbstractDAO 
-{	@Override public void save(EntityDomain ed) 
+{	public EmailDAO() {super();}
+	@Override public void save(EntityDomain ed) 
 	{	Client client = (Client)ed;
 		try
 		{	if(this.connection == null || this.connection.isClosed())
@@ -78,7 +79,7 @@ public class EmailDAO extends AbstractDAO
 			client.setEmails(emails);
 			entities.add(client);
 		}
-		catch(SQLException e)	{System.err.println(e.getMessage());}
+		catch(Exception e)	{System.err.println(e.getMessage());}
 		finally
 		{	try
 			{	ps.close();
@@ -91,17 +92,20 @@ public class EmailDAO extends AbstractDAO
 	
 	public List<String> searchEmail(EntityDomain ed)
 	{	List<String> emails = new ArrayList<>();
+		//Client client = (Client)ed;
 		try
-		{	this.ps = this.connection.prepareStatement("SELECT adress FROM email WHERE ema_cli_id = ?");
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.ps = this.connection.prepareStatement("SELECT adress FROM email WHERE ema_cli_id = ?");
 			this.ps.setInt(1, ed.getId());
 			this.rs = this.ps.executeQuery();
 			while(this.rs.next())
 			{emails.add(this.rs.getString("adress"));}
 		}
-		catch(SQLException e)	{System.err.println(e.getMessage());}
+		catch(Exception e)	{System.err.println(e.getMessage());}
 		finally
 		{	try
-			{	ps.close();
+			{	this.ps.close();
 				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){System.out.println(e2.getMessage());}
