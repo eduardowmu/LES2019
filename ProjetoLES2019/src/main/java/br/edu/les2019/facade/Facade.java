@@ -316,11 +316,12 @@ public class Facade implements IFacade
 	
 	@Override public Result login(EntityDomain ed) 
 	{	result = new Result();
-		Client client = (Client)ed;
 		List<EntityDomain> entities = new ArrayList<>();
-		if(this.executeRules(client, "login") == null)
+		if(this.executeRules(ed, "login") == null)
 		{	IDAO dao = daos.get(ed.getClass().getName());
-			try
+			if(this.getCompletyEntity(dao, ed) != null)
+			{ed = this.getCompletyEntity(dao, ed);}
+			/*try
 			{	for(EntityDomain entity:dao.search())
 				{	Client cli = (Client)entity;
 					if(cli.getEmails() != null)
@@ -332,9 +333,9 @@ public class Facade implements IFacade
 					}
 				}
 			}
-			catch(Exception e)	{System.out.println(e.getMessage());}
-			this.addUser(entities, client);
-			entities.add(client);
+			catch(Exception e)	{System.out.println(e.getMessage());}*/
+			//this.addUser(entities, client);
+			entities.add(ed);
 			entities.addAll(new CourseDAO().search());
 			result.setEntities(entities);
 		}
@@ -361,10 +362,26 @@ public class Facade implements IFacade
 		result.setEntities(dao.search(ed));
 		return result;
 	}
-
+	
+	//talvez seja implementado futuramente
 	@Override public Result view(EntityDomain ed) 
 	{	result = new Result();
 		
 		return result;
+	}
+	
+	private EntityDomain getCompletyEntity(IDAO dao, EntityDomain ed)
+	{	Client client = (Client)ed;
+		for(EntityDomain entity:dao.search())
+		{	Client cli = (Client)entity;
+			if(cli.getEmails() != null)
+			{	if(cli.getEmails().get(0).equals(client.getEmails().get(0)) &&
+					cli.getPassword().equals(client.getPassword()))
+				{	client = cli;
+					break;
+				}
+			}
+		}
+		return client;
 	}
 }
