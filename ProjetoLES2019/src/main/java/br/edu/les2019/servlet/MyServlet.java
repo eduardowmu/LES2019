@@ -35,7 +35,7 @@ import br.edu.les2019.view.VideoView;
  * Servlet implementation class MyServlet
  */
 @WebServlet({ "/MyServlet", "/ClientServlet", "/CourseServlet", "/VideoServlet",
-			  "/ShopCarServlet", "/SaleServlet"})
+			  "/ShopCarServlet", "/SaleServlet", "/CardServlet"})
 public class MyServlet extends HttpServlet 
 {	private static final long serialVersionUID = 1L;
     //command maps

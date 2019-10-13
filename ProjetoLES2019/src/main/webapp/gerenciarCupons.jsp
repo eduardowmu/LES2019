@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="UTF-8">
-		<title>Meus Cupons</title>
+		<title>Gerenciar Cupons</title>
 		<!-- Bootstrap -->
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements
@@ -54,13 +54,14 @@
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
 						<h2 class="barra">
-							<b id=titulo>Meus Cupons</b><br/>
+							<b id=titulo>Gerenciar Cupons</b><br/>
 							
 						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="meusCursos2.jsp">| Pagina Inicial |</a></li>
-							<li><a name="cursos" class="barra-direita" href="cursos_compra.jsp">Cursos</a></li>
+							<li><a class="barra-direita" href="inicialAdm.jsp">| Pagina Inicial |</a></li>
+							<li><a class="barra-direita" href="criarCupons.jsp">| Criar Cupom Promocional |</a></li>
+							<li><a name="cupons" class="barra-direita" href="gerCuponsPendentes.jsp">| Gerar Cupons Pendentes |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
 					</div>
@@ -68,18 +69,22 @@
 			</nav>
     	</div>
 		<div id="form">
-			<%	Result result = (Result)session.getAttribute("result");
-				Client client = null;
-				if(result != null)
-				{	if(result.getEntities() != null && !result.getEntities().isEmpty())
-					{	for(EntityDomain ed:result.getEntities())
-						{	if(ed instanceof Client)
-							{client = (Client)ed;}
+			<form action="CupomServlet" method="post">
+				<%	Result result = (Result)session.getAttribute("result");
+					Client client = null;
+					if(result != null)
+					{	if(client != null)
+						{	for(EntityDomain ed:result.getEntities())
+							{	if(ed instanceof Client)
+								{	if(ed.getId() == 1)
+									{	client = (Client)ed;
+										break;
+									}
+								}
+							}
 						}
 					}
-				}
-			%>
-			<form action="CupomServlet" method="post">
+				%>
 				<table align="center">
 					<thead>
 					<tr>
@@ -112,38 +117,49 @@
 				<table class="table table-striped table-bordered table-hover table-condensed">
 					<tr align="center">
 						<td class="tabela"><b>Código</b></td>
+						<td class="tabela"><b>Cliente</b></td>
 						<td class="tabela"><b>Valor</b></td>
 						<td class="tabela"><b>Tipo</b></td>
-						<td class="tabela"><b>Status</b></td>
+						<td class="tabela"><b>Aprovar</b></td>
+						
 					</tr>
-					<%	if(client != null)
-						{	NumberFormat nf = new DecimalFormat("0.00");
-							//StringBuilder sb = new StringBuilder();
-							for(Cupom cupom:client.getCupons())
-							{	out.print("<tr align='center'>" +
-												"<td class='linha' align='center'>" +
-													cupom.getCodigo() + 
-												"</td>" +
-												"<td class='linha' align='center'>" + 
-													"R$" + nf.format(cupom.getValue()) +
-												"</td>" + 
-												"<td class='linha' align='center'>" + 
-													cupom.getTipo() + 
-												"</td>" +
-												"<td class='linha' align='center'>" +
-													cupom.getStatus() +
-												"</td>" +
-											"</tr>");
+					<%	if(result != null)
+						{	for(EntityDomain e:result.getEntities())
+							{	if(e instanceof Client)
+								{	if(e.getId() > 1)
+									{	Client cli = (Client)e;
+										for(Cupom cupom:cli.getCupons())
+										{	if(cupom != null)
+											{	out.print("<form action='CupomServlet' method='post'>" +	
+																"<tr align='center'><td class='tabela'>" +
+																	cupom.getCodigo() + "<input type='hidden' name='cupom_id' value='" +
+																	cupom.getCodigo() + "'/></td>" +
+															  		"<td class='tabela'>" + cli.getName() + 
+																  		"<input type='hidden' name='cli_id' value='" + cli.getId() + "'/>" +
+																  		"<input type='hidden' name='cli_name' value='" +
+																  			cli.getName() + "'/></td>" +
+															  		"<td class='tabela'>" + cupom.getValue() +
+																  		"<input type='hidden' name='cupom_valor' value='" +
+															  				cupom.getValue() + "'/></td>" +
+															  		"<td class='tabela'>" + cupom.getTipo() +
+																		"<input type='hidden' name='cupom_tipo' value='" +
+																  			cupom.getTipo() + "'/></td>" +
+																	"<td class='tabela'>" +
+															  			"<button type='submit' name='action' value='update' class='btn btn-link acao'>" +
+																  				"<img src='imagens/joia.png'/></button>" +
+															  		"</td></tr></form>");
+											}
+										}
+									}
+								} 
 							}
 						}
 					%>
-					<!--  
-					<tr>
+				<!-- <tr>
 						<td class="linha" align="center">CT000000101</td>
 						<td class="linha" align="center">R$ 30,00</td>
 						<td class="linha" align="center">31/12/2019</td>
 						<td class="linha" align="center">Troca</td>
-
 					</tr>
 					<tr>
 						<td class="linha" align="center">CT000000102</td>
@@ -162,7 +178,7 @@
 						<td class="linha" align="center">R$ 10,00</td>
 						<td class="linha" align="center">31/12/2019</td>
 						<td class="linha" align="center">Promocional</td>
-					</tr>-->
+					</tr> -->
 				</table>
 		</div>
 		<div id="rodape2">

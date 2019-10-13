@@ -66,13 +66,13 @@
     	</div>
 		<div id="form" align="center">
 			<%	Result result = (Result)session.getAttribute("result");
-				Integer clientID = 0;
+				Client client = null;
 				if(result != null)
 				{	if(result.getEntities() != null &&
 						!result.getEntities().isEmpty())
 					{	for(EntityDomain ed:result.getEntities())
 						{	if(ed instanceof Client)
-							{	clientID = ed.getId();
+							{	client = (Client)ed;
 								break;
 							}
 						}
@@ -88,12 +88,12 @@
 							<td class="tabela">Titulo</td>
 							<td class="tabela">Valor (R$)</td>
 						</tr>
-						<%	if(result != null)
+						<%	if(result != null && client != null)
 							{	for(EntityDomain ed:result.getEntities())
 								{	if(ed instanceof Course)
 									{	Course course = (Course)ed;
 										out.print("<form action='MyServlet2' method='get'>" +
-													"<input type='hidden' id='clientID' name='clientID' value='" + clientID + "'/>" +
+													"<input type='hidden' id='clientID' name='clientID' value='" + client.getId() + "'/>" +
 											 		"<input type='hidden' id='courseID' name='courseID' value='" + ed.getId() + "'/>" +
 												 	"<tr><td class='linha' align='center'>" +
 													  		"<button type='submit' class='btn btn-link' name='action' value='viewItem'>" + 

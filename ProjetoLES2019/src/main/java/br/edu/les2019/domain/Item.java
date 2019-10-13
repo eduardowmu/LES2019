@@ -5,6 +5,7 @@ public class Item extends EntityDomain
 	ShopCar scar;
 	String code;
 	Sale sale;
+	String status;
 	
 	public Item() {}
 	
@@ -24,4 +25,7 @@ public class Item extends EntityDomain
 
 	public Sale getSale() {return sale;}
 	public void setSale(Sale sale) {this.sale = sale;}
+
+	public String getStatus() {return status;}
+	public void setStatus(String status) {this.status = status;}
 }

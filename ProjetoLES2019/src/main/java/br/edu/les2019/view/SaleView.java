@@ -43,6 +43,7 @@ public class SaleView implements IViewHelper
 					for(EntityDomain ed:eds)
 					{course = (Course)ed;}
 					item = new Item(course, request.getParameter("itemCode"+i));
+					item.setStatus("pendente");
 					itens.add(item);
 				}
 				

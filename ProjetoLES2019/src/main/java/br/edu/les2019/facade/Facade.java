@@ -177,6 +177,7 @@ public class Facade implements IFacade
 		
 		//regras para salvar item de compra
 		rnSalvarItem.add(vmc);
+		rnSalvarItem.add(vex);
 		
 		//mapeamento de todas as regras para o cliente
 		Map<String, List<IStrategy>> regrasShopCar = 
@@ -185,11 +186,26 @@ public class Facade implements IFacade
 		//para cada evento de Carrinho de compras
 		regrasShopCar.put("save", rnSalvarItem);
 		
+		//Lista de regras para Cartão de Crédito
+		List<IStrategy> rnSalvarCard = new ArrayList<>();
+		
+		//regras para salvar Cartão de Crédito
+		rnSalvarCard.add(vc);
+		rnSalvarCard.add(vex);
+		
+		//mapeamento de todas as regras para o cliente
+		Map<String, List<IStrategy>> regrasCreditCard = 
+			new HashMap<String, List<IStrategy>>();
+				
+		//para cada evento de Cartão de Crédito
+		regrasCreditCard.put("save", rnSalvarCard);
+		
 		/*Adiciona o mapa com as regras indexadas pelas operações no mapa 
 		geral indexado pelo nome da entidade*/
 		busRules.put(Client.class.getName(), regrasClient);
 		busRules.put(Course.class.getName(), regrasCourse);
 		busRules.put(ShopCar.class.getName(), regrasShopCar);
+		busRules.put(CreditCard.class.getName(), regrasCreditCard);
 	}
 	
 	//execução das regras de negócio
@@ -335,7 +351,10 @@ public class Facade implements IFacade
 			}
 			catch(Exception e)	{System.out.println(e.getMessage());}*/
 			//this.addUser(entities, client);
-			entities.add(ed);
+			if(ed.getId() > 1)	entities.add(ed);
+			
+			else entities.addAll(new ClientDAO().search());
+			
 			entities.addAll(new CourseDAO().search());
 			result.setEntities(entities);
 		}
@@ -366,7 +385,6 @@ public class Facade implements IFacade
 	//talvez seja implementado futuramente
 	@Override public Result view(EntityDomain ed) 
 	{	result = new Result();
-		
 		return result;
 	}
 	

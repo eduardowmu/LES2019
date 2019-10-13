@@ -93,7 +93,7 @@ public class CupomDAO extends AbstractDAO
 		catch(SQLException e)	{System.err.println(e.getMessage());}
 		finally
 		{	try
-			{	this.ps.close();
+			{	//this.ps.close();
 				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}

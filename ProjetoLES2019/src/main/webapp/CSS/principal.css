@@ -33,7 +33,8 @@ fieldset
 
 #form 
 {	padding-top:110px;
-	padding-botton:1000px;
+	padding-botton:10000px;
+	
 }
 
 input {margin:10px;}
@@ -67,6 +68,7 @@ div#rodape2
   	left: 0;
  	bottom: 0;
   	width: 100%;
+  	margin-top:10px;
 }
 
 /*flutua��o de componentes a direita da p�gina*/

@@ -6,7 +6,9 @@ import br.edu.les2019.domain.EntityDomain;
 
 public class ValidadorCartao extends AbstractStrategy 
 {	@Override public String process(EntityDomain ed) 
-	{	Client client = (Client)ed;
+	{	Client client = null;
+		if(ed instanceof Client)	client = (Client)ed;
+		else client = ed.getClient();
 		for(int i = 0; i < client.getCards().size(); i++)
 		{	if(client.getCards().get(i).getBanner().equals("") &&
 				client.getCards().get(i).getCode().equals("") &&

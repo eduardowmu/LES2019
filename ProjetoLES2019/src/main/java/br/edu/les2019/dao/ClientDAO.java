@@ -47,22 +47,22 @@ public class ClientDAO extends AbstractDAO
 			
 			//salva os e-mails
 			EmailDAO edao = new EmailDAO();
-			edao.ctrlTransaction = false;
 			edao.connection = this.connection;
+			edao.ctrlTransaction = false;
 			edao.save(this.client);
 			
 			//save all client's phones number
 			PhoneDAO pdao = new PhoneDAO();
 			//define the client of the phone as the same
-			client.getPhone().setClient(client);
-			pdao.ctrlTransaction = false;
+			this.client.getPhone().setClient(this.client);
 			pdao.connection = this.connection;
+			pdao.ctrlTransaction = false;
 			pdao.save(this.client.getPhone());
 			
 			//save all credit card
 			CardDAO carDAO = new CardDAO();
-			carDAO.ctrlTransaction = false;
 			carDAO.connection = this.connection;
+			carDAO.ctrlTransaction = false;
 			for(CreditCard card:this.client.getCards())
 			{carDAO.save(card);}
 			//carDAO.save(client.getCard());
@@ -78,8 +78,10 @@ public class ClientDAO extends AbstractDAO
 		}
 		finally
 		{	try
-			{	ps.close();
-				if(this.ctrlTransaction)	this.connection.close();
+			{	if(this.ctrlTransaction)	
+				{	this.ps.close();
+					this.connection.close();
+				}
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}
@@ -109,23 +111,23 @@ public class ClientDAO extends AbstractDAO
 			
 			//salva os e-mails
 			EmailDAO edao = new EmailDAO();
-			edao.ctrlTransaction = false;
 			edao.connection = this.connection;
+			edao.ctrlTransaction = false;
 			edao.update(this.client);
 			
 			//save all client's phones number
 			PhoneDAO pdao = new PhoneDAO();
 			//define the client of the phone as the same
 			client.getPhone().setClient(client);
-			pdao.ctrlTransaction = false;
 			pdao.connection = this.connection;
+			pdao.ctrlTransaction = false;
 			this.client.getPhone().setClient(client);
 			pdao.update(this.client.getPhone());
 			
 			//save all credit card
 			CardDAO carDAO = new CardDAO();
-			carDAO.ctrlTransaction = false;
 			carDAO.connection = this.connection;
+			carDAO.ctrlTransaction = false;
 			for(CreditCard card:this.client.getCards())
 			{carDAO.update(card);}
 			/*this.client.getCard().setClient(client);
@@ -142,8 +144,8 @@ public class ClientDAO extends AbstractDAO
 		}
 		finally
 		{	try
-			{	ps.close();
-			if(this.ctrlTransaction)	this.connection.close();
+			{	this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}
@@ -187,9 +189,10 @@ public class ClientDAO extends AbstractDAO
 				cli.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
 				if(this.rs.getString(9) != null)
 				{cli.setPhoto(this.rs.getString(9));}
+				
 				EmailDAO edao = new EmailDAO();
-				edao.ctrlTransaction = false;
 				edao.connection = this.connection;
+				edao.ctrlTransaction = false;
 				for(String email:edao.searchEmail(cli))
 				{	cli.setEmails(new ArrayList<String>());
 					cli.getEmails().add(email);
@@ -197,8 +200,8 @@ public class ClientDAO extends AbstractDAO
 				
 				//get all client's phones number
 				PhoneDAO pdao = new PhoneDAO();
-				pdao.ctrlTransaction = false;
 				pdao.connection = this.connection;
+				pdao.ctrlTransaction = false;
 				for(EntityDomain entity:pdao.search(cli))
 				{	if(entity != null)
 					{	Phone phone = (Phone)entity;
@@ -208,19 +211,19 @@ public class ClientDAO extends AbstractDAO
 				
 				//get all credit card
 				CardDAO carDAO = new CardDAO();
-				carDAO.ctrlTransaction = false;
 				carDAO.connection = this.connection;
+				carDAO.ctrlTransaction = false;
+				cli.setCards(new ArrayList<>());
 				for(EntityDomain entity2:carDAO.search(cli))
 				{	if(entity2 != null)
 					{	CreditCard card = (CreditCard)entity2;
-						cli.setCards(new ArrayList<>());
 						cli.getCards().add(card);
 					}
 				}
 				
 				SaleDAO sdao = new SaleDAO();
-				sdao.ctrlTransaction = false;
 				sdao.connection = this.connection;
+				sdao.ctrlTransaction = false;
 				for(EntityDomain entity3:sdao.search(cli))
 				{	if(entity3 != null)
 					{	Sale sale = (Sale)entity3;
@@ -230,15 +233,17 @@ public class ClientDAO extends AbstractDAO
 				}
 				
 				CupomDAO cupdao = new CupomDAO();
-				cupdao.ctrlTransaction = false;
 				cupdao.connection = this.connection;
+				cupdao.ctrlTransaction = false;
+				cli.setCupons(new ArrayList<Cupom>());
 				for(EntityDomain entity4:cupdao.search(cli))
 				{	if(entity4 != null)
 					{	Cupom cupom = (Cupom)entity4;
-						cli.setCupons(new ArrayList<Cupom>());
 						cli.getCupons().add(cupom);
+						cupom.setClient(cli);
 					}
 				}
+				
 				entities.add(cli);
 			}
 		}
@@ -280,58 +285,65 @@ public class ClientDAO extends AbstractDAO
 				{this.client.setPhoto(this.rs.getString(9));}
 				
 				EmailDAO edao = new EmailDAO();
-				edao.ctrlTransaction = false;
 				edao.connection = this.connection;
+				edao.ctrlTransaction = false;
 				List<String> emails = edao.searchEmail(this.client);
+				this.client.setEmails(new ArrayList<String>());
 				for(String email:emails)
-				{	this.client.setEmails(new ArrayList<String>());
-					this.client.getEmails().add(email);
-				}
+				{this.client.getEmails().add(email);}
+				
 				//get all client's phones number
 				PhoneDAO pdao = new PhoneDAO();
-				pdao.ctrlTransaction = false;
 				pdao.connection = this.connection;
+				pdao.ctrlTransaction = false;
 				for(EntityDomain entity:pdao.search(this.client))
 				{	if(entity != null)
 					{	Phone phone = (Phone)entity;
 						this.client.setPhone(phone);
+						phone.setClient(this.client);
 					}
 				}
+				
 				//get all credit card
 				CardDAO carDAO = new CardDAO();
-				carDAO.ctrlTransaction = false;
 				carDAO.connection = this.connection;
+				carDAO.ctrlTransaction = false;
+				this.client.setCards(new ArrayList<>());
 				for(EntityDomain entity2:carDAO.search(this.client))
 				{	if(entity2 != null)
 					{	CreditCard card = (CreditCard)entity2;
-						this.client.setCards(new ArrayList<>());
 						this.client.getCards().add(card);
+						card.setClient(this.client);
 					}
 				}
 				
 				SaleDAO sdao = new SaleDAO();
-				sdao.ctrlTransaction = false;
 				sdao.connection = this.connection;
-				for(EntityDomain entity3:sdao.search(this.client))
-				{	if(entity3 != null)
-					{	Sale sale = (Sale)entity3;
-						this.client.setSales(new ArrayList<Sale>());
-						this.client.getSales().add(sale);
-						break;
+				sdao.ctrlTransaction = false;
+				List<EntityDomain> sales = sdao.search(this.client);
+				this.client.setSales(new ArrayList<Sale>());
+				if(sales != null && !sales.isEmpty())
+				{	for(EntityDomain entity3:sales)
+					{	if(entity3 != null)
+						{	Sale sale = (Sale)entity3;
+							this.client.getSales().add(sale);
+							sale.setClient(this.client);
+							//break;
+						}
 					}
 				}
 				
 				CupomDAO cupdao = new CupomDAO();
-				cupdao.ctrlTransaction = false;
 				cupdao.connection = this.connection;
+				cupdao.ctrlTransaction = false;
+				this.client.setCupons(new ArrayList<Cupom>());
 				for(EntityDomain entity4:cupdao.search(this.client))
 				{	if(entity4 != null)
 					{	Cupom cupom = (Cupom)entity4;
-						this.client.setCupons(new ArrayList<Cupom>());
 						this.client.getCupons().add(cupom);
+						cupom.setClient(this.client);
 					}
 				}
-				
 				entities.add(this.client);
 			}
 		}

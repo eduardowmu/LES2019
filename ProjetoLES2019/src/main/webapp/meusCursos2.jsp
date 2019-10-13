@@ -66,20 +66,20 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra">
+						<h3 class="barra">
 							<b id=titulo>Meus Cursos</b>
 							<%	Result result = (Result)session.getAttribute("result");
-							Client client = null;
-							if(result != null)
-							{	for(EntityDomain ed:result.getEntities())
-								{	if(ed instanceof Client)
-									{	client = (Client)ed;
-										out.print("<br/>" +client.getName());
+								Client client = null;
+								if(result != null)
+								{	for(EntityDomain ed:result.getEntities())
+									{	if(ed instanceof Client)
+										{	client = (Client)ed;
+											out.print("<br/>" +client.getName());
+										}
 									}
 								}
-							}
 						%>
-						</h2>
+						</h3>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="alterarUsuario.jsp">| Dados Pessoais |</a></li>
@@ -87,6 +87,7 @@
 							<li><a class="barra-direita" href="meusCupons.jsp">| Meus Cupons |</a></li>
 							<li><a class="barra-direita" href="cursos_compra.jsp">| Comprar Cursos |</a></li>
 							<li><a class="barra-direita" href="transacoes.jsp">| Histórico de Transações |</a></li>
+							<!-- <li><a class="barra-direita" href="meuCarrinho.jsp">| Meu Carrinho |</a></li> -->
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul><br><br>
 					</div>
@@ -140,7 +141,7 @@
 						<td class="tabela"><b>Nome</b></td>
 						<td class="tabela"><b>Categoria</b></td>
 						<td class="tabela"><b>Instrutor</b></td>
-						<td class="tabela"><b>Valor</b></td>
+						<td class="tabela"><b>status</b></td>
 						<td class="tabela"><b>Assistir Videos</b></td>
 						<td class="tabela"><b>Realizar Prova</b></td>
 						<td class="tabela"><b>Solicitar Certificado</b></td>
@@ -148,38 +149,35 @@
 					</tr>
 				<%	if(result != null)
 					{	if(client != null)
-						{	if(client.getSales() != null && !client.getSales().isEmpty())
-							{	for(Sale sale:client.getSales())
+						{	List<Course> courses = new ArrayList<>();
+							if(client.getSales() != null && !client.getSales().isEmpty())
+							{	StringBuilder sb = new StringBuilder();
+								for(Sale sale:client.getSales())
 								{	for(Item item:sale.getListItem())
-									{	out.print("<form action='MyServlet2' method='post'>"+
-														"<input type='hidden' id='cliID' name='cliID' value="+client.getId()+"/>" + 
-														"<tr align='center'>" +
-															"<input type='hidden' name='item_id' value='"+item.getId()+"'/>" +
-															"<input type='hidden' name='item_code' value='"+item.getCode()+"'/>" +
-															"<input type='hidden' name='sale_id' value='"+sale.getId()+"'/>" +
-															"<input type='hidden' name='course_id' value='"+item.getCourse().getId()+"'/>" +
-															"<input type='hidden' name='course_name' value='"+item.getCourse().getName()+"'/>" +
-															"<td class='linha'>" + 
-																item.getCourse().getName() + "</td>" +
-															"<input type='hidden' name='categoria' value='"+item.getCourse().getCategoria()+"'/>" +
-															"<td class='linha'>" + 
-																item.getCourse().getCategoria() + "</td>" +
-															"<input type='hidden' name='categoria' value='"+item.getCourse().getInstructor()+"'/>" +
-															"<td class='linha'>" + 
-																item.getCourse().getInstructor() + "</td>" +
-															"<input type='hidden' name='valor' value='"+item.getCourse().getPrice()+"'/>" +
-															"<td class='linha'> R$" + 
-																item.getCourse().RealFormat(item.getCourse().getPrice()) + "</td>" +
-															"<input type='hidden' name='valor' value='"+item.getCourse().getPrice()+"'/>" +
-															"<td class='linha'><a href='videos.jsp'><img src='imagens/video.png'></a></td>" +
-															"<td class='linha'><a href='#'><img src='imagens/prova.png'></a></td>" + 
-															"<td class='linha' align='center'><a href='#'><img src='imagens/diploma.png'></a></td>" +
-															"<td class='linha' align='center'>" +
-																"<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' value='gerarCupom'>" +
-																	"<img src='imagens/troca.png'></button></td>" +
-														"<tr/></form>");
+									{	sb.append("<form action='MyServlet2' method='post'>");
+										sb.append("<input type='hidden' id='cliID' name='cliID' value="+client.getId()+"/>");
+										sb.append("<tr align='center'>");
+										sb.append("<input type='hidden' name='item_id' value='"+item.getId()+"'/>");
+										sb.append("<input type='hidden' name='item_code' value='"+item.getCode()+"'/>");
+										sb.append("<input type='hidden' name='sale_id' value='"+sale.getId()+"'/>");
+										sb.append("<input type='hidden' name='course_id' value='"+item.getCourse().getId()+"'/>");
+										sb.append("<input type='hidden' name='course_name' value='"+item.getCourse().getName()+"'/>");
+										sb.append("<td class='linha'>" + item.getCourse().getName() + "</td>");
+										sb.append("<input type='hidden' name='categoria' value='"+ item.getCourse().getCategoria() +"'/>");
+										sb.append("<td class='linha'>" + item.getCourse().getCategoria() + "</td>");
+										sb.append("<input type='hidden' name='instrutor' value='"+item.getCourse().getInstructor()+"'/>");
+										sb.append("<td class='linha'>" + item.getCourse().getInstructor() + "</td>");
+										sb.append("<input type='hidden' name='status' value='"+item.getStatus()+"'/>");
+										sb.append("<td class='linha'>" + item.getStatus() + "</td>");
+										sb.append("<td class='linha'><a href='#'><img src='imagens/video.png'></a></td>");
+										sb.append("<td class='linha'><a href='#'><img src='imagens/prova.png'></a></td>");
+										sb.append("<td class='linha' align='center'><a href='#'><img src='imagens/diploma.png'></a></td>");
+										sb.append("<td class='linha' align='center'>");
+										sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' value='gerarCupom'>");
+										sb.append("<img src='imagens/troca.png'></button></td><tr/></form>");
 									}
 								}
+								out.print(sb);
 							}
 						}
 					}

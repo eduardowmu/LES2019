@@ -44,7 +44,7 @@ public class CourseDAO extends AbstractDAO
 		}
 		finally
 		{	try
-			{	ps.close();
+			{	this.ps.close();
 				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){System.out.println(e2.getMessage());}
@@ -82,7 +82,7 @@ public class CourseDAO extends AbstractDAO
 		}
 		finally
 		{	try
-			{	ps.close();
+			{	this.ps.close();
 				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2)	{System.out.println(e2.getMessage());}
@@ -95,7 +95,7 @@ public class CourseDAO extends AbstractDAO
 		this.table = this.course.getClass().getSimpleName().toLowerCase();
 		
 		try
-		{	if(this.connection.isClosed() || this.connection == null)
+		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 		
 			this.ps = this.connection.prepareStatement("SELECT * FROM " + this.table +
@@ -138,8 +138,10 @@ public class CourseDAO extends AbstractDAO
 		catch(SQLException e) {System.err.println(e.getMessage());}
 		finally
 		{	try
-			{	ps.close();
-				if(this.ctrlTransaction)	this.connection.close();
+			{	if(this.ctrlTransaction)	
+				{	this.ps.close();
+					this.connection.close();
+				}
 			}
 			catch(SQLException e2)	{System.out.println(e2.getMessage());}
 		}
@@ -170,8 +172,10 @@ public class CourseDAO extends AbstractDAO
 		catch(SQLException e) {System.err.println(e.getMessage());}
 		finally
 		{	try
-			{	ps.close();
-				if(this.ctrlTransaction)	this.connection.close();
+			{	if(this.ctrlTransaction)	
+				{	this.ps.close();
+					this.connection.close();
+				}
 			}
 			catch(SQLException e2)	{System.out.println(e2.getMessage());}
 		}

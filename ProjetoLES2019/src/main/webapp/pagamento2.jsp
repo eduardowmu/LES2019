@@ -71,9 +71,9 @@
 						<h2 class="barra"><b id=titulo>Cursos On-Line</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Login</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -163,7 +163,7 @@
                                	   		value="<%	if(client != null && client.getCards().get(0) != null)
                                	   					{String.valueOf(client.getCards().get(0).getNumber());}
                                	   				%>"/>
-                               	   <input type="text" disabled="disabled" size="20"
+                               	   <input type="text" disabled="disabled" size="22"
                                	   		value="<%	String code = "";
                                	   					if(client != null && client.getCards().get(0) != null)
 													{	for(int i = 0; i < client.getCards().get(0).getNumber().length(); i++)
@@ -186,7 +186,7 @@
 						</tr>
                     </table>    
                     <legend>Outros Cartões Cadastrados</legend>
-                    <a href="addCartao.jsp" style="margin-left: 100px; font-size: 15px">adicionar novo cartão</a><br/>
+                    <a href="addCartoes.jsp" style="margin-left: 100px; font-size: 15px">adicionar novo cartão</a><br/>
                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="tabela-cartoes">
                     	<tr class="odd gradeX">
                     		<th class="center">Bandeira</th>
@@ -355,9 +355,11 @@
     </script>
     
     <script>
-        function atualizar_parcelas(){
-            var valorParcela = document.getElementById('id_parcelas').innerText;
-            document.getElementById('id_valor_parcela').value = valorParcela;
+        function atualizar_parcelas()
+        {	var total = document.getElementById("total").value;
+        	var valorParcela = document.getElementById("id_qtde").value;
+        	var total2 = total/valorParcela;
+            document.getElementById("id_valor_parcela").value = total2.toFixed(2);
         }
         window.load = atualizar_parcelas();
     </script>

@@ -20,7 +20,7 @@ public class SaleDAO extends AbstractDAO
 	{	this.sale = (Sale)ed;
 		this.table = this.sale.getClass().getSimpleName();
 		try
-		{	if(this.connection == null || !this.connection.isClosed())
+		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 		
 			this.ps = this.connection.prepareStatement("INSERT INTO " + this.table + 
@@ -84,7 +84,7 @@ public class SaleDAO extends AbstractDAO
 		Client client = (Client)ed;
 		Sale sale = null;
 		try
-		{	if(this.connection == null || !this.connection.isClosed())
+		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 			
 			this.ps = this.connection.prepareStatement("SELECT * FROM sale WHERE sal_cli_id = ?");
@@ -119,13 +119,13 @@ public class SaleDAO extends AbstractDAO
 								if(item.getCourse().getId() == course.getId())
 								{	item.setCourse(course);
 									sale.getListItem().add(item);
-									entities.add(sale);
 									break;
 								}
 							}
 						}
 					}
 				}
+				entities.add(sale);
 			}
 		}
 		catch(SQLException e)

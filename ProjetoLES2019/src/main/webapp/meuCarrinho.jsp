@@ -24,8 +24,36 @@
 	    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js">
 	    </script>
 	    <![endif]-->
-	    <script type="text/javascript" src="JS/script2.js"></script>
-	    <script type="text/javascript" src="JS/script3.js"></script>
+	    <!-- <script type="text/javascript" src="JS/script2.js"></script>
+	    <script type="text/javascript" src="JS/script3.js"></script> -->
+	    <script type="text/javascript">
+	    	function calcularTotal()
+	    	{	var cupomNumero = document.getElementById("cupom").value;
+	    		var valorCupom = document.getElementById(cupomNumero).value;
+		    	var total = document.getElementById("total").value;
+		        var total2;
+		    	
+		        if(parseInt(cupomNumero) > 0)
+		        {	total2 = total - valorCupom;
+			    	if(total2 > 0)
+		        	{	document.getElementById("Total").value = total2.toFixed(2);
+			    		document.getElementById("total").value = total2.toFixed(2);
+			    	}
+			    	
+			    	else	{alert("Não poderá comprar sem custo");}
+			    }
+		    }
+	    	window.load = calcularTotal();
+	    </script>
+	    <script type="text/javascript">
+	    	function resetarTotal()
+	    	{	var subtotal = document.getElementById("subtotal").value;
+	    		var subT = document.getElementById("sub").value;
+	    		document.getElementById("Total").value = subtotal;
+	    		document.getElementById("total").value = subT;
+	    	}
+	    	window.load = resetarTotal();
+	    </script>
 	</head>
 	<body>
 		<div>
@@ -51,9 +79,10 @@
 						<h2 class="barra"><b id=titulo>Meu Carrinho</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="principal.html">Página Inicial</a></li>
+							<li><a class="barra-direita" href="inicialAluno.jsp">Página Inicial</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -69,10 +98,9 @@
 				if(result != null)
 				{	for(EntityDomain ed:result.getEntities())
 					{	if(ed instanceof ShopCar)
-						{	scar = (ShopCar)ed;
-							client = scar.getClient();
-							break;
-						}
+						{scar = (ShopCar)ed;}
+						else if(ed instanceof Client)
+						{client = (Client)ed;}
 					}
 				}
 			%>
@@ -90,7 +118,8 @@
 					</tr>
 				</thead>
 				<tbody>
-					<%	if(scar != null)
+					<%	StringBuilder sb = new StringBuilder();
+						if(scar != null)
 						{	if(scar.getCourses() != null && !scar.getCourses().isEmpty())
 							{	int i = 0;
 								for(EntityDomain ed:scar.getCourses())
@@ -133,15 +162,16 @@
 																							}
 																						}
 																					%>"disabled="disabled"/>
+							<input type="hidden" id="sub" name="sub" value="<%out.print(total);%>"/>
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>Total R$</td>
 						<td>
-							<input type="text" value="<%	if(course != null)
-															{out.print(course.RealFormat(total));}
-														%>" disabled="disabled"/>
+							<input type="text" id="Total" value="<%	if(course != null)
+																	{out.print(course.RealFormat(total));}
+																	%>" disabled="disabled"/>
 							<input type="hidden" name="total" id="total" value="<%out.print(total);%>"/>
 						</td>
 						<td>
@@ -155,12 +185,23 @@
 			<table align="center">
 				<tr>
 					<td>
-						<input type="text" id="cupom1" name="cupom1" class="cupom form-control"
-							placeholder="Código do 1º cupom"/>
-					</td>
-					<td>
-						<input type="text" id="cupom2" name="cupom2" class="cupom form-control" 
-							placeholder="Código do 2º cupom"/>
+						<select class="cupom form-control" id="cupom">
+							<option value="0">Selecione Cupom</option>
+							<%	StringBuilder sb2 = new StringBuilder();
+								if(client.getCupons() != null && !client.getCupons().isEmpty())
+								{	int i = 1;
+									for(Cupom cupom:client.getCupons())
+									{	if(cupom != null)
+										{	sb2.append("<option value='"+i+"'>" + 
+												cupom.getCodigo() + "</option>");
+											sb2.append("<input type='hidden' id='"+i+"' value='"+cupom.getValue()+"'/>");
+											out.print(sb2);
+											i++;
+										}
+									}
+								}
+							%>
+						</select>
 					</td>
 					<td>
 						<button type="button" class="btn btn-primary form-control" 

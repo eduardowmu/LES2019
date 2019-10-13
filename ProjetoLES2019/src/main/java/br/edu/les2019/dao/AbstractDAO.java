@@ -28,13 +28,14 @@ public abstract class AbstractDAO implements IDAO
 		this.database = "fatec2019";
 		this.path = "jdbc:mysql://"+ this.server +"/"+ this.database;
 		this.ctrlTransaction = true;
+		/*
 		try
 		{	Class.forName("com.mysql.jdbc.Driver");
 			this.connection = DriverManager.getConnection(this.path, this.user, this.password);
 			this.connection.setAutoCommit(false);
 		}
 		catch(SQLException | ClassNotFoundException e)
-		{System.out.println(e.getMessage());}
+		{System.out.println(e.getMessage());}*/
 	}
 	
 	@Override public void delete(EntityDomain ed)

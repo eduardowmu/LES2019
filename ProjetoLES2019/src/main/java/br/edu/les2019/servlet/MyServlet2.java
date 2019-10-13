@@ -69,9 +69,12 @@ public class MyServlet2 extends HttpServlet
 				course.setName("");
 				course.setInstructor("");
 				course.setCategoria("");
-				for(EntityDomain e2:new CourseDAO().search(course))
+				List<EntityDomain> entities = new CourseDAO().search(course);
+				for(EntityDomain e2:entities)
 				{	if(course.getId() == e2.getId())
-					{course = (Course)e2;}
+					{	course = (Course)e2;
+						break;
+					}
 				}
 				
 				scar.setCourses(new ArrayList<Course>());

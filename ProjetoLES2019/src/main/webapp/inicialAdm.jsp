@@ -84,7 +84,7 @@
 		</style>
 	</head>
 	<body>
-		<div>
+		<div id="form">
 			<% Result result = (Result)session.getAttribute("result"); %>
     		<nav class="navbar navbar-fixed-top navbar-inverse navbar-solid">
 				<div class="container">
@@ -123,7 +123,7 @@
 							<li><a class="barra-direita" href="gerenciarCupons.jsp"> | Gerenciar Cupons |</a></li>
 							<li><a class="barra-direita" href="gerenciarClientes.jsp"> | Gerenciar Clientes |</a></li>
 							<li><a class="barra-direita" href="gerarRelatórios.jsp">| Gerar Relatórios |</a></li>
-							<li><a class="barra-direita" href="principal.jsp">| Sair |</a></li>
+							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
 					</div>
 				</div>

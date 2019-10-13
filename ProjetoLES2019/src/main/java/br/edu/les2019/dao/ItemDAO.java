@@ -24,11 +24,12 @@ public class ItemDAO extends AbstractDAO
 			this.connection.setAutoCommit(false);
 		
 			this.ps = this.connection.prepareStatement("INSERT INTO " + this.table +
-				" (code, ite_cur_id, ite_sal_id) VALUES(?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
+				" (code, ite_cur_id, ite_sal_id, status) VALUES(?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
 			
 			this.ps.setString(1, item.getCode());
 			this.ps.setInt(2, item.getCourse().getId());
 			this.ps.setInt(3, item.getSale().getId());
+			this.ps.setString(4, item.getStatus());
 			
 			this.ps.executeUpdate();
 			
@@ -78,6 +79,7 @@ public class ItemDAO extends AbstractDAO
 				this.item.setCode(this.rs.getString(2));
 				this.item.setCourse(new Course());
 				this.item.getCourse().setId(this.rs.getInt(3));
+				this.item.setStatus(this.rs.getString("status"));
 				itens.add(this.item);
 			}
 		}

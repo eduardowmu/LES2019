@@ -41,7 +41,7 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="inicialAdm.jsp">| Página Inicial |</a></li>
 							<li><a class="barra-direita" href="#">| Pesquisar Clientes |</a></li>
-							<li><a class="barra-direita" href="principal.html">| Sair |</a></li>
+							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
 					</div>
 				</div>
@@ -82,22 +82,28 @@
 							<td class="tabela"><b>E-mail</b></td>
 							<td class="tabela"><b>Ativar/Inativar</b></td>
 						</tr>
-							<%	if(result!=null)
+							<%	StringBuilder sb = new StringBuilder();
+								if(result!=null)
 								{	for(EntityDomain ed:result.getEntities())
 									{	if(ed instanceof Client)
 										{	Client client = (Client)ed;
-											System.out.println(client.getId());
-											out.print("<tr align='center'><td class='tabela'>"+client.getId()+"</td>"+
-													  "<td class='tabela'>"+client.getName()+"</td>"+
-													  "<td class='tabela'>"+client.getSurname()+"</td>"+
-													  "<td class='tabela'>"+client.getCpf()+"</td>"+
-													  "<td class='tabela'>"+client.getGenero()+"</td>"+
-													  "<td class='tabela'>"+client.getPhone().toString()+"</td>"+
-													  "<td class='tabela'>"+df.format(client.getBirthday())+"</td>"+
-													  "<td class='tabela'>"+client.getEmails().get(0)+"</td>"+
-													  "<td class='tabela'><img src='imagens/disable_remove_delete_exit_close_11881.png'/></td></tr>");
+											//System.out.println(client.getId());
+											if(client.getId() > 1)
+											{	sb.append("<form action='ClientServlet' method='get'>");
+												sb.append("<tr align='center'><td class='tabela'>"+client.getId()+"</td>");
+												sb.append("<td class='tabela'>"+client.getName()+"</td>");
+												sb.append("<td class='tabela'>"+client.getSurname()+"</td>");
+												sb.append("<td class='tabela'>"+client.getCpf()+"</td>");
+												sb.append("<td class='tabela'>"+client.getGenero()+"</td>");
+												sb.append("<td class='tabela'>"+client.getPhone().toString()+"</td>");
+												sb.append("<td class='tabela'>"+df.format(client.getBirthday())+"</td>");
+												sb.append("<td class='tabela'>"+client.getEmails().get(0)+"</td>");
+												sb.append("<td class='tabela'><img src='imagens/disable_remove_delete_exit_close_11881.png'/></td></tr>");
+												sb.append("</form>");
+											}
 										}
 									}
+									out.print(sb);
 								}
 							%>
 					</table>

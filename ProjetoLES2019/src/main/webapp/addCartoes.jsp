@@ -1,11 +1,16 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.util.*,br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
+<%@ page import = "java.text.DecimalFormat.*"%>
+<%@ page import = "java.text.DecimalFormatSymbols.*"%>
+<%@ page import = "java.text.*"%>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
 
 <head>
     <meta charset="utf-8" />
-    <title>Adicionar Cart„o</title>
+    <title>Adicionar Cart√£o</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 	<link href="assets/styles.css" rel="stylesheet" media="screen">
@@ -30,12 +35,12 @@
 					<div class="navbar-header">
 						<!-- na classe foi inserido o mesmo nome dado a
 							classe da <div></div> para linkar as listas
-							ao bot„o -->
+							ao bot√£o -->
 						<button type="button" class="navbar-toggle collapsed" 
 							data-toggle="collapse" data-target="#barra-navegacao">
-							<!-- bot„o que aparece quando a tela fica menor
-								de forma que n„o fique visÌvel alguns componentes -->
-							<span class="sr-only">Alternar navegaÁ„o</span>
+							<!-- bot√£o que aparece quando a tela fica menor
+								de forma que n√£o fique vis√≠vel alguns componentes -->
+							<span class="sr-only">Alternar navega√ß√£o</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -43,11 +48,11 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Cadastro de Cart„o</b></h2>
+						<h2 class="barra"><b id=titulo>Cadastro de Cart√£o</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="inicialAluno.jsp">Pagina Inicial</a></li>
-							<li><a class="barra-direita" href="principal.html">Sair</a></li>
+							<li><a class="barra-direita" href="meusCursos2.jsp">Pagina Inicial</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
@@ -58,7 +63,7 @@
             <!--/span-->
             <div class="span9" id="content" style="margin-left: 150px">
                   <!-- morris stacked chart -->
-                <h2 style="text-align: center">Cadastro de Novo Cart„o</h2>
+                <h2 style="text-align: center">Cadastro de Novo Cart√£o</h2>
                  <!-- wizard -->
                 <div class="row-fluid section">
                      <!-- block -->
@@ -68,46 +73,69 @@
                         <div class="block-content collapse in">
                             <div class="span12">
                                 <fieldset>
-                                            <form class="form-horizontal">
-                                                <div class="control-group">
-                                                  <label class="control-label" for="focusedInput">Bandeira</label>
-                                                  <div class="controls">
-                                                    <select>
-                                                      <option>VISA</option>
-                                                      <option>Mastercard</option>
-                                                    </select>
-                                                  </div>
-                                                </div>
-                                                <div class="control-group">
-                                                  <label class="control-label" for="focusedInput">N˙mero</label>
-                                                  <div class="controls">
-                                                    <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                  </div>
-                                                </div>
-                                                <div class="control-group">
-                                                  <label class="control-label" for="focusedInput">CÛdigo de VerificaÁ„o</label>
-                                                  <div class="controls">
-                                                    <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                  </div>
-                                                </div>
-                                                <div class="control-group">
-                                                  <label class="control-label" for="focusedInput">Dt Vencimento</label>
-                                                  <div class="controls">
-                                                    <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                  </div>
-                                                </div>                                              
-                                                <div class="control-group">
-                                                  <label class="control-label" for="focusedInput">Nome do Titular</label>
-                                                  <div class="controls">
-                                                    <input class="input-xlarge focused" id="focusedInput" type="text" value="">
-                                                  </div>
-                                                </div>                                               
-                                                <div class="form-actions">
-                                                    <button type="submit" class="btn btn-primary">Salvar</button>
-                                                    <button type="button" class="btn">Cancelar</button>
-                                                </div>                                              
+                                            <form action="CardServlet" method="post" class="form-horizontal">
+                                            	<%	Result result = (Result)session.getAttribute("result");	%>
+                                                <table align="center">
+                                                	<tr>
+                                                		<td>
+			                                                <div class="control-group">
+			                                                  <label class="control-label" for="focusedInput">Bandeira</label>
+			                                                  <div class="controls">
+			                                                    <select name="bandeira">
+			                                                      <option>VISA</option>
+			                                                      <option>Mastercard</option>
+			                                                    </select>
+			                                                  </div>
+			                                                </div>
+		                                                </td>
+		                                                <td>
+			                                                <div class="control-group">
+			                                                  <label class="control-label" for="focusedInput">N√∫mero</label>
+			                                                  <div class="controls">
+			                                                    <input class="input-xlarge focused" name="numero" type="number" required>
+			                                                  </div>
+			                                                </div>
+		                                                </td>
+		                                                <td>
+			                                                <div class="control-group">
+			                                                  <label class="control-label" for="focusedInput">C√≥digo de Verifica√ß√£o</label>
+			                                                  <div class="controls">
+			                                                    <input class="input-xlarge focused" name="code" id="focusedInput" 
+			                                                    	type="number" required>
+			                                                  </div>
+			                                                </div>
+		                                                </td>
+	                                                </tr>
+	                                                <tr>
+	                                                	<td>
+			                                                <div class="control-group">
+			                                                  <label class="control-label" for="focusedInput">Dt Vencimento</label>
+			                                                  <div class="controls">
+			                                                    <input class="input-xlarge focused" name="vencimento" id="focusedInput" 
+			                                                    	type="date" required>
+			                                                  </div>
+			                                                </div>  
+		                                                </td>
+		                                                <td>                                            
+			                                                <div class="control-group">
+			                                                  <label class="control-label" for="focusedInput">Nome do Titular</label>
+			                                                  <div class="controls">
+			                                                    <input class="input-xlarge focused" name="titular" id="focusedInput" 
+			                                                    	type="text" required>
+			                                                  </div>
+			                                                </div>
+		                                                </td>
+		                                                <td>                                              
+			                                                <div class="form-actions">
+			                                                    <button type="submit" class="btn btn-primary" name="action" value="save">
+			                                                    	Salvar</button>
+			                                                    <a href="pagamento2.jsp">Cancelar</a>
+			                                                </div>
+		                                                </td>
+	                                                </tr>
+                                                </table>                                            
                                             </form>
-                                            </fieldset>
+                                    </fieldset>
                             </div>
                         </div>
                     </div>
@@ -134,7 +162,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">PortfÛlio</a></li>
+			    				<li class="item"><a href="#">Portf√≥lio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">
@@ -145,7 +173,7 @@
 			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/junior-cesar-57710a133/">
 			    					<img src="imagens/sergio.jpg" class="img-circle">
 			    					<br/>
-			    					SÈrgio<br/>
+			    					S√©rgio<br/>
 			    					Ferreira<br/>
 			    				</a></li><li class="item-rede-social"><a href="https://www.linkedin.com/in/emurakoshi/">
 			    					<img src="imagens/eu.png" class="img-circle">
