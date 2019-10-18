@@ -131,7 +131,7 @@
 	                        		<input type="hidden" name="total" id="total" value="<%	if(sale != null)
 																					        {out.print(sale.getTotal());}
 							                        									%>"/>
-	                        		<input style="width: 40px" id="id_qtde" name="id_qtde" type="number" min="1" max="12" value="1" 
+	                        		<input style="width: 40px" id="id_qtde" name="id_qtde" type="number" min="1" max="3" value="1" 
 	                        			onclick="calcular_parcelas()">
 	                        		<span> x </span>
                                     <strong>R$ <span id="id_parcelas"></span></strong>
@@ -205,39 +205,46 @@
 			                    	{	out.print("<input type='hidden' id='cardID"+i+"' name='cardID"+
 		                    							i+"' value='"+client.getCards().get(k).getId()+"'/>");
 		                    			out.print("<tr><td class='center'>");
-			                    		if(client.getCards().get(i) != null)
+		                    			if(client.getCards().get(i) != null)
 		                    			{	if(client.getCards().get(i).getBanner().equalsIgnoreCase("master"))
 		                    				{out.print("<img src='imagens/master.png'/></td>");}
 	                    					
 		                    				else out.print("<img src='imagens/visa.png'/></td>");
-		                    				
-				                    			out.print("<td class='center'>" + 
-				                    				client.getCards().get(i).getNumber() + "</td>");
-				                    			
-				                    			out.print("<td class='center'>" + 
-				                    				df.format(client.getCards().get(i).getDeadline()) + "</td>");
-				                    			
-				                    			out.print("<td class='center'>" + 
-					                    			client.getCards().get(i).getName() + "</td>");
-				                    			
-				                    			out.print("<td class='center'>" + 
-						                    				"<input type='text' id='parcela' name='parcela'/>" + 
-				                    					  "</td>");
+		                    				String number = "";
+		                    				for(int j = 0; j < client.getCards().get(i).getNumber().length(); j++)
+		                    				{	if(j < 12)	number += "X";
+		                    					else	number += String.valueOf(client.getCards().get(i).getNumber().charAt(j));
+		                    					if((j+1)%4 == 0)	{number += " - ";}
+		                    				}
+				                    		out.print("<td class='center'><input type='text' value='" + number + 
+				                    				"' disabled='disabled' size='22'/></td>");
+				                    		out.print("<input type='hidden' name='cardNumber"+i+
+				                    				"' value='"+client.getCards().get(i).getNumber()+"'/>");
+				                    		out.print("<td class='center'>" + 
+				                    			df.format(client.getCards().get(i).getDeadline()) + "</td>");
+				                    		
+				                    		out.print("<td class='center'>" + 
+					                    		client.getCards().get(i).getName() + "</td>");
+				                    		
+				                    		out.print("<td class='center'>" + 
+						                    			"<input type='text' id='"+client.getCards().get(i).getId()+"' name='cardValor' value='0.00'/>" + 
+				                    				  "</td>");
 					                    		
-				                    			out.print("<td class='center'>" +
-				                    						"<input type='checkbox' id='selCARD"+i+"' name='selCARD"+i+"' value='"+
-				                    						client.getCards().get(i).getId()+"' onclick=setValue()/></td></tr>");
-				                    			
-				                    			
-			                    		}
+				                    		out.print("<td class='center'>" +
+				                    						"<input type='checkbox' id='selCARD' name='selCARD' value='" +
+				                    							client.getCards().get(i).getId() + 
+				                    							"' onclick = 'setValue()' /></td></tr>");
+				                    		k++;
+				                    	}
 			                    	}
 		                    	}
-	                    		out.print("<input type='hidden' id='qtd_card' name='qtd_card' value='"+k+"'/>");
+	                    		//out.print("<input type='hidden' id='qtd_card' name='qtd_card' value='"+k+"'/>");
                     		}
                     	%>
                     </table>
                     <input type="hidden" name="qtd_card" value="<%	out.print(k); %>"/>
-                    <button type="submit" class="btn btn-success" name="action" id="action" value="save">
+                    <input type="email" name="email" placeholder="e-mail para envio"/><br /><br />
+                    <button type="submit" class="btn btn-success" name="action" id="fechar" value="save">
                     	Fechar compra
                     </button>
                 </fieldset>
@@ -314,7 +321,7 @@
 <script src="assets/scripts.js"></script>
     
     <script>
-	    function mudarPgto(button) { 
+	    /*function mudarPgto(button) { 
 	        if (button.checked && button.id === "button-boleto") {
 	            document.getElementById("menu-boleto").style.display = "inline";
 	            document.getElementById("menu-cartao").style.display = "none";
@@ -329,29 +336,38 @@
 	            document.getElementById("button-cartao").checked=true;
 	            
 	        }
-	    }
+	    }*/
 	</script>
     
     <script>
-        function menu_enderecos(){
+        function setValue()
+        {	var total = document.getElementById("total").value;
+        	var cardP = document.getElementById("id_valor_parcela").value;
+        	var cardS = total - cardP;
+        	var idBox = document.getElementById("selCARD").value;
+        	
+        	document.getElementById(idBox).value = cardS.toFixed(2);
+        }
+        //window.load = setValue();
+    	/*function menu_enderecos(){
             document.getElementById("menu-lista-endereco").style.display = "inline";
-        }
+        }*/
     </script>
     
     <script>
-        function add_cartao(){
+        /*function add_cartao(){
             document.getElementById("novo-cartao").style.display = "inline";
-        }
+        }*/
     </script>
     
     <script>
-        function calcular_parcelas(){
+        /*function calcular_parcelas(){
             var myTotal = document.getElementById('id_total').value; 
             var myQtde = document.getElementById('id_qtde').value;
             var myResult = myTotal/myQtde;
             document.getElementById('id_parcelas').innerHTML = myResult.toFixed(2);
         }
-        window.load = calcular_parcelas();
+        window.load = calcular_parcelas();*/
     </script>
     
     <script>
@@ -365,7 +381,7 @@
     </script>
     
     <script>
-jQuery(document).ready(function() {   
+/*jQuery(document).ready(function() {   
    FormValidation.init();
 });
 
@@ -395,7 +411,7 @@ jQuery(document).ready(function() {
             alert('Finished!, Starting over!');
             $('#rootwizard').find("a[href*='tab1']").trigger('click');
         });
-    });
+    });*/
     </script>
 	</body>
 </html>

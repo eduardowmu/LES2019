@@ -136,6 +136,8 @@ public class CarDAO extends AbstractDAO
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 		
+			this.connection.setAutoCommit(false);
+		
 			this.ps = this.connection.prepareStatement(
 				"DELETE FROM shopcar WHERE car_cli_id = ?");
 			

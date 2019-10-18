@@ -11,7 +11,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="UTF-8">
-		<title>Gerenciar Pedidos</title>
+		<title>Gerenciar Vendas</title>
 		<!-- Bootstrap -->
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements
@@ -54,7 +54,7 @@
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
 						<h2 class="barra">
-							<b id=titulo>Gerenciar Pedidos</b><br/>
+							<b id=titulo>Gerenciar Vendas</b><br/>
 							
 						</h2>
 						<!-- barra do link abaixo a direita. -->
@@ -67,7 +67,21 @@
 			</nav>
     	</div>
 		<div id="form">
-			<form action="CourseServlet" method="post">
+			
+				<%	Result result = (Result)session.getAttribute("result");
+					List<Client> clients = new ArrayList<>();
+					if(result != null && result.getEntities() != null && 
+						!result.getEntities().isEmpty())
+					{	for(EntityDomain ed:result.getEntities())
+						{	if(ed instanceof Client)
+							{	if(ed.getId() > 1)
+								{	Client client = (Client)ed;
+									clients.add(client);
+								}
+							}
+						}
+					}
+				%>
 				<table align="center">
 					<thead>
 					<tr>
@@ -80,7 +94,17 @@
 								size="30" class="form-control"/>
 						</td>
 						<td class="formulario"><br/>
-							<label>Status:</label>
+							<label>Status do Pagamento:</label>
+							<select name="status" id="status">
+								<option></option>
+								<option>Aprovado</option>
+								<option>Reprovado</option>
+								<option>Em Análise</option>
+								
+							</select>
+						</td>
+						<td class="formulario"><br/>
+							<label>Status da Entrega:</label>
 							<select name="status" id="status">
 								<option></option>
 								<option>Pendente</option>
@@ -105,14 +129,42 @@
 			<div>
 				<table class="table table-striped table-bordered table-hover table-condensed">
 					<tr align="center">
-						<td class="tabela"><b>Pedido</b></td>
-						<td class="tabela"><b>Valor Total</b></td>
+						<td class="tabela"><b>Venda</b></td>
+						<td class="tabela"><b>Cliente</b></td>
+						<td class="tabela"><b>Valor Total R$</b></td>
 						<td class="tabela"><b>Data de Realização</b></td>
-						<td class="tabela"><b>Pagamento</b></td>
-						<td class="tabela"><b>Status de Entrega</b></td>
-						<td class="tabela"><b>Alterar Status</b></td>
+						<td class="tabela"><b>Status de Pagamento</b></td>
+						<td class="tabela"><b>Aprovar</b></td>
 					</tr>
-					<tr>
+					<%	StringBuilder sb = new StringBuilder();
+						DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+						if(!clients.isEmpty())
+						{	for(Client client:clients)
+							{	for(Sale sale:client.getSales())
+								{	sb.append("<form action='MyServlet2' method='post'>");
+									sb.append("<input type='hidden' name='saleID' value='"+sale.getId()+"'/>");
+									sb.append("<tr><td class='linha' align='center'>" + sale.getCode() + "</td>");
+									sb.append("<input type='hidden' name='clientID' value='"+client.getId()+"'/>");
+									sb.append("<td class='linha' align='center'>" + client.getName() + "</td>");
+									sb.append("<td class='linha' align='center'>" + sale.RealFormat(sale.getTotal()) + "</td>");
+									sb.append("<td class='linha' align='center'>" + df.format(sale.getRegistry()) + "</td>");
+									sb.append("<td class='linha' align='center'>" + sale.getSaleStatus() + "</td>");
+									sb.append("<input type='hidden' name='status' value='"+sale.getSaleStatus()+"'/>");
+									if(sale.getSaleStatus().equals("pendente"))
+									{	sb.append("<td class='linha' align='center'>");
+										sb.append("<button type='submit' name='action' value='aprovarPagto' class='btn btn-link acao'>");
+										sb.append("<img src='imagens/joia.png'/></button></td></tr></form>");
+									}
+									else
+									{	sb.append("<td class='linha' align='center'>");
+										sb.append("<img src='imagens/joia.png'/></td></tr></form>");
+									}
+								}
+							}
+							out.print(sb);
+						}
+					%>
+					<!-- <tr>
 						<td class="linha" align="center">00000112</td>
 						<td class="linha" align="center">R$ 50,00</td>
 						<td class="linha" align="center">09/09/2019</td>
@@ -138,12 +190,12 @@
 					</tr>
 					<tr>
 						<td class="linha" align="center">00000115</td>
-						<td class="linha" align="center">R$ 80,00</td>
+						<td class="linha" align="center">R$ 140,00</td>
 						<td class="linha" align="center">09/09/2019</td>
 						<td class="linha" align="center">Aprovado</td>
 						<td class="linha" align="center">Pendente</td>
-						<td class="linha" align="center"><a href="alterarStatus.jsp"><img src="imagens/prova.png"></a></td>
-					</tr>
+						<td class="linha" align="center"><a name="alterarstatus4" href="alterarStatus.jsp"><img src="imagens/prova.png"></a></td>
+					</tr> -->
 				</table>
 		</div>
 		<div id="rodape2">

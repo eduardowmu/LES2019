@@ -13,7 +13,7 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Gerenciar Clientes</title>
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	    <link href="CSS/principal.css" rel="stylesheet">
+	    <link href="CSS/gerenciarClientes.css" rel="stylesheet">
     </head>
 	<body>
 		<div>
@@ -70,7 +70,8 @@
 							<button type="submit" name="action" id="action" value="search">Buscar</button>
 						</tr>
 					</table>
-					<table id="stusuarios" width = "600px" border="1px" align="center">
+					<table id="stusuarios" width = "600px" border="1px" align="center"
+						 class="table table-striped table-bordered table-hover table-condensed">
 						<tr align="center">
 							<td class="tabela"><b>Id</b></td>
 							<td class="tabela"><b>Nome</b></td>
@@ -97,7 +98,10 @@
 												sb.append("<td class='tabela'>"+client.getGenero()+"</td>");
 												sb.append("<td class='tabela'>"+client.getPhone().toString()+"</td>");
 												sb.append("<td class='tabela'>"+df.format(client.getBirthday())+"</td>");
-												sb.append("<td class='tabela'>"+client.getEmails().get(0)+"</td>");
+												sb.append("<td class='tabela'>");
+												for(String email:client.getEmails())
+												{sb.append(email + "\n");}
+												sb.append("</td>");
 												sb.append("<td class='tabela'><img src='imagens/disable_remove_delete_exit_close_11881.png'/></td></tr>");
 												sb.append("</form>");
 											}

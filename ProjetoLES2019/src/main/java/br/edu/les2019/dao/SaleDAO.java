@@ -23,6 +23,8 @@ public class SaleDAO extends AbstractDAO
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 		
+			this.connection.setAutoCommit(false);
+		
 			this.ps = this.connection.prepareStatement("INSERT INTO " + this.table + 
 				" (sal_cli_id, code, total, status) VALUES(?, ?, ?, ?)", 
 				this.ps.RETURN_GENERATED_KEYS);
@@ -76,7 +78,42 @@ public class SaleDAO extends AbstractDAO
 	}
 
 	@Override public void update(EntityDomain ed) 
-	{	
+	{	this.sale = (Sale)ed;
+		this.table = this.sale.getClass().getSimpleName().toLowerCase();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.connection.setAutoCommit(false);
+			
+			this.ps = this.connection.prepareStatement("UPDATE " + this.table +
+				" SET status = ? WHERE id = ?");
+			
+			this.ps.setString(1, this.sale.getSaleStatus());
+			this.ps.setInt(2, this.sale.getId());
+			
+			this.ps.executeUpdate();
+			
+			ItemDAO idao = new ItemDAO();
+			idao.connection = this.connection;
+			idao.ctrlTransaction = false;
+			idao.update(this.sale);
+			
+			this.connection.commit();
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
 	}
 	
 	@Override public List<EntityDomain> search(EntityDomain ed) 

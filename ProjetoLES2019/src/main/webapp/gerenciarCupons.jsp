@@ -120,39 +120,43 @@
 						<td class="tabela"><b>Cliente</b></td>
 						<td class="tabela"><b>Valor</b></td>
 						<td class="tabela"><b>Tipo</b></td>
+						<td class="tabela"><b>Status</b></td>
 						<td class="tabela"><b>Aprovar</b></td>
 						
 					</tr>
-					<%	if(result != null)
+					<%	StringBuilder sb = new StringBuilder();
+						if(result != null)
 						{	for(EntityDomain e:result.getEntities())
 							{	if(e instanceof Client)
 								{	if(e.getId() > 1)
 									{	Client cli = (Client)e;
 										for(Cupom cupom:cli.getCupons())
 										{	if(cupom != null)
-											{	out.print("<form action='CupomServlet' method='post'>" +	
-																"<tr align='center'><td class='tabela'>" +
-																	cupom.getCodigo() + "<input type='hidden' name='cupom_id' value='" +
-																	cupom.getCodigo() + "'/></td>" +
-															  		"<td class='tabela'>" + cli.getName() + 
-																  		"<input type='hidden' name='cli_id' value='" + cli.getId() + "'/>" +
-																  		"<input type='hidden' name='cli_name' value='" +
-																  			cli.getName() + "'/></td>" +
-															  		"<td class='tabela'>" + cupom.getValue() +
-																  		"<input type='hidden' name='cupom_valor' value='" +
-															  				cupom.getValue() + "'/></td>" +
-															  		"<td class='tabela'>" + cupom.getTipo() +
-																		"<input type='hidden' name='cupom_tipo' value='" +
-																  			cupom.getTipo() + "'/></td>" +
-																	"<td class='tabela'>" +
-															  			"<button type='submit' name='action' value='update' class='btn btn-link acao'>" +
-																  				"<img src='imagens/joia.png'/></button>" +
-															  		"</td></tr></form>");
+											{	sb.append("<form action='MyServlet2' method='post'>");
+												sb.append("<tr align='center'><td class='tabela'>");
+												sb.append(cupom.getCodigo() + "<input type='hidden' name='cupom_id' value='");
+												sb.append(cupom.getCodigo() + "'/></td>");
+												sb.append("<td class='tabela'>" + cli.getName());
+												sb.append("<input type='hidden' name='cli_id' value='" + cli.getId() + "'/>");
+												sb.append("<input type='hidden' name='cli_name' value='" + cli.getName() + "'/></td>");
+												sb.append("<td class='tabela'>" + cupom.getValue());
+												sb.append("<input type='hidden' name='cupom_valor' value='" + cupom.getValue() + "'/></td>");
+												sb.append("<td class='tabela'>" + cupom.getTipo());
+												sb.append("<input type='hidden' name='cupom_tipo' value='" + cupom.getTipo() + "'/></td>");
+												sb.append("<td class='tabela'>" + cupom.getStatus());
+												sb.append("<input type='hidden' name='cupom_status' value='" + cupom.getStatus() + "'/></td>");
+												if(cupom.getStatus().equalsIgnoreCase("pendente"))
+												{	sb.append("<td class='tabela'><button type='submit' name='action' value='aprovarCupom' class='btn btn-link acao'>");
+													sb.append("<img src='imagens/joia.png'/></button></td></tr></form>");
+												}
+												
+												else	{sb.append("<td class='tabela'><img src='imagens/joia.png'/></td></tr></form>");}
 											}
 										}
 									}
 								} 
 							}
+							out.print(sb);
 						}
 					%>
 				<!-- <tr>

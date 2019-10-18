@@ -162,6 +162,7 @@
 										sb.append("<input type='hidden' name='sale_id' value='"+sale.getId()+"'/>");
 										sb.append("<input type='hidden' name='course_id' value='"+item.getCourse().getId()+"'/>");
 										sb.append("<input type='hidden' name='course_name' value='"+item.getCourse().getName()+"'/>");
+										sb.append("<input type='hidden' name='valor' value='"+item.getCourse().getPrice()+"'/>");
 										sb.append("<td class='linha'>" + item.getCourse().getName() + "</td>");
 										sb.append("<input type='hidden' name='categoria' value='"+ item.getCourse().getCategoria() +"'/>");
 										sb.append("<td class='linha'>" + item.getCourse().getCategoria() + "</td>");
@@ -169,9 +170,17 @@
 										sb.append("<td class='linha'>" + item.getCourse().getInstructor() + "</td>");
 										sb.append("<input type='hidden' name='status' value='"+item.getStatus()+"'/>");
 										sb.append("<td class='linha'>" + item.getStatus() + "</td>");
-										sb.append("<td class='linha'><a href='#'><img src='imagens/video.png'></a></td>");
-										sb.append("<td class='linha'><a href='#'><img src='imagens/prova.png'></a></td>");
-										sb.append("<td class='linha' align='center'><a href='#'><img src='imagens/diploma.png'></a></td>");
+										if(item.getStatus().equals("aprovada"))
+										{	sb.append("<td class='linha'><a href='#'><img src='imagens/video.png'></a></td>");
+											sb.append("<td class='linha'><a href='#'><img src='imagens/prova.png'></a></td>");
+											sb.append("<td class='linha' align='center'><a href='#'><img src='imagens/diploma.png'></a></td>");
+										}
+										else
+										{	sb.append("<td class='linha'><img src='imagens/video.png'></td>");
+											sb.append("<td class='linha'><img src='imagens/prova.png'></td>");
+											sb.append("<td class='linha' align='center'><img src='imagens/diploma.png'></td>");
+										}
+										
 										sb.append("<td class='linha' align='center'>");
 										sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' value='gerarCupom'>");
 										sb.append("<img src='imagens/troca.png'></button></td><tr/></form>");

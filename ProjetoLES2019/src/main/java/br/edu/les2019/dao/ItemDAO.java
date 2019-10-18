@@ -54,10 +54,35 @@ public class ItemDAO extends AbstractDAO
 		}
 	}
 
-	@Override
-	public void update(EntityDomain ed) {
-		// TODO Auto-generated method stub
-
+	@Override public void update(EntityDomain ed) 
+	{	Sale sale = (Sale)ed;
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.ps = this.connection.prepareStatement("UPDATE item SET status = ? " +
+				"WHERE ite_sal_id = ?");
+			
+			this.ps.setString(1, sale.getSaleStatus());
+			this.ps.setInt(2, sale.getId());
+			
+			this.ps.executeUpdate();
+			
+			this.connection.commit();
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
 	}
 
 	@Override public List<EntityDomain> search(EntityDomain ed) 

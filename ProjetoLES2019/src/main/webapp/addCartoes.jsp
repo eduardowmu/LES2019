@@ -127,7 +127,7 @@
 		                                                </td>
 		                                                <td>                                              
 			                                                <div class="form-actions">
-			                                                    <button type="submit" class="btn btn-primary" name="action" value="save">
+			                                                    <button type="submit" class="btn btn-primary" name="action" id="salvar" value="save">
 			                                                    	Salvar</button>
 			                                                    <a href="pagamento2.jsp">Cancelar</a>
 			                                                </div>

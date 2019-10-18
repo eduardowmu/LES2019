@@ -18,6 +18,7 @@ import br.edu.les2019.dao.CourseDAO;
 import br.edu.les2019.dao.CupomDAO;
 import br.edu.les2019.dao.IDAO;
 import br.edu.les2019.dao.ItemDAO;
+import br.edu.les2019.dao.SaleDAO;
 import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.Cupom;
@@ -36,13 +37,14 @@ public class MyServlet2 extends HttpServlet
 	Result result;
 	RequestDispatcher rd;
 	Client client;
+	IDAO dao;
 	/**
      * @see HttpServlet#HttpServlet()
      */
     public MyServlet2() 
     {	RequestDispatcher rd = null;
-		result = new Result();
-		client = new Client();
+		this.result = new Result();
+		this.client = new Client();
 	}
 
 	/**
@@ -55,12 +57,12 @@ public class MyServlet2 extends HttpServlet
 		switch(request.getParameter("action"))
 		{	case "viewItem":
 				scar = new ShopCar();
-				client.setId(Integer.parseInt(request.getParameter("clientID")));
-				client.setName("");
-				client.setSurname("");
+				this.client.setId(Integer.parseInt(request.getParameter("clientID")));
+				this.client.setName("");
+				this.client.setSurname("");
 				for(EntityDomain ed:new ClientDAO().search(client))
-				{	if(client.getId() == ed.getId())
-					{client = (Client)ed;}
+				{	if(this.client.getId() == ed.getId())
+					{this.client = (Client)ed;}
 				}
 				
 				scar.setClient(client);
@@ -80,13 +82,13 @@ public class MyServlet2 extends HttpServlet
 				scar.setCourses(new ArrayList<Course>());
 				scar.getCourses().add(course);
 				
-				result.setEntities(new ArrayList<EntityDomain>());
+				this.result.setEntities(new ArrayList<EntityDomain>());
 				
-				result.getEntities().add(client);
-				result.getEntities().add(scar);
+				this.result.getEntities().add(client);
+				this.result.getEntities().add(scar);
 				
 				//inclui cliente da sessão
-				result.getEntities().addAll(new CourseDAO().search());
+				this.result.getEntities().addAll(new CourseDAO().search());
 				rd = request.getRequestDispatcher("curso_informacao.jsp");
 				
 				break;
@@ -108,9 +110,9 @@ public class MyServlet2 extends HttpServlet
 					itens.add(item);
 				}
 				
-				client.setId(Integer.parseInt(request.getParameter("clientID")));
-				client.setName("");
-				client.setSurname("");
+				this.client.setId(Integer.parseInt(request.getParameter("clientID")));
+				this.client.setName("");
+				this.client.setSurname("");
 				List<EntityDomain> clients = new ClientDAO().search(client);
 				for(EntityDomain ed:clients)
 				{	if(ed.getId() == client.getId())
@@ -120,11 +122,11 @@ public class MyServlet2 extends HttpServlet
 				Sale sale = new Sale(itens, Double.parseDouble(request.getParameter("total")), 
 					"", "pendente", client, null);
 				
-				result.setEntities(new ArrayList<EntityDomain>());
+				this.result.setEntities(new ArrayList<EntityDomain>());
 				
-				result.getEntities().add(sale);
-				result.getEntities().add(client);
-				result.getEntities().addAll(new CourseDAO().search());
+				this.result.getEntities().add(sale);
+				this.result.getEntities().add(client);
+				this.result.getEntities().addAll(new CourseDAO().search());
 				
 				rd = request.getRequestDispatcher("pagamento2.jsp");
 				
@@ -139,11 +141,12 @@ public class MyServlet2 extends HttpServlet
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
 		throws ServletException, IOException 
-	{	switch(request.getParameter("action"))
+	{	Cupom cupom = null;
+		switch(request.getParameter("action"))
 		{	case "gerarCupom":
-				result = (Result)request.getSession().getAttribute("result");
+				this.result = (Result)request.getSession().getAttribute("result");
 				
-				if(result != null)
+				if(this.result != null)
 				{	for(EntityDomain ed:result.getEntities())
 					{	if(ed instanceof Client)	
 						{	this.client = (Client)ed;
@@ -155,27 +158,66 @@ public class MyServlet2 extends HttpServlet
 				Item item = new Item();
 				item.setId(Integer.parseInt(request.getParameter("item_id")));
 				
-				Cupom cupom = new Cupom(Double.parseDouble(request.getParameter("valor")), 
+				cupom = new Cupom(Double.parseDouble(request.getParameter("valor")), 
 					"troca", request.getParameter("item_code"), "pendente", this.client, item);
 				
 				CupomDAO cupdao = new CupomDAO();
 				cupdao.save(cupom);
 				if(cupdao.isSalvou())
-				{	result.getEntities().remove(this.client);
+				{	this.result.getEntities().remove(this.client);
 					this.client.setName("");
 					this.client.setSurname("");
-					result.getEntities().addAll(new ClientDAO().search(this.client));
-					result.setMsg("Cupom " + cupom.getCodigo() + " gerado com sucesso");
+					this.result.getEntities().addAll(new ClientDAO().search(this.client));
+					this.result.setMsg("Cupom " + cupom.getCodigo() + " gerado com sucesso");
 					rd = request.getRequestDispatcher("meusCupons.jsp");
 				}
 				
 				else
-				{	result.setMsg("Não foi possível gerar o cupom");
+				{	this.result.setMsg("Não foi possível gerar o cupom");
 					rd = request.getRequestDispatcher("meusCupons.jsp");
 				}
-			break;	
+				
+				break;
+				
+			case "aprovarCupom":
+				cupom = new Cupom();
+				cupom.setCodigo(request.getParameter("cupom_id"));
+				this.client.setId(Integer.parseInt(request.getParameter("cli_id")));
+				cupom.setClient(client);
+				cupom.setStatus("aprovado");
+				
+				dao = new CupomDAO();
+				dao.update(cupom);
+				
+				this.result.setEntities(new ArrayList<EntityDomain>());
+				this.result.getEntities().addAll(new ClientDAO().search());
+				this.result.getEntities().addAll(new CourseDAO().search());
+				
+				rd = request.getRequestDispatcher("gerenciarCupons.jsp");
+				
+				break;
+				
+			case "aprovarPagto":
+				Sale sale = new Sale();
+				sale.setId(Integer.parseInt(request.getParameter("saleID")));
+				sale.setClient(new Client());
+				sale.getClient().setId(Integer.parseInt(request.getParameter("clientID")));
+				
+				if(request.getParameter("status").equalsIgnoreCase("pendente"))
+				{	sale.setSaleStatus("aprovada");
+					dao = new SaleDAO();
+					dao.update(sale);
+				}
+					
+				this.result.setEntities(new ArrayList<EntityDomain>());
+				this.result.getEntities().addAll(new ClientDAO().search());
+				this.result.getEntities().addAll(new CourseDAO().search());
+				
+				rd = request.getRequestDispatcher("gerenciarVendas.jsp");
+				
+				break;
 		}
-		request.getSession().setAttribute("result", result);
+		request.getSession().setAttribute("result", this.result);
 		rd.forward(request, response);
 	}
 }

@@ -57,7 +57,8 @@ public class PayDAO extends AbstractDAO
 	}
 
 	@Override public List<EntityDomain> search(EntityDomain ed) 
-	{	return null;
+	{	
+		return null;
 	}
 
 	@Override public List<EntityDomain> search() 

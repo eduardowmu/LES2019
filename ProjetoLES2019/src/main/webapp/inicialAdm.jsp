@@ -105,13 +105,15 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Bem Vindo <%	if(result != null && (result.getMsg().contains("Bem vindo") ||
-																		result.getMsg().contains("Dados alterados")))
-																	{	out.print(result.getMsg());
+						<h2 class="barra"><b id=titulo>Bem Vindo <%	if(result != null/* && (result.getMsg().contains("Bem vindo") ||
+																		result.getMsg().contains("Dados alterados"))*/)
+																	{	//out.print(result.getMsg());
 																		for(EntityDomain ed:result.getEntities())
 																		{	if(ed instanceof Client)
-																			{	out.print(" " + ed.getName());
-																				break;
+																			{	if(ed.getId() == 1)
+																				{	out.print(" " + ed.getName());
+																					break;
+																				}
 																			}
 																		}
 																	} %></b></h2>

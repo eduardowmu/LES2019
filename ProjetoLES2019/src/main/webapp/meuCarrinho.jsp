@@ -43,7 +43,7 @@
 			    	else	{alert("Não poderá comprar sem custo");}
 			    }
 		    }
-	    	window.load = calcularTotal();
+	    	//window.load = calcularTotal();
 	    </script>
 	    <script type="text/javascript">
 	    	function resetarTotal()
@@ -191,14 +191,15 @@
 								if(client.getCupons() != null && !client.getCupons().isEmpty())
 								{	int i = 1;
 									for(Cupom cupom:client.getCupons())
-									{	if(cupom != null)
+									{	if(cupom != null && cupom.getStatus().equals("aprovado"))
 										{	sb2.append("<option value='"+i+"'>" + 
 												cupom.getCodigo() + "</option>");
 											sb2.append("<input type='hidden' id='"+i+"' value='"+cupom.getValue()+"'/>");
-											out.print(sb2);
+											
 											i++;
 										}
 									}
+									out.print(sb2);
 								}
 							%>
 						</select>
@@ -217,7 +218,7 @@
 					</td>
 					<td>
 						<button type="submit" class="btn btn-success form-control" 
-							name="action" id="action" value="viewSale">Finalizar
+							name="action" id="finalizar" value="viewSale">Finalizar
 						</button>
 					</td>
 				</tr>

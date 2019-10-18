@@ -60,7 +60,7 @@
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="meusCursos2.jsp">| Pagina Inicial |</a></li>
-							<li><a name="cursos" class="barra-direita" href="cursos_compra.jsp">Cursos</a></li>
+							<li><a name="cursos" class="barra-direita" href="cursos_compra.jsp">| Cursos |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
 					</div>

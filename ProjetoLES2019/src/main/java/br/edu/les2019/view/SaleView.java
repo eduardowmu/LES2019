@@ -56,15 +56,23 @@ public class SaleView implements IViewHelper
 					{client = (Client)ed;}
 				}
 				
+				if(request.getParameter("email") != null && 
+					!request.getParameter("email").equals(""))
+				{client.getEmails().add(request.getParameter("email"));}
+				
 				payment = new Payment();
 				payment.setClient(client);
 				payment.setQtdParcelas(Integer.parseInt(request.getParameter("id_qtde")));
 				payment.setStatus("pendente");
 				paymap = new HashMap<>();
-				if(payment.getQtdParcelas() == 1)
+				
+				if(request.getParameter("cardValor").equals("0.00"))
 				{paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("total")));}
 				
-				else	paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("id_valor_parcela")));
+				else	
+				{	paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("id_valor_parcela")));
+					paymap.put(client.getCards().get(1), Double.parseDouble(request.getParameter("cardValor")));
+				}
 				/*if(Integer.parseInt(request.getParameter("qtd_card")) > 0)
 				{	int k = 1;
 					for(int i = 1; i <= Integer.parseInt(request.getParameter("qtd_card")); i++)

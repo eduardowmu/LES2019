@@ -26,6 +26,7 @@ import br.edu.les2019.result.Result;
 import br.edu.les2019.view.CardView;
 import br.edu.les2019.view.ClientView;
 import br.edu.les2019.view.CourseView;
+import br.edu.les2019.view.CupomView;
 import br.edu.les2019.view.IViewHelper;
 import br.edu.les2019.view.SaleView;
 import br.edu.les2019.view.ShopCarView;
@@ -35,7 +36,7 @@ import br.edu.les2019.view.VideoView;
  * Servlet implementation class MyServlet
  */
 @WebServlet({ "/MyServlet", "/ClientServlet", "/CourseServlet", "/VideoServlet",
-			  "/ShopCarServlet", "/SaleServlet", "/CardServlet"})
+			  "/ShopCarServlet", "/SaleServlet", "/CardServlet", "/CupomServlet"})
 public class MyServlet extends HttpServlet 
 {	private static final long serialVersionUID = 1L;
     //command maps
@@ -63,6 +64,7 @@ public class MyServlet extends HttpServlet
     	this.views.put("/ProjetoLES2019/CardServlet", new CardView());
     	this.views.put("/ProjetoLES2019/SaleServlet", new SaleView());
     	this.views.put("/ProjetoLES2019/ShopCarServlet", new ShopCarView());
+    	this.views.put("/ProjetoLES2019/CupomServlet", new CupomView());
     }
 
 	/**

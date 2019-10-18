@@ -28,6 +28,7 @@ import br.edu.les2019.domain.Video;
 import br.edu.les2019.result.Result;
 import br.edu.les2019.strategy.ConfirmaSenhas;
 import br.edu.les2019.strategy.IStrategy;
+import br.edu.les2019.strategy.InserirNovoEmail;
 import br.edu.les2019.strategy.ValidadorCPF;
 import br.edu.les2019.strategy.ValidadorCartao;
 import br.edu.les2019.strategy.ValidadorCategoria;
@@ -91,6 +92,9 @@ public class Facade implements IFacade
 		//strategies for Item
 		ValidadorMeusCursos vmc = new ValidadorMeusCursos();
 		ValidarCarrinho vcar = new ValidarCarrinho();
+		
+		//strategies for Sale
+		InserirNovoEmail ine = new InserirNovoEmail();
 		
 		//listas de todas as regras para clientes
 		List<IStrategy> rnSalvarClient = new ArrayList<>();
@@ -200,12 +204,26 @@ public class Facade implements IFacade
 		//para cada evento de Cartão de Crédito
 		regrasCreditCard.put("save", rnSalvarCard);
 		
+		//lista de regras para vendas
+		List<IStrategy> rnSalvarVenda = new ArrayList<>();
+		
+		//regras para salvar venda
+		rnSalvarVenda.add(ine);
+		
+		//mapeamento de todas as regras para a venda
+		Map<String, List<IStrategy>> regrasVenda = 
+			new HashMap<String, List<IStrategy>>();
+		
+		//para cadas evento de venda
+		regrasVenda.put("save", rnSalvarVenda);
+		
 		/*Adiciona o mapa com as regras indexadas pelas operações no mapa 
 		geral indexado pelo nome da entidade*/
 		busRules.put(Client.class.getName(), regrasClient);
 		busRules.put(Course.class.getName(), regrasCourse);
 		busRules.put(ShopCar.class.getName(), regrasShopCar);
 		busRules.put(CreditCard.class.getName(), regrasCreditCard);
+		busRules.put(Sale.class.getName(), regrasVenda);
 	}
 	
 	//execução das regras de negócio
@@ -236,10 +254,15 @@ public class Facade implements IFacade
 		{	IDAO dao = daos.get(ed.getClass().getName());
 			try	
 			{	dao.save(ed);
-				/*for(EntityDomain e:dao.search())
-				{	if(ed.getId() == e.getId())
-					{ed.setRegistry(e.getRegistry());}
-				}*/
+				List<EntityDomain> es = dao.search();
+				if(es != null && !es.isEmpty())
+				{	for(EntityDomain e:es)
+					{	if(ed.getId() == e.getId())
+						{ed = e;}
+					}
+							
+				}
+					
 			}
 			catch(Exception e)
 			{	System.out.println(e.getMessage());
@@ -254,7 +277,10 @@ public class Facade implements IFacade
 		entities.add(ed);
 		
 		if(ed.getClient() != null)
-		{entities.add(ed.getClient());}
+		{	ed.getClient().setName("");
+			ed.getClient().setSurname("");
+			entities.addAll(new ClientDAO().search(ed.getClient()));
+		}
 		//add todos os cursos
 		entities.addAll(new CourseDAO().search());
 		

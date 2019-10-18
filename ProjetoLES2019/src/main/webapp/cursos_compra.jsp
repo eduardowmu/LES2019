@@ -57,7 +57,7 @@
 						<h2 class="barra"><b id=titulo>Cursos</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="inicialAluno.jsp">| Paginal Inicial |</a></li>
+							<li><a class="barra-direita" href="meusCursos2.jsp">| Paginal Inicial |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
 					</div>
@@ -89,14 +89,15 @@
 							<td class="tabela">Valor (R$)</td>
 						</tr>
 						<%	if(result != null && client != null)
-							{	for(EntityDomain ed:result.getEntities())
+							{	int i = 0;
+								for(EntityDomain ed:result.getEntities())
 								{	if(ed instanceof Course)
 									{	Course course = (Course)ed;
 										out.print("<form action='MyServlet2' method='get'>" +
 													"<input type='hidden' id='clientID' name='clientID' value='" + client.getId() + "'/>" +
 											 		"<input type='hidden' id='courseID' name='courseID' value='" + ed.getId() + "'/>" +
 												 	"<tr><td class='linha' align='center'>" +
-													  		"<button type='submit' class='btn btn-link' name='action' value='viewItem'>" + 
+													  		"<button type='submit' class='btn btn-link' name='action' id='"+i+"' value='viewItem'>" + 
 													 			"<img src='" + ed.getPhoto() + "' width='50px' height='50'/>" +
 													  		"</button></td>" +
 														"<td class='linha' align='center'>" + ed.getName() + "</td>" +
@@ -105,7 +106,7 @@
 												  "</form>");
 									}
 									
-									else continue;
+									i++;
 								}
 							}
 						%>

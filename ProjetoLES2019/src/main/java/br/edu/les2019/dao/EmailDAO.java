@@ -8,7 +8,12 @@ import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.EntityDomain;
 
 public class EmailDAO extends AbstractDAO 
-{	public EmailDAO() {super();}
+{	boolean save;
+	public EmailDAO() 
+	{	super();
+		this.save = false;
+	}
+	
 	@Override public void save(EntityDomain ed) 
 	{	Client client = (Client)ed;
 		try
@@ -36,7 +41,7 @@ public class EmailDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 	}
-
+	
 	@Override public void update(EntityDomain ed) 
 	{	Client client = (Client)ed;
 		try
@@ -67,19 +72,24 @@ public class EmailDAO extends AbstractDAO
 
 	@Override public List<EntityDomain> search(EntityDomain ed) 
 	{	Client client = (Client)ed;
+		Client cli = null;
 		List<EntityDomain> entities = new ArrayList<>();
 		try
-		{	this.ps = this.connection.prepareStatement("SELECT adress FROM " +
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.ps = this.connection.prepareStatement("SELECT adress FROM " +
 				"email WHERE ema_cli_id = ?");
 			this.ps.setInt(1, client.getId());
 			this.rs = this.ps.executeQuery();
 			List<String> emails = new ArrayList<>();
 			while(this.rs.next())
-			{emails.add(this.rs.getString(3));}
-			client.setEmails(emails);
-			entities.add(client);
+			{emails.add(this.rs.getString("adress"));}
+			cli = new Client();
+			cli.setEmails(emails);
+			entities.add(cli);
 		}
-		catch(Exception e)	{System.err.println(e.getMessage());}
+		catch(SQLException e)	{System.err.println(e.getMessage());}
 		finally
 		{	try
 			{	ps.close();
@@ -145,4 +155,36 @@ public class EmailDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 	}
+	
+	public void saveEmail(EntityDomain ed, int i)
+	{	Client client = (Client)ed;
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
+			this.ps = this.connection.prepareStatement("INSERT INTO email " + 
+				"(ema_cli_id, adress) VALUES(?, ?)");
+			this.ps.setInt(1, client.getId());
+			this.ps.setString(2, client.getEmails().get(i));
+			this.ps.executeUpdate();
+			this.connection.commit();
+			this.setSave(true);
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+	}
+
+	public boolean isSave() {return save;}
+	public void setSave(boolean save) {this.save = save;}
 }

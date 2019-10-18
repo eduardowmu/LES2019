@@ -61,7 +61,38 @@ public class CupomDAO extends AbstractDAO
 	}
 
 	@Override public void update(EntityDomain ed) 
-	{	
+	{	this.cupom = (Cupom)ed;
+		this.table = this.cupom.getClass().getSimpleName().toLowerCase();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.connection.setAutoCommit(false);
+		
+			this.ps = this.connection.prepareStatement("UPDATE " + this.table +
+				" SET status = ? WHERE cup_cli_id = ? AND codigo = ?");
+			
+			this.ps.setString(1, this.cupom.getStatus());
+			this.ps.setInt(2, this.cupom.getClient().getId());
+			this.ps.setString(3, this.cupom.getCodigo());
+			
+			this.ps.executeUpdate();
+			
+			this.connection.commit();
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
 	}
 
 	@Override public List<EntityDomain> search(EntityDomain ed) 
