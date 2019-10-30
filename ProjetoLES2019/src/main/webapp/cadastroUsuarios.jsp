@@ -145,7 +145,11 @@
 						Codigo de Segurança:
 						<input type="number" id="seg" name="seg" value="<% if(client != null)	
 																		   {out.print(client.getCards().get(0).getCode());}
-																		 %>" maxlength="3" required/><br/><br/>'
+																		 %>" maxlength="3" required/><br/><br/>
+						<input type="date" id="prazo" name="prazo" value="<% if(client != null)	
+																		   {out.print(client.getCards().get(0).getDeadline());}
+																		 %>" required/><br/><br/>
+						
 						Senha:<input type="password" id="pass" name="pass" <% if(client != null)	
 																		   	  {out.print(client.getPassword());}
 																		 	%> required/><br/><br/>

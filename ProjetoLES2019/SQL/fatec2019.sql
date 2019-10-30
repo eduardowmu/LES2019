@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 08-Out-2019 às 01:48
+-- Generation Time: 18-Out-2019 às 05:18
 -- Versão do servidor: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -108,9 +108,13 @@ CREATE TABLE `creditcard` (
 
 INSERT INTO `creditcard` (`id`, `car_cli_id`, `name`, `number`, `banner`, `code`, `deadline`) VALUES
 (5, 24, 'sssssssssss', '1234567890123456', 'Master', '123', '2025-03-23'),
-(8, 26, 'rrrrrrrrrr', '1234567890123456', 'Master', '123', '2025-03-23'),
-(9, 27, 'uuuuuuuuuu', '1234567890123456', 'Master', '123', '2025-03-23'),
-(11, 29, 'oooppp', '1234567890123456', 'Master', '123', '2025-03-23');
+(8, 26, 'rrrrrrrrrr', '1234567890123457', 'Master', '123', '2025-03-23'),
+(9, 27, 'uuuuuuuuuu', '1234567890123458', 'Master', '123', '2025-03-23'),
+(11, 29, 'oooppp', '1234567890123459', 'Master', '123', '2025-03-23'),
+(12, 26, 'rrrrrrrrrrrrrr', '1234567890123450', 'VISA', '234', '2023-05-19'),
+(13, 29, 'ooo ppp', '1234567890123451', 'VISA', '456', '2021-02-26'),
+(14, 24, 'sssssss tttt', '9876543219876543', 'VISA', '987', '2023-09-07'),
+(20, 27, 'uuuvvv', '9874563210789456', 'VISA', '963', '2026-12-10');
 
 -- --------------------------------------------------------
 
@@ -133,8 +137,12 @@ CREATE TABLE `cupom` (
 --
 
 INSERT INTO `cupom` (`id`, `cup_cli_id`, `cup_ite_id`, `codigo`, `tipo`, `valor`, `status`) VALUES
-(1, 26, 12, '26-3', 'troca', 30, 'pendente'),
-(2, 24, 15, '24-2', 'troca', 40, 'pendente');
+(1, 26, 12, '26-3', 'troca', 30, 'aprovado'),
+(2, 24, 15, '24-2', 'troca', 40, 'aprovado'),
+(3, 29, 19, '29-2', 'troca', 40, 'pendente'),
+(4, 26, 13, '26-2', 'troca', 40, 'aprovado'),
+(5, 26, 21, '26-6', 'troca', 30, 'aprovado'),
+(6, 27, 26, '27-3', 'troca', 30, 'aprovado');
 
 -- --------------------------------------------------------
 
@@ -157,7 +165,9 @@ INSERT INTO `email` (`id`, `ema_cli_id`, `adress`) VALUES
 (19, 1, 'eduardo@gmail.com'),
 (21, 26, 'rrr@gmail.com'),
 (22, 27, 'uuu@gmail.com'),
-(24, 29, 'ooo@gmail.com');
+(24, 29, 'ooo@gmail.com'),
+(25, 24, 'sss2@gmail.com'),
+(28, 27, 'uuuvvv@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -215,6 +225,7 @@ CREATE TABLE `item` (
   `code` varchar(200) NOT NULL,
   `ite_cur_id` int(11) NOT NULL,
   `ite_sal_id` int(11) NOT NULL,
+  `status` varchar(200) NOT NULL,
   `registry` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -222,11 +233,17 @@ CREATE TABLE `item` (
 -- Extraindo dados da tabela `item`
 --
 
-INSERT INTO `item` (`id`, `code`, `ite_cur_id`, `ite_sal_id`, `registry`) VALUES
-(12, '26-3', 3, 8, '2019-10-03 02:09:33'),
-(13, '26-2', 2, 8, '2019-10-03 02:09:33'),
-(14, '24-3', 3, 9, '2019-10-07 20:38:52'),
-(15, '24-2', 2, 9, '2019-10-07 20:38:52');
+INSERT INTO `item` (`id`, `code`, `ite_cur_id`, `ite_sal_id`, `status`, `registry`) VALUES
+(12, '26-3', 3, 8, 'aprovada', '2019-10-03 02:09:33'),
+(13, '26-2', 2, 8, 'aprovada', '2019-10-03 02:09:33'),
+(14, '24-3', 3, 9, 'aprovada', '2019-10-07 20:38:52'),
+(15, '24-2', 2, 9, 'aprovada', '2019-10-07 20:38:52'),
+(19, '29-2', 2, 12, 'pendente', '2019-10-13 19:32:39'),
+(21, '26-6', 6, 14, 'pendente', '2019-10-14 14:24:23'),
+(22, '26-4', 4, 15, 'pendente', '2019-10-14 14:45:53'),
+(23, '24-5', 5, 16, 'pendente', '2019-10-14 16:58:17'),
+(26, '27-3', 3, 18, 'pendente', '2019-10-14 21:35:08'),
+(27, '27-2', 2, 18, 'pendente', '2019-10-14 21:35:08');
 
 -- --------------------------------------------------------
 
@@ -260,7 +277,14 @@ CREATE TABLE `payment` (
 
 INSERT INTO `payment` (`id`, `pay_sal_id`, `pay_car_id`, `total`, `status`) VALUES
 (5, 8, 8, 70, 'pendente'),
-(6, 9, 5, 70, 'pendente');
+(6, 9, 5, 70, 'pendente'),
+(9, 12, 11, 40, 'pendente'),
+(12, 14, 8, 15, 'pendente'),
+(13, 14, 12, 15, 'pendente'),
+(14, 15, 8, 5, 'pendente'),
+(15, 16, 5, 50, 'pendente'),
+(18, 18, 9, 25, 'pendente'),
+(19, 18, 20, 45, 'pendente');
 
 -- --------------------------------------------------------
 
@@ -350,8 +374,14 @@ CREATE TABLE `sale` (
 --
 
 INSERT INTO `sale` (`id`, `sal_cli_id`, `code`, `total`, `status`, `registry`) VALUES
-(8, 26, '2632', 70, 'pendente', '2019-10-03 02:09:33'),
-(9, 24, '2432', 70, 'pendente', '2019-10-07 20:38:52');
+(8, 26, '2632', 70, 'aprovada', '2019-10-03 02:09:33'),
+(9, 24, '2432', 70, 'aprovada', '2019-10-07 20:38:52'),
+(10, 26, '264', 5, 'pendente', '2019-10-13 00:34:30'),
+(12, 29, '292', 40, 'pendente', '2019-10-13 19:32:39'),
+(14, 26, '266', 30, 'pendente', '2019-10-14 14:23:52'),
+(15, 26, '264', 5, 'pendente', '2019-10-14 14:45:53'),
+(16, 24, '245', 50, 'pendente', '2019-10-14 16:58:16'),
+(18, 27, '2732', 70, 'pendente', '2019-10-14 21:35:08');
 
 -- --------------------------------------------------------
 
@@ -400,7 +430,8 @@ CREATE TABLE `video` (
   `vid_cur_id` int(11) NOT NULL,
   `titulo` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `duracao` double NOT NULL,
-  `frame` varchar(500) COLLATE utf8_unicode_ci NOT NULL
+  `frame` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
@@ -541,17 +572,17 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `creditcard`
 --
 ALTER TABLE `creditcard`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `cupom`
 --
 ALTER TABLE `cupom`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `email`
 --
 ALTER TABLE `email`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 --
 -- AUTO_INCREMENT for table `funcionarios`
 --
@@ -561,7 +592,7 @@ ALTER TABLE `funcionarios`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `matricula`
 --
@@ -571,7 +602,7 @@ ALTER TABLE `matricula`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT for table `perfil`
 --
@@ -591,7 +622,7 @@ ALTER TABLE `regional`
 -- AUTO_INCREMENT for table `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `setor`
 --

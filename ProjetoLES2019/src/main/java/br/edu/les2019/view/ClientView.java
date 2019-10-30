@@ -49,6 +49,8 @@ public class ClientView implements IViewHelper
 				card.setNumber(request.getParameter("cardNumber"));
 				card.setBanner(request.getParameter("banner"));
 				card.setCode(request.getParameter("seg"));
+				try {card.setDeadline(df.parse(request.getParameter("prazo")));}
+				catch(ParseException e)	{System.out.println(e.getMessage());}
 				client.getCards().add(card);
 				/*client.setCard(new CreditCard());
 				client.getCard().setClient(client);
@@ -137,7 +139,7 @@ public class ClientView implements IViewHelper
 				if(result.getMsg() == null)
 				{	result.setMsg("Usuário cadastrado");
 					request.getSession().setAttribute("result", result);
-					rd = request.getRequestDispatcher("loginAluno.html");
+					rd = request.getRequestDispatcher("login.jsp");
 				}
 				
 				else
