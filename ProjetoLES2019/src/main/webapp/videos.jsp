@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<!--Importação de Lista e pacote onde estão as classes de dominio e controle-->
+<%@ page import = "java.text.*" %>
+<%@ page import="java.util.*, br.edu.les2019.domain.*" %>
+<%@ page import="java.util.*, br.edu.les2019.result.*" %>
+
 <!--possibilita usar a tag core, que chama o looping forEach--> 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -52,7 +57,7 @@
 						<h2 class="barra"><b id=titulo>Cursos On-Line</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Login</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
@@ -80,18 +85,30 @@
 						</tr>
 					</table>
 				</form>
-				<form action="MyServlet" method="post">
+				<form action="VideoServlet" method="post">
+					<%	Result result = (Result)session.getAttribute("result"); 
+						Course course = null;
+						if(result != null)
+						{	if(result.getEntities() != null && !result.getEntities().isEmpty())
+							{	for(EntityDomain ed:result.getEntities())
+								{	if(ed instanceof Course)
+									{course = (Course)ed;}
+								}
+							}
+						}
+					%>
+					<input type="hidden" id="curso_id" name="curso_id" value="<%if(course != null)	{out.print(course.getId());}%>"/>
 					<table>
 						<tr class="dados">
 							<td>
 								<input type="text" id="titulo" name="titulo" class="dados form-control"
-									placeholder="Título do video" size="43"/>
+									placeholder="Título do video" size="43" required/>
 							</td>
 						</tr>
 						<tr class="dados">
 							<td>
 								<input type="number" id="tempo" name="tempo" class="dados form-control"
-									placeholder="Duração do video" size="43"/>
+									placeholder="Duração do video" size="43" required/>
 							</td>
 						</tr>
 						<tr class="dados">
@@ -100,12 +117,18 @@
 									placeholder="Descrição" size="43"/>
 							</td>
 						</tr>
+						<tr class="dados">
+							<td>
+								<input type="text" id="frame" name="frame" class="dados form-control"
+									placeholder="Frame do Youtube" size="43" required/>
+							</td>
+						</tr>
 						<tr>
 							<td>
-								<a class="btn btn-primary form-control" 
-									id="salvar" name="salvar" onclick="alerta()" href="lista.jsp">
+								<button type="submit" class="btn btn-primary form-control" 
+									id="action" name="action" onclick="alerta()" value="save">
 									Salvar <img src="imagens/Save_37110.png"/>
-								</a>
+								</button>
 							</td>
 						</tr>
 					</table>

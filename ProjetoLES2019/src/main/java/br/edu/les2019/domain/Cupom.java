@@ -8,17 +8,19 @@ public class Cupom extends EntityDomain
 	String codigo;
 	String status;
 	Item item;
+	Motivo motivo;
 	
 	public Cupom() {}
 	
 	public Cupom(Double value, String tipo, String codigo, 
-		String status, Client client, Item item) 
+		String status, Client client, Item item, Motivo motivo) 
 	{	this.value = value;
 		this.tipo = tipo;
 		this.codigo = codigo;
 		this.status = status;
 		this.client = client;
 		this.item = item;
+		this.motivo = motivo;
 	}
 	
 	public Double getValue() {return value;}
@@ -35,4 +37,7 @@ public class Cupom extends EntityDomain
 
 	public Item getItem() {return item;}
 	public void setItem(Item item) {this.item = item;}
+
+	public Motivo getMotivo() {return motivo;}
+	public void setMotivo(Motivo motivo) {this.motivo = motivo;}
 }

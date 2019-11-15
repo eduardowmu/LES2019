@@ -16,20 +16,18 @@ public class CadastrarCliente2
 		WebDriver driver = new ChromeDriver();
 		Thread thread = new Thread();
 		if(driver!=null)
-		{	driver.get("http://localhost:8080/ProjetoLES2019/principal.html");
-		    driver.manage().window().setSize(new Dimension(1382, 744));
-		    driver.findElement(By.id("tour")).click();
-		    driver.findElement(By.id("cadastro")).click();
-			try {thread.sleep(1000);} 
-			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.name("nome")).click();
-		    driver.findElement(By.name("nome")).sendKeys("lll");
+		{	driver.get("http://localhost:8080/ProjetoLES2019/cadastroUsuarios.jsp");
+		    driver.manage().window().maximize();
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.name("sobrenome")).sendKeys("mmm");
+			driver.findElement(By.name("nome")).click();
+		    driver.findElement(By.name("nome")).sendKeys("ccc");
+		    try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+			driver.findElement(By.name("sobrenome")).sendKeys("ddd");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.name("cpf")).sendKeys("19231484001");
+			driver.findElement(By.name("cpf")).sendKeys("11499434081");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("ddd")).click();
@@ -45,25 +43,38 @@ public class CadastrarCliente2
 		    //DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		    //Calendar calender = Calendar.getInstance();
 		    driver.findElement(By.name("dtnasc")).sendKeys("01");
-		    driver.findElement(By.name("dtnasc")).sendKeys("01");
-		    driver.findElement(By.name("dtnasc")).sendKeys("1999");
+			try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+			driver.findElement(By.name("dtnasc")).sendKeys("01");
+			try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+			driver.findElement(By.name("dtnasc")).sendKeys("1999");
 		    
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("email")).click();
-		    driver.findElement(By.id("email")).sendKeys("lll@gmail.com");
+		    driver.findElement(By.id("email")).sendKeys("cccddd@gmail.com");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("cardName")).click();
-		    driver.findElement(By.id("cardName")).sendKeys("oooppp");
+		    driver.findElement(By.id("cardName")).sendKeys("bbbccc");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.id("cardNumber")).sendKeys("1234567890123456");
+			driver.findElement(By.id("cardNumber")).sendKeys("9876543211234569");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("seg")).click();
 		    driver.findElement(By.id("seg")).sendKeys("123");
 		    try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+		    driver.findElement(By.id("prazo")).sendKeys("12");
+		    try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+			driver.findElement(By.id("prazo")).sendKeys("12");
+			try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+			driver.findElement(By.id("prazo")).sendKeys("2024");
+			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("pass")).click();
 		    driver.findElement(By.id("pass")).sendKeys("!@#Abc123");

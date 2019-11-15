@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.edu.les2019.dao.CarDAO;
 import br.edu.les2019.dao.ClientDAO;
 import br.edu.les2019.dao.CourseDAO;
 import br.edu.les2019.dao.CupomDAO;
@@ -24,6 +25,7 @@ import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.Cupom;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
+import br.edu.les2019.domain.Motivo;
 import br.edu.les2019.domain.Sale;
 import br.edu.les2019.domain.ShopCar;
 import br.edu.les2019.result.Result;
@@ -131,6 +133,25 @@ public class MyServlet2 extends HttpServlet
 				rd = request.getRequestDispatcher("pagamento2.jsp");
 				
 				break;
+				
+			case "deleteItem":
+				this.result = (Result)request.getSession().getAttribute("result");
+				this.client.setId(Integer.parseInt(request.getParameter("clientID")));
+				course.setId(Integer.parseInt(request.getParameter("courseID")));
+				CarDAO sdao = new CarDAO();
+				if(sdao.deleteClientCourse(this.client, course))
+				{	for(EntityDomain ed:this.result.getEntities())
+					{	if(ed instanceof ShopCar)
+						{	ShopCar sc = new ShopCar();
+							for(Course c:sc.getCourses())
+							{	if(c.getId() == course.getId())
+								{sc.getCourses().remove(c);}
+							}
+						}
+					}
+				}
+				rd = request.getRequestDispatcher("meuCarrinho.jsp");
+				break;
 		}
 		request.getSession().setAttribute("result", result);
 		rd.forward(request, response);
@@ -158,8 +179,10 @@ public class MyServlet2 extends HttpServlet
 				Item item = new Item();
 				item.setId(Integer.parseInt(request.getParameter("item_id")));
 				
+				Motivo motivo = new Motivo(request.getParameter("motivo"));
+				
 				cupom = new Cupom(Double.parseDouble(request.getParameter("valor")), 
-					"troca", request.getParameter("item_code"), "pendente", this.client, item);
+					"troca", request.getParameter("item_code"), "pendente", this.client, item, motivo);
 				
 				CupomDAO cupdao = new CupomDAO();
 				cupdao.save(cupom);

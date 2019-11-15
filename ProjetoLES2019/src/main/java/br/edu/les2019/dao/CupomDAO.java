@@ -2,12 +2,15 @@ package br.edu.les2019.dao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.Cupom;
+import br.edu.les2019.domain.CupomStatus;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
+import br.edu.les2019.domain.ReportCoursesSold;
 
 public class CupomDAO extends AbstractDAO 
 {	Cupom cupom;
@@ -26,15 +29,17 @@ public class CupomDAO extends AbstractDAO
 			this.connection.setAutoCommit(false);
 			
 			this.ps = this.connection.prepareStatement("INSERT INTO " +
-				this.table + " (cup_cli_id, cup_ite_id, codigo, tipo, valor, status)"
-				+ " VALUES(?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
+				this.table + " (cup_cli_id, cup_ite_id, codigo, tipo, valor, motivo, status, registry)"
+				+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
 			
 			this.ps.setInt(1, this.cupom.getClient().getId());
 			this.ps.setInt(2, this.cupom.getItem().getId());
 			this.ps.setString(3, this.cupom.getCodigo());
 			this.ps.setString(4, this.cupom.getTipo());
 			this.ps.setDouble(5, this.cupom.getValue());
-			this.ps.setString(6, this.cupom.getStatus());
+			this.ps.setString(6, this.cupom.getMotivo().getText());
+			this.ps.setString(7, this.cupom.getStatus());
+			this.ps.setDate(8, new java.sql.Date(System.currentTimeMillis()));
 			
 			this.ps.executeUpdate();
 			
@@ -134,6 +139,38 @@ public class CupomDAO extends AbstractDAO
 	
 	@Override public List<EntityDomain> search() 
 	{	return null;
+	}
+	
+	public void search2(ReportCoursesSold rcs)
+	{	CupomStatus cs = null;
+		try
+		{	if(this.connection != null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			
+			this.ps = this.connection.prepareStatement(
+				"SELECT COUNT(id) AS qtd, status FROM cupom WHERE registry "
+				+ "BETWEEN ? AND ? GROUP BY status");
+			
+			this.ps.setDate(1, new java.sql.Date(rcs.getStartDate().getTime()));
+			this.ps.setDate(2, new java.sql.Date(rcs.getEndDate().getTime()));
+			
+			this.rs = this.ps.executeQuery();
+			rcs.setCupons(new ArrayList<>());
+			while(this.rs.next())
+			{	cs = new CupomStatus();
+				cs.setQtd(this.rs.getInt(1));
+				cs.setStatus(this.rs.getString(2));
+				rcs.getCupons().add(cs);
+			}
+		}
+		catch(SQLException e)	{System.err.println(e.getMessage());}
+		finally
+		{	try
+			{	//this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
 	}
 	
 	public boolean isSalvou() {return salvou;}

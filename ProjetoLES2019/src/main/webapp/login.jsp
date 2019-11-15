@@ -76,7 +76,8 @@
 							<tr>
 								<td align="center">
 									<a class="btn btn-success form-control" id="alterar" href="cadastroUsuarios.jsp">
-										Não possui uma Conta? Faça seu Cadastro!</a>
+										Não possui uma Conta? Faça seu Cadastro!
+									</a>
 								</td>
 							</tr>
 						</thead>

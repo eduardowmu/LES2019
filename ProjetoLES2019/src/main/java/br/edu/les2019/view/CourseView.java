@@ -81,6 +81,10 @@ public class CourseView implements IViewHelper
 			case "delete":
 				course.setId(Integer.parseInt(request.getParameter("codigo")));
 				break;
+				
+			case "add":
+				course.setId(Integer.parseInt(request.getParameter("codigo")));
+				break;
 		}
 		return course;
 	}
@@ -139,6 +143,11 @@ public class CourseView implements IViewHelper
 				result.setMsg("Curso deletado com sucesso");
 				request.getSession().setAttribute("result", result);
 				rd = request.getRequestDispatcher("ListaCursos.jsp");
+				break;
+				
+			case "add":
+				request.getSession().setAttribute("result", result);
+				rd = request.getRequestDispatcher("videos.jsp");
 				break;
 		}
 		rd.forward(request, response);

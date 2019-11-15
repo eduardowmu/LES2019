@@ -36,8 +36,12 @@
 	    		$(".btn-troca").on("click", function(e) 
 	    		{	if (!confirmouSla) 
 	    			{	e.preventDefault();
-	    				confirmouSla = confirm("Tem certeza que deseja gerar um cupom de troca?");
-		    			if(confirmouSla) {$(this).click();}
+	    				if(document.getElementById('motivo').value != '')
+	    				{	confirmouSla = confirm("Tem certeza que deseja gerar um cupom de troca?");
+		    				if(confirmouSla) {$(this).click();}
+	    				}
+	    				
+	    				else alert('Inserir um motivo para solicitação de cupom de troca');
 	    			} 
 	    		});
 	    	});
@@ -182,7 +186,9 @@
 										}
 										
 										sb.append("<td class='linha' align='center'>");
-										sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' value='gerarCupom'>");
+										sb.append("<input type='text' name='motivo' id='motivo' placeholder='Motivo da troca'/>");
+										sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' "+
+											"onclick='motivo()' value='gerarCupom'>");
 										sb.append("<img src='imagens/troca.png'></button></td><tr/></form>");
 									}
 								}

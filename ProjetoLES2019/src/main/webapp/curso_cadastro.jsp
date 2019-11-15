@@ -43,7 +43,6 @@
 							<span class="sr-only">Alternar navegação</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
 						</button>
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
@@ -52,7 +51,7 @@
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="#">Login</a></li>
-							<li><a class="barra-direita" href="#">Contato</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
 					</div>
@@ -105,11 +104,8 @@
 							<td><b>Categoria:</b> 
 								<select>
 									<option>Programação</option>
-									<option>Desenvolvimento</option>
-									<option>IoT</option>
-									<option>Sistemas</option>
-									<option>Segurança</option>
-									<option>Redes</option>
+									<option>Software</option>
+									<option>Hardware</option>
 								</select>
 							</td>
 							<td><b>Valor(R$):</b> 

@@ -70,93 +70,133 @@
 					}
 				%>
 				<form action="MyServlet" enctype="multipart/form-data">
-					<input type="file" id="action" name="action" value="load"/>
+					<input type="file" id="foto" name="foto" value="load"/>
 				</form>
 				<legend>Cadastro de Usuário</legend>
 				<form action="ClientServlet" method="post">
-						Nome:
-						<input type="text" name="nome" value="<% if(client != null)	
-																 {out.print(client.getName());}
-																%>" required/>
-						<br/><br/>
-						Sobrenome:
-						<input type="text" name="sobrenome" value="<% if(client != null)	
-							 										  {out.print(client.getSurname());}
-																	%>" required/>
-						<br/><br/>
-						CPF:
-						<input type="text" name="cpf" value="<% if(client != null)	
-							 									{out.print(client.getCpf());}
-															 %>" required/>
-						<br/><br/>
-						Genero:
-						<input type="radio" name="genero" value="M" <% if(client == null || client.getGenero().equals("M"))	
-							 										   {out.print("checked");}
-															 		%>/><label>M</label>
-						<input type="radio" name="genero" value="F"<% if(client != null && client.getGenero().equals("F"))	
-							 										   {out.print("checked");}
-															 		%>/><label>F</label>
-						<br/><br/>
-						<b>Telefone:</b><br/>
-						Tipo:<input type="radio" id="tipo" name="tipo" value="movel" <%	if(client == null || 
-																							client.getPhone().getType().equals("movel"))
-																						{out.print("checked");}
-																					  %>/><label>Movel</label>
-							 <input type="radio" id="tipo" name="tipo" value="fixo" <%	if(client != null && 
-																							client.getPhone().getType().equals("fixo"))
-																						{out.print("checked");}
-																					 %>/><label>Fixo</label><br/>
-						DDD:<input type="number" id="ddd" name="ddd" size="2" maxlength="2" value="<% if(client != null)	
-																									  {out.print(client.getPhone().getDdd());}
-																									%>" required/>
-						numero:<input type="text" id="fone" name="fone" value="<% if(client != null)	
-																				  {out.print(client.getPhone().getNumber());}
-																				%>"required/>
-						<br/><br/>
-						Data de Nascimento:
-						<input type="date" îd="dtnasc" name="dtnasc" value="<% if(client != null)	
-																			   {out.print(client.getBirthday());}
+					<table>
+						<tr>
+							<td>
+								Nome:
+								<input type="text" name="nome" value="<% if(client != null)	
+																		 {out.print(client.getName());}
+																		%>" required/>
+							</td>
+							<td>
+								Sobrenome:
+								<input type="text" name="sobrenome" value="<% if(client != null)	
+									 										  {out.print(client.getSurname());}
 																			%>" required/>
-						<br/><br/>
-						E-mail:
-						<input type="text" id="email" name="email" value="<% if(client != null)	
-																			 {out.print(client.getEmails().get(0));}
-																		  %>" required/>
-						<br/><br/>
-						<b>Cartão de Crédito</b><br/>
-						Nome no Cartão:
-						<input type="text" id="cardName" name="cardName" value="<% if(client != null)	
-																			 		{out.print(client.getCards().get(0).getName());}
-																		 		 %>" required/><br/><br/>
-						Numero:
-						<input type="number" id="cardNumber" name="cardNumber" value="<% if(client != null)	
-																			 			 {out.print(client.getCards().get(0).getNumber());}
-																		 		 		%>" maxlength="16" required/>
-						<select name="banner">
-							<option <%	if(client == null || client.getCards().get(0).getBanner().equals("Master"))	
-				 			 			{out.print("selected");} 
-				 			 		%>>Master
-				 			</option>
-							<option <%	if(client != null && client.getCards().get(0).getBanner().equals("Visa"))	
-				 			 			{out.print("selected");} 
-				 			 		%>>Visa
-				 			</option>
-						</select><br/>
-						Codigo de Segurança:
-						<input type="number" id="seg" name="seg" value="<% if(client != null)	
-																		   {out.print(client.getCards().get(0).getCode());}
-																		 %>" maxlength="3" required/><br/><br/>
-						<input type="date" id="prazo" name="prazo" value="<% if(client != null)	
-																		   {out.print(client.getCards().get(0).getDeadline());}
-																		 %>" required/><br/><br/>
-						
-						Senha:<input type="password" id="pass" name="pass" <% if(client != null)	
-																		   	  {out.print(client.getPassword());}
-																		 	%> required/><br/><br/>
-						Repita a Senha:<input type="password" id="pass2" name="pass2" <% if(client != null)	
-																		   	  			 {out.print(client.getPassword2());}
-																		 				%> required/><br/><br/>
-						<button type="submit" name="action" id="action" class="btn btn-primary" value="save">
+							</td>
+							<td>
+								CPF:
+								<input type="text" name="cpf" value="<% if(client != null)	
+									 									{out.print(client.getCpf());}
+																	 %>" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Telefone:</b><br/>
+								Tipo:<input type="radio" id="tipo" name="tipo" value="movel" <%	if(client == null || 
+																									client.getPhone().getType().equals("movel"))
+																								{out.print("checked");}
+																							  %>/><label>Movel</label>
+									 <input type="radio" id="tipo" name="tipo" value="fixo" <%	if(client != null && 
+																									client.getPhone().getType().equals("fixo"))
+																								{out.print("checked");}
+																							 %>/><label>Fixo</label>
+							</td>
+							<td>
+								DDD:<input type="number" id="ddd" name="ddd" size="2" maxlength="2" value="<% if(client != null)	
+																											  {out.print(client.getPhone().getDdd());}
+																											%>" required/>
+							</td>
+							<td>
+								numero:<input type="text" id="fone" name="fone" value="<% if(client != null)	
+																						  {out.print(client.getPhone().getNumber());}
+																						%>"required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Data de Nascimento:
+								<input type="date" îd="dtnasc" name="dtnasc" value="<% if(client != null)	
+																					   {out.print(client.getBirthday());}
+																					%>" required/>
+							</td>
+							<td>
+								Genero:
+								<label>M</label>
+								<input type="radio" name="genero" value="M" <% if(client == null || client.getGenero().equals("M"))	
+									 										   {out.print("checked");}
+																	 		%>/>
+								<label>F</label>
+								<input type="radio" name="genero" value="F"<% if(client != null && client.getGenero().equals("F"))	
+									 										   {out.print("checked");}
+																	 		%>/>
+							</td>
+							<td>
+								
+								E-mail:
+								<input type="text" id="email" name="email" value="<% if(client != null)	
+																					 {out.print(client.getEmails().get(0));}
+																				  %>" required/>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Cartão de Crédito</b><br/>
+								Nome no Cartão:
+								<input type="text" id="cardName" name="cardName" value="<% if(client != null)	
+																					 		{out.print(client.getCards().get(0).getName());}
+																				 		 %>" required/>
+							</td>
+							<td>
+								Numero:
+								<input type="number" id="cardNumber" name="cardNumber" value="<% if(client != null)	
+																					 			 {out.print(client.getCards().get(0).getNumber());}
+																				 		 		%>" maxlength="16" required/>
+							</td>
+							<td>
+								Bandeira:
+								<select name="banner">
+									<option <%	if(client == null || client.getCards().get(0).getBanner().equals("Master"))	
+						 			 			{out.print("selected");} 
+						 			 		%>>Master
+						 			</option>
+									<option <%	if(client != null && client.getCards().get(0).getBanner().equals("Visa"))	
+						 			 			{out.print("selected");} 
+						 			 		%>>Visa
+						 			</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Codigo de Segurança:
+								<input type="number" id="seg" name="seg" value="<% if(client != null)	
+																				   {out.print(client.getCards().get(0).getCode());}
+																				 %>" maxlength="3" required/>
+							</td>
+							<td>
+								<input type="date" id="prazo" name="prazo" value="<% if(client != null)	
+																				   {out.print(client.getCards().get(0).getDeadline());}
+																				 %>" required/>
+							</td>
+							<td>
+								Senha:<input type="password" id="pass" name="pass" <% if(client != null)	
+																				   	  {out.print(client.getPassword());}
+																				 	%> required/>
+							</td>
+							<td>
+								Repita a Senha:<input type="password" id="pass2" name="pass2" <% if(client != null)	
+																				   	  			 {out.print(client.getPassword2());}
+																				 				%> required/>
+							</td>
+						</tr>
+					</table><br />
+					<button type="submit" name="action" id="action" class="btn btn-primary" value="save">
 							Salvar Dados
 						</button>
 				</form>

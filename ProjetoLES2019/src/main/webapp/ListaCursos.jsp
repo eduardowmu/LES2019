@@ -107,13 +107,9 @@
 						<td class="formulario"><br/>
 							<label>Categoria:</label>
 							<select name="categoria" id="categoria">
-								<option></option>
 								<option>Programação</option>
-								<option>Desenvolvimento</option>
-								<option>IoT</option>
-								<option>Sistemas</option>
-								<option>Segurança</option>
-								<option>Redes</option>
+								<option>Software</option>
+								<option>Hardware</option>
 							</select>
 						</td>
 					</tr>
@@ -164,7 +160,7 @@
 														"<td class='linha' align='center'>0</td>"+
 														"<td class='linha' align='center'>"+course.RealFormat(course.getPrice())+"</td>"+
 														"<td class='linha' align='center'>"+
-															"<a href='videos.jsp'><img src='imagens/addProj.jpg'></a></td>"+
+															"<button type='submit' id='action' name='action' value='add'><img src='imagens/addProj.jpg'></button></td>"+
 														"<td class='linha' align='center'>"+
 															"<button type='submit' name='action' id='update' value='show'><img src='imagens/edit_pencil_6320.png'></button></td>"+
 														"<td class='linha' align='center'>"+

@@ -52,7 +52,18 @@
 	    		document.getElementById("Total").value = subtotal;
 	    		document.getElementById("total").value = subT;
 	    	}
-	    	window.load = resetarTotal();
+	    	//window.load = resetarTotal();
+	    </script>
+	    <script>
+	    	$(document).ready(function()
+	    	{	$(".btn-delete").on("click", function(e) 
+	    		{	e.preventDefault();
+    				if(document.getElementById('cupomID').value > 0)
+	    			{	var confirmouSla = confirm("Tem certeza que deseja retirar do carrinho?");
+			    		if(confirmouSla) {$(this).click();}
+		    		}
+	    		});
+	    	});
 	    </script>
 	</head>
 	<body>
@@ -79,7 +90,7 @@
 						<h2 class="barra"><b id=titulo>Meu Carrinho</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="inicialAluno.jsp">Página Inicial</a></li>
+							<li><a class="barra-direita" href="meusCursos.jsp">Página Inicial</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
@@ -130,14 +141,11 @@
 									code += String.valueOf(course.getId());
 									out.print("<tr class='odd gradeX'>" + 
 													"<input type='hidden' name='code"+i+"' id='code' value='"+ code +"'/>" +
-													"<input type='hidden' name='courseID"+i+"' value='"+course.getId()+"'/>" +
 													"<td class='center'>" + code + "</td>" + 
 													"<td class='center'>" + course.getName() + "</td>" +
 													"<td class='center'>" + course.RealFormat(course.getPrice()) + "</td>" +
 													"<td class='center'>" +
-														"<button type='submit' class='btn btn-danger'" +
-															"id='action' name='action' value='delete'>Retirar" +
-														"</button>" +
+														"<input type='checkbox' name='courseID' value='"+course.getId()+"'/>" +
 													"</td>" +
 											 "</tr>");
 									i++;
@@ -164,6 +172,7 @@
 																					%>"disabled="disabled"/>
 							<input type="hidden" id="sub" name="sub" value="<%out.print(total);%>"/>
 						</td>
+						<td><button type="submit" name="action" class="btn btn-danger btn-delete" value="deleteItem">Retirar</button></td>
 					</tr>
 					<tr>
 						<td></td>
@@ -187,22 +196,21 @@
 					<td>
 						<select class="cupom form-control" id="cupom">
 							<option value="0">Selecione Cupom</option>
-							<%	StringBuilder sb2 = new StringBuilder();
-								if(client.getCupons() != null && !client.getCupons().isEmpty())
-								{	int i = 1;
-									for(Cupom cupom:client.getCupons())
-									{	if(cupom != null && cupom.getStatus().equals("aprovado"))
-										{	sb2.append("<option value='"+i+"'>" + 
-												cupom.getCodigo() + "</option>");
-											sb2.append("<input type='hidden' id='"+i+"' value='"+cupom.getValue()+"'/>");
-											
-											i++;
+							<%	if(client.getCupons() != null && !client.getCupons().isEmpty())
+								{	for(int i = 0; i < client.getCupons().size(); i++)
+									{	if(client.getCupons().get(i) != null && 
+											client.getCupons().get(i).getStatus().equals("aprovado"))
+										{	out.print("<option value='"+(i+1)+"'>");
+											out.print(client.getCupons().get(i).getCodigo());
+											out.print("</option>");
 										}
 									}
-									out.print(sb2);
 								}
 							%>
 						</select>
+						<%	for(int j = 0; j < client.getCupons().size(); j++)
+							{out.print("<input type='hidden' id='"+(j+1)+"' value='"+client.getCupons().get(j).getValue()+"'/>");}	 
+						%>
 					</td>
 					<td>
 						<button type="button" class="btn btn-primary form-control" 

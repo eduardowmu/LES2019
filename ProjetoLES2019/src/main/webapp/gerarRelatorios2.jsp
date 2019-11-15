@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*, br.edu.les2019.domain.*" %>
 <%@ page import="java.util.*, br.edu.les2019.result.*" %>
+<%@ page import = "java.text.*"%>
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -9,70 +11,73 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Página Inicial - Administrador</title>
+		<title>Gerar Relatórios</title>
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="CSS/principal.css" rel="stylesheet">
+		
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
-		  google.charts.load('current', {'packages':['corechart']});
-		  google.charts.setOnLoadCallback(drawChart);
-		  google.charts.setOnLoadCallback(drawChart2);
-		  function drawChart() {
-			var data = google.visualization.arrayToDataTable([
-			  ['Mês', 'Receitas (R$)', 'Despesas (R$)'],
-			  ['JAN',  15000,      7000],
-			  ['FEV',  11700,      7600],
-			  ['MAR',  7000,       7120],
-			  ['ABR',  10300,      7400],
-			  ['MAI',  12000,      7000],
-			  ['JUN',  11700,      7600],
-			  ['JUL',  7600,       7120],
-			  ['AGO',  10300,      7400],
-			]);
-	
-			var options = {
-			  title: 'Performance da Empresa - 2019',
-			  curveType: 'function',
-			  width:500,
-			  height:500,
-			  legend: { position: 'bottom' }
-			};
-	
-			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
-	
-			chart.draw(data, options);
-		  }
-		</script>
-		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-		<script type="text/javascript">
-		  // Carrega a API de Visualização e o pacote base de gráficos.
-		  google.charts.load('current', {'packages':['corechart']});
-		  // Define uma chamada para rodar quando a API de visualização é carregada.
-		  google.charts.setOnLoadCallback(drawChart2);
-		  // Função que cria e preenche os dados da tabela, instancia o gráfico, passa os dados e desenha.
-		  function drawChart2() {
-			// Cria a tabela de dados.
-			var data = new google.visualization.DataTable();
-			data.addColumn('string', 'Segmento');
-			data.addColumn('number', 'Qtde Vendida');
+		
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawBasic);
+		
+		//google.charts.setOnLoadCallback(drawBasic);
+		  
+		  var queryObject="";
+		  var queryObjectLen="";
+		  $.ajax({
+            type : 'GET',
+            url : 'api2.jsp',
+            dataType:'json',
+            success : function(data) {
+                queryObject = eval('(' + JSON.stringify(data) + ')');
+                queryObjectLen = queryObject.empdetails.length;
+            },
+                error : function(xhr, type) {
+                //alert('server error occoured');
+            }
+        });
+	  
+	  // Função que cria e preenche os dados da tabela, instancia o gráfico, passa os dados e desenha.
+	  function drawBasic() {
+        	
+        // Cria a tabela de dados.
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'status');
+		data.addColumn('number', 'quantidade');
+		for(var i=0;i<queryObjectLen;i++)
+		{	var cat = queryObject.empdetails[i].status;
+			var valor = parseInt(queryObject.empdetails[i].quantidade);
+			
 			data.addRows([
-			  ['Linguagem de Programação', 47],
-			  ['WebDesign', 35],
-			  ['Hardware', 15],
-			]);
-	
-			// Define opções do gráfico
-			var options = {'title':'Participação nas Vendas por Segmento',
-						   'width':500,
-						   'height':500};
-	
-			// Instantiate and draw our chart, passing in some options.
-			var chart = new google.visualization.PieChart(document.getElementById('chart_pizza'));
-			chart.draw(data, options);
-		  }
-	
-			 chart.draw(data, options);
+				  [cat, valor]
+				]);
+		}
+		
+		
+
+		// Define opções do gráfico
+		var options = {'title':'Cursos vendidos em % - Por Categoria',
+					   'width':1200,
+					   'height':1000,
+					   legend: { position: 'bottom' }
+					   };
+
+		// Instantiate and draw our chart, passing in some options.
+		var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+		chart.draw(data, options);
+	  }
 		</script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+            // First load the chart once 
+            	drawBasic();
+            // Set interval to call the drawChart again
+            setInterval(drawBasic, 1000);
+            });
+		</script>
+		
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<style>
 		#curve_chart{
 			float: left;
@@ -85,7 +90,7 @@
 	</head>
 	<body>
 		<div id="form">
-			<% Result result = (Result)session.getAttribute("result"); %>
+			
     		<nav class="navbar navbar-fixed-top navbar-inverse navbar-solid">
 				<div class="container">
 					<!-- Estrutura de Header -->
@@ -105,26 +110,15 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Bem Vindo <%	if(result != null/* && (result.getMsg().contains("Bem vindo") ||
-																		result.getMsg().contains("Dados alterados"))*/)
-																	{	//out.print(result.getMsg());
-																		for(EntityDomain ed:result.getEntities())
-																		{	if(ed instanceof Client)
-																			{	if(ed.getId() == 1)
-																				{	out.print(" " + ed.getName());
-																					break;
-																				}
-																			}
-																		}
-																	} %></b></h2>
+						<h2 class="barra"><b id=titulo>Gerar Relatórios</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="ListaCursos.jsp"> | Gerenciar Cursos |</a></li>
+							<li><a class="barra-direita" href="cadastroCursos.jsp"> | Gerenciar Cursos |</a></li>
 							<li><a name ="gerpedidos" class="barra-direita" href="gerenciarVendas.jsp"> | Gerenciar Vendas |</a></li>
 							<li><a name ="gertrocacancel" class="barra-direita" href="gerTrocaCancel.jsp"> | Gerenciar Trocas/Cancelamentos |</a></li>
 							<li><a class="barra-direita" href="gerenciarCupons.jsp"> | Gerenciar Cupons |</a></li>
 							<li><a class="barra-direita" href="gerenciarClientes.jsp"> | Gerenciar Clientes |</a></li>
-							<li><a class="barra-direita" href="gerarRelatorios.jsp">| Gerar Relatórios |</a></li>
+							<li><a class="barra-direita" href="#">| Gerar Relatórios |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
 					</div>
@@ -132,15 +126,45 @@
 			</nav>
     	</div>
 		<div id="form" align="center">
+			
+			<form action="ReportServlet" method="get">
+			<% Result result = (Result)session.getAttribute("result");
+				ReportCoursesSold rcs = null;
+				Client client = null;
+				DateFormat df = new SimpleDateFormat();
+				StringBuilder sb = new StringBuilder();
+				if(result != null)
+				{	for(EntityDomain ed:result.getEntities())
+					{	if(ed instanceof Client)
+						{	client = (Client)ed;
+							break;
+						}
+						
+					}
+					
+				}
+			%>
+		    	<center><label> Data de Início</label>
+		    	<input type="hidden" id="clientID" name="clientID" value="<%if(client != null)
+																	    	{client.getId();}
+		    																%>"/>
+		    	<input type="date" name="txtDataInicio">
+		    
+		    	<label> Data de Fim</label>
+		    	<input type="date" name="txtDataFim">
+		    	<input type="hidden" id="FormName" name="FormName" value="" />
+		    	<button class="btn mosh-btn mt-50" id="action" name="action" value="search">
+									Enviar</button>
+		    </center>
 				<fieldset>
-					<legend>VISÃO GERAL</legend>
-					<div id="curve_chart"></div>
-    				<div id="chart_pizza"></div>
+					<legend>GRÁFICOS</legend>
+					<div id="chart_div"></div></br>
+    				
 				</fieldset>
 		</div>
 		<div id="left"></div>
 		<div id="right"></div>
-		<div id="rodape2">
+		<!-- <div id="rodape2">
 	    	<footer id="rodape">
 			    <div class="container">
 			    	<div class="row">
@@ -183,6 +207,6 @@
 			    	<div align="center"><p id="copy">&copy; 2019 - FATEC - Mogi das Cruzes</p></div>
 			    </div>
 			</footer>
-	    </div>
+	    </div> -->
 	</body>
 </html>

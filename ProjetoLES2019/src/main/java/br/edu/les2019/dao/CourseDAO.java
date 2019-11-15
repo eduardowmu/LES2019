@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.EntityDomain;
+import br.edu.les2019.domain.Video;
 
 public class CourseDAO extends AbstractDAO 
 {	Course course = null;
@@ -132,6 +133,18 @@ public class CourseDAO extends AbstractDAO
 				this.course.setGrupoP(this.rs.getString(7));
 				this.course.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
 				this.course.setPhoto(this.rs.getString(9));
+				VideoDAO dao = new VideoDAO();
+				dao.connection = this.connection;
+				dao.ctrlTransaction = false;
+				List<EntityDomain> videos = dao.search(course);
+				if(videos != null)
+				{	course.setVideos(new ArrayList<>());
+					for(EntityDomain e:videos)
+					{	Video video = (Video)e;
+						if(course.getId() == video.getCourse().getId())
+						{course.getVideos().add(video);}
+					}
+				}
 				eds.add(this.course);
 			}
 		}

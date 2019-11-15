@@ -161,4 +161,38 @@ public class CarDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 	}
+	
+	public boolean deleteClientCourse(Client client, Course course)
+	{	boolean deletou = false;
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.connection.setAutoCommit(false);
+		
+			this.ps = this.connection.prepareStatement(
+				"DELETE FROM shopcar WHERE car_cli_id = ? AND car_cur_id = ?");
+			
+			this.ps.setInt(1, client.getId());
+			this.ps.setInt(2, course.getId());
+			
+			this.ps.executeUpdate();
+			
+			this.connection.commit();
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+		return deletou;
+	}
 }

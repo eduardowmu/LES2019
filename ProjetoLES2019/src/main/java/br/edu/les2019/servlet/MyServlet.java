@@ -9,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import br.edu.les2019.command.CommandView;
 /*import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -28,6 +30,7 @@ import br.edu.les2019.view.ClientView;
 import br.edu.les2019.view.CourseView;
 import br.edu.les2019.view.CupomView;
 import br.edu.les2019.view.IViewHelper;
+import br.edu.les2019.view.ReportVH;
 import br.edu.les2019.view.SaleView;
 import br.edu.les2019.view.ShopCarView;
 import br.edu.les2019.view.VideoView;
@@ -36,7 +39,8 @@ import br.edu.les2019.view.VideoView;
  * Servlet implementation class MyServlet
  */
 @WebServlet({ "/MyServlet", "/ClientServlet", "/CourseServlet", "/VideoServlet",
-			  "/ShopCarServlet", "/SaleServlet", "/CardServlet", "/CupomServlet"})
+			  "/ShopCarServlet", "/SaleServlet", "/CardServlet", "/CupomServlet",
+			  "/ReportServlet"})
 public class MyServlet extends HttpServlet 
 {	private static final long serialVersionUID = 1L;
     //command maps
@@ -54,9 +58,11 @@ public class MyServlet extends HttpServlet
     	this.commands.put("search", new SearchCommand());
     	this.commands.put("login", new LoginCommand());
     	this.commands.put("show", new ShowCommand());
+    	this.commands.put("view", new CommandView());
     	
     	//instanciateing ViewHelper
     	this.views = new HashMap<String, IViewHelper>();
+    	
     	//creating a map of Views
     	this.views.put("/ProjetoLES2019/ClientServlet", new ClientView());
     	this.views.put("/ProjetoLES2019/CourseServlet", new CourseView());
@@ -65,6 +71,7 @@ public class MyServlet extends HttpServlet
     	this.views.put("/ProjetoLES2019/SaleServlet", new SaleView());
     	this.views.put("/ProjetoLES2019/ShopCarServlet", new ShopCarView());
     	this.views.put("/ProjetoLES2019/CupomServlet", new CupomView());
+    	this.views.put("/ProjetoLES2019/ReportServlet", new ReportVH());
     }
 
 	/**
