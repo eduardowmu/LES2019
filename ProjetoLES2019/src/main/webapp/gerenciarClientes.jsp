@@ -51,7 +51,7 @@
 			<%	Result result = (Result)session.getAttribute("result");
 				DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			%>
-			<form action="ClientServlet" method="post">
+			<form action="ClientServlet" method="get">
 				<fieldset>
 					<legend>Visualização Geral</legend>
 					<table>
@@ -70,6 +70,7 @@
 							<button type="submit" name="action" id="action" value="search">Buscar</button>
 						</tr>
 					</table>
+			</form>
 					<table id="stusuarios" width = "600px" border="1px" align="center"
 						 class="table table-striped table-bordered table-hover table-condensed">
 						<tr align="center">
@@ -100,7 +101,7 @@
 												sb.append("<td class='tabela'>"+df.format(client.getBirthday())+"</td>");
 												sb.append("<td class='tabela'>");
 												for(String email:client.getEmails())
-												{sb.append(email + "\n");}
+												{sb.append(email + " / ");}
 												sb.append("</td>");
 												sb.append("<td class='tabela'><img src='imagens/disable_remove_delete_exit_close_11881.png'/></td></tr>");
 												sb.append("</form>");
@@ -112,7 +113,7 @@
 							%>
 					</table>
 				</fieldset>
-			</form>
+			
 		</div>
 		
 		<div id="rodape2">

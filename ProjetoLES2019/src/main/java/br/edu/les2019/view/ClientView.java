@@ -96,6 +96,8 @@ public class ClientView implements IViewHelper
 				card.setNumber(request.getParameter("cardNumber"));
 				card.setBanner(request.getParameter("banner"));
 				card.setCode(request.getParameter("seg"));
+			try {card.setDeadline(df.parse(request.getParameter("prazo")));} 
+			catch (ParseException e) {System.out.println(e.getMessage());}
 				client.getCards().add(card);
 				/*client.setCard(new CreditCard());
 				client.getCard().setClient(client);
@@ -169,7 +171,7 @@ public class ClientView implements IViewHelper
 				
 				else
 				{	request.getSession().setAttribute("result", result);
-					rd = request.getRequestDispatcher("loginAluno.html");
+					rd = request.getRequestDispatcher("login.jsp");
 				}
 				break;
 				
@@ -177,7 +179,7 @@ public class ClientView implements IViewHelper
 				if(result.getMsg() == null)
 				{	result.setMsg("Dados alterados!");
 					request.getSession().setAttribute("result", result);
-					rd = request.getRequestDispatcher("inicialAluno.jsp");
+					rd = request.getRequestDispatcher("meusCursos.jsp");
 				}
 				
 				else
@@ -197,7 +199,7 @@ public class ClientView implements IViewHelper
 				
 			case "delete":
 				request.getSession().setAttribute("result", result);
-				rd = request.getRequestDispatcher("principal.html");
+				rd = request.getRequestDispatcher("gerenciarClientes.jsp");
 				break;
 		}
 		rd.forward(request, response);

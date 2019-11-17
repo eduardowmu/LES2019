@@ -9,25 +9,38 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class CadastrarCliente2 
+public class CadastrarCliente 
 {	public static void main(String[] args) 
 	{	String path = "junit\\chromedriver.exe";
 		System.setProperty("webdriver.chrome.driver", path);
 		WebDriver driver = new ChromeDriver();
 		Thread thread = new Thread();
 		if(driver!=null)
-		{	driver.get("http://localhost:8080/ProjetoLES2019/cadastroUsuarios.jsp");
-		    driver.manage().window().maximize();
-		    try {thread.sleep(1000);} 
-			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.name("nome")).click();
-		    driver.findElement(By.name("nome")).sendKeys("ccc");
-		    try {thread.sleep(1000);} 
-			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.name("sobrenome")).sendKeys("ddd");
+		{	driver.get("http://localhost:8080/ProjetoLES2019/principal.html");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.name("cpf")).sendKeys("11499434081");
+			driver.manage().window().maximize();
+		    try {thread.sleep(1000);}
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+		    driver.findElement(By.linkText("Tour")).click();
+		    try {thread.sleep(1000);}
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+		    driver.get("http://localhost:8080/ProjetoLES2019/cursos.jsp");
+		    try {thread.sleep(1000);}
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+		    driver.findElement(By.linkText("Quero me cadastrar"));
+		    try {thread.sleep(1000);}
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+		    driver.get("http://localhost:8080/ProjetoLES2019/cadastroUsuarios.jsp");
+		    try {thread.sleep(1000);}
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+		    driver.findElement(By.name("nome")).sendKeys("eee");
+		    try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+			driver.findElement(By.name("sobrenome")).sendKeys("fff");
+			try {thread.sleep(1000);} 
+			catch (InterruptedException e) {System.out.println(e.getMessage());}
+			driver.findElement(By.name("cpf")).sendKeys("92545812080");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("ddd")).click();
@@ -53,14 +66,14 @@ public class CadastrarCliente2
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("email")).click();
-		    driver.findElement(By.id("email")).sendKeys("cccddd@gmail.com");
+		    driver.findElement(By.id("email")).sendKeys("eeefff@gmail.com");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("cardName")).click();
-		    driver.findElement(By.id("cardName")).sendKeys("bbbccc");
+		    driver.findElement(By.id("cardName")).sendKeys("eeefff");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.id("cardNumber")).sendKeys("9876543211234569");
+			driver.findElement(By.id("cardNumber")).sendKeys("9876543211234560");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("seg")).click();
@@ -84,7 +97,7 @@ public class CadastrarCliente2
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("action")).click();
-			try {thread.sleep(3000);} 
+			try {thread.sleep(2000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.close();
 		}

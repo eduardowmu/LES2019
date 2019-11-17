@@ -131,7 +131,7 @@
 					   };
 
 		// Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+		var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 		chart.draw(data, options);
 	  }
 		</script>
@@ -235,10 +235,8 @@
 			<fieldset>
 				<legend>GRÁFICOS</legend>
 				<table align="center">
-					<tr>
-						<td><div id="chart_pizza"></div></td>
-						<td><div id="chart_div"></div></td>
-					</tr>
+					<tr><td><div id="chart_pizza"></div></td></tr>
+					<tr><td><div id="chart_div"></div></td></tr>
 				</table>
 				
    				

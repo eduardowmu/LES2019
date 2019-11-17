@@ -132,7 +132,7 @@
 					<%	StringBuilder sb = new StringBuilder();
 						if(scar != null)
 						{	if(scar.getCourses() != null && !scar.getCourses().isEmpty())
-							{	int i = 0;
+							{	/*int i = 0;
 								for(EntityDomain ed:scar.getCourses())
 								{	course = (Course)ed;
 									String code = "";
@@ -145,12 +145,29 @@
 													"<td class='center'>" + course.getName() + "</td>" +
 													"<td class='center'>" + course.RealFormat(course.getPrice()) + "</td>" +
 													"<td class='center'>" +
-														"<input type='checkbox' name='courseID' value='"+course.getId()+"'/>" +
+														"<input type='checkbox' name='courseID"+i+"' value='"+course.getId()+"'/>" +
 													"</td>" +
 											 "</tr>");
 									i++;
+								}*/
+								int qtd = 0;
+								for(int i = 0; i < scar.getCourses().size(); i++)
+								{	String code = "";
+									code += String.valueOf(client.getId());
+									code += "-";
+									code += String.valueOf(scar.getCourses().get(i).getId());
+									out.print("<tr class='odd gradeX'>" + 
+											"<input type='hidden' name='code"+i+"' id='code' value='"+ code +"'/>" +
+											"<input type='hidden' name='courseID"+i+"' value='"+scar.getCourses().get(i).getId()+"'/>" +
+											"<td class='center'>" + code + "</td>" + 
+											"<td class='center'>" + scar.getCourses().get(i).getName() + "</td>" +
+											"<td class='center'>" + scar.getCourses().get(i).RealFormat(scar.getCourses().get(i).getPrice()) + "</td>" +
+											"<td class='center'>" +
+												"<input type='checkbox' name='courseID"+i+"' value='"+scar.getCourses().get(i).getId()+"'/>" +
+											"</td>" +
+									 "</tr>");
 								}
-								out.print("<input type='hidden' name='qtd_itens' value='"+i+"'/>");
+								out.print("<input type='hidden' name='qtd_itens' value='"+scar.getCourses().size()+"'/>");
 							}
 						}
 					%>

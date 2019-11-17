@@ -56,12 +56,13 @@ public class CardDAO extends AbstractDAO
 			{this.connection = this.getConnection();}
 			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("UPDATE " + 
-				this.table + "(name = ?, number = ?, banner = ?, code = ? WHERE car_cli_id = ?)");
+				this.table + "(name = ?, number = ?, banner = ?, code = ?, deadline = ? WHERE car_cli_id = ?)");
 			this.ps.setString(1, card.getName());
 			this.ps.setString(2, card.getNumber());
 			this.ps.setString(3, card.getBanner());
 			this.ps.setString(4, card.getCode());
-			this.ps.setInt(5, card.getClient().getId());
+			this.ps.setDate(5, new java.sql.Date(card.getDeadline().getTime()));
+			this.ps.setInt(6, card.getClient().getId());
 			this.ps.executeUpdate();
 			this.connection.commit();
 		}

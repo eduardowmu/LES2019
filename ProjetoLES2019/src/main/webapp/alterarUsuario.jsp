@@ -147,7 +147,10 @@
 						Codigo de Segurança:
 						<input type="number" id="seg" name="seg" value="<% if(client != null)	
 																		   {out.print(client.getCards().get(0).getCode());}
-																		 %>" maxlength="3" required/><br/><br/>'
+																		 %>" maxlength="3" required/><br/><br/>
+						<input type="date" id="prazo" name="prazo" value="<% if(client != null)	
+																				   {out.print(client.getCards().get(0).getDeadline());}
+																				 %>" required/>
 						<button type="submit" name="action" id="action" class="btn btn-primary" value="update">
 							Salvar Dados
 						</button>

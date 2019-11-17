@@ -21,7 +21,7 @@ public class CompraTest
 		{	driver.get("http://localhost:8080/ProjetoLES2019/login.jsp");
 			driver.manage().window().maximize();
 			thread.sleep(2000);
-			driver.findElement(By.id("email")).sendKeys("uuu@gmail.com");
+			driver.findElement(By.id("email")).sendKeys("eeefff@gmail.com");
 			thread.sleep(1000);
 			driver.findElement(By.id("senha")).sendKeys("!@#Abc123");
 			thread.sleep(1000);

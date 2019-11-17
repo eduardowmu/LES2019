@@ -100,7 +100,8 @@ public class MyServlet2 extends HttpServlet
 				scar = new ShopCar();
 				scar.setCourses(new ArrayList<Course>());
 				for(int i = 0; i < Integer.parseInt(request.getParameter("qtd_itens")); i++)
-				{	course = new Course(Integer.parseInt(request.getParameter("courseID"+(i))));
+				{	course = new Course();
+					course.setId(Integer.parseInt(request.getParameter("courseID"+i)));
 					course.setName("");
 					course.setInstructor("");
 					course.setCategoria("");

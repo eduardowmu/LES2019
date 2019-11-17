@@ -48,7 +48,7 @@
 						<h2 class="barra"><b id=titulo>ULearn Cursos em TI</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Login</a></li>
+							<li><a class="barra-direita" href="login.jsp">Login</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
