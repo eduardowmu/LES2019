@@ -25,13 +25,13 @@ public class AnaliseTeste
 			thread.sleep(1000);
 			driver.findElement(By.name("txtDataInicio")).sendKeys("10");
 			thread.sleep(1000);
-			driver.findElement(By.name("txtDataInicio")).sendKeys("03");
+			driver.findElement(By.name("txtDataInicio")).sendKeys("01");
 			thread.sleep(1000);
 			driver.findElement(By.name("txtDataInicio")).sendKeys("2019");
 			thread.sleep(1000);
 			driver.findElement(By.name("txtDataFim")).sendKeys("11");
 			thread.sleep(1000);
-			driver.findElement(By.name("txtDataFim")).sendKeys("11");
+			driver.findElement(By.name("txtDataFim")).sendKeys("30");
 			thread.sleep(1000);
 			driver.findElement(By.name("txtDataFim")).sendKeys("2019");
 			thread.sleep(1000);

@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.les2019.domain.Client;
+import br.edu.les2019.domain.ClienteVenda;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.CreditCard;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
 import br.edu.les2019.domain.Payment;
+import br.edu.les2019.domain.ReportCoursesSold;
 import br.edu.les2019.domain.Sale;
 
 public class SaleDAO extends AbstractDAO 
@@ -183,4 +185,50 @@ public class SaleDAO extends AbstractDAO
 
 	@Override public List<EntityDomain> search() 
 	{return null;}
+	
+	public void searchClientSale(ReportCoursesSold rcs)
+	{	ClienteVenda cv = null;
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.ps = this.connection.prepareStatement("SELECT cli.name AS cliente, SUM(s.total) AS total "
+					+ "FROM client AS cli INNER JOIN sale AS s "
+					+ "WHERE cli.id = s.sal_cli_id "
+					+ "AND s.registry BETWEEN ? AND ? "
+					+ "GROUP BY cli.name "
+					+ "ORDER BY SUM(s.total) DESC");
+			
+			this.ps.setDate(1, new java.sql.Date(rcs.getStartDate().getTime()));
+			this.ps.setDate(2, new java.sql.Date(rcs.getEndDate().getTime()));
+			
+			this.rs = this.ps.executeQuery();
+			rcs.setVendas(new ArrayList<>());
+			while(this.rs.next())
+			{	cv = new ClienteVenda();
+				cv.setCliente(this.rs.getString(1));
+				cv.setTotal(this.rs.getDouble(2));
+				rcs.getVendas().add(cv);
+			}
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+	}
+
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
+	}
 }

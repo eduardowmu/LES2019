@@ -14,10 +14,10 @@
 			{	if(ed instanceof ReportCoursesSold)
 				{	rcs = (ReportCoursesSold)ed;
 					if(rcs != null)
-					{	for(CupomStatus cs:rcs.getCupons())
+					{	for(CursoCupom cc:rcs.getCursosCupom())
 						{	empObj = new JSONObject();
-							empObj.put("Status", cs.getStatus());
-							empObj.put("Quantidade", cs.getQtd());
+							empObj.put("Curso", cc.getCurso());
+							empObj.put("Qtd", cc.getQtd());
 							empdetails.add(empObj);
 						}
 					}

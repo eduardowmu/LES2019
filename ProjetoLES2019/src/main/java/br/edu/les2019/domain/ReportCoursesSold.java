@@ -16,11 +16,16 @@ public class ReportCoursesSold extends EntityDomain
 	Date endDate;			//data fim da consulta
 	List<Categoria> categorias;
 	List<CupomStatus> cupons;
+	List<ClienteVenda> vendas;
+	List<CursoCupom> cursosCupom;
 	
 	public ReportCoursesSold(Date startDate, Date endDate)
 	{	this.startDate = startDate;
 		this.endDate = endDate;
 	}
+
+	public List<CursoCupom> getCursosCupom() {return cursosCupom;}
+	public void setCursosCupom(List<CursoCupom> cursosCupom) {this.cursosCupom = cursosCupom;}
 
 	public Date getStartDate() {return startDate;}
 	public void setStartDate(Date startDate) {this.startDate = startDate;}
@@ -33,4 +38,7 @@ public class ReportCoursesSold extends EntityDomain
 
 	public List<CupomStatus> getCupons() {return cupons;}
 	public void setCupons(List<CupomStatus> cupons) {this.cupons = cupons;}
+
+	public List<ClienteVenda> getVendas() {return vendas;}
+	public void setVendas(List<ClienteVenda> vendas) {this.vendas = vendas;}
 }

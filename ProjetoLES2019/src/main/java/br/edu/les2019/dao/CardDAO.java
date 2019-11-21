@@ -147,4 +147,10 @@ public class CardDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 	}
+
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
+	}
 }

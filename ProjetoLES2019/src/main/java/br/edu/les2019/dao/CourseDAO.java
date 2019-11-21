@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import br.edu.les2019.domain.Course;
+import br.edu.les2019.domain.CursoCupom;
 import br.edu.les2019.domain.EntityDomain;
+import br.edu.les2019.domain.ReportCoursesSold;
 import br.edu.les2019.domain.Video;
 
 public class CourseDAO extends AbstractDAO 
@@ -148,13 +150,16 @@ public class CourseDAO extends AbstractDAO
 				eds.add(this.course);
 			}
 		}
-		catch(SQLException e) {System.err.println(e.getMessage());}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {System.out.println(e1.getMessage());}
+			e.printStackTrace();
+		}
 		finally
 		{	try
-			{	if(this.ctrlTransaction)	
-				{	this.ps.close();
-					this.connection.close();
-				}
+			{	this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2)	{System.out.println(e2.getMessage());}
 		}
@@ -182,16 +187,73 @@ public class CourseDAO extends AbstractDAO
 				eds.add(this.course);
 			}
 		}
-		catch(SQLException e) {System.err.println(e.getMessage());}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {System.out.println(e1.getMessage());}
+			e.printStackTrace();
+		}
 		finally
 		{	try
-			{	if(this.ctrlTransaction)	
-				{	this.ps.close();
-					this.connection.close();
-				}
+			{	this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2)	{System.out.println(e2.getMessage());}
 		}
 		return eds;
+	}
+	
+	public void searchCursoCupom(ReportCoursesSold rcs)
+	{	CursoCupom cc = null;
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.connection.setAutoCommit(false);
+			
+			this.ps = this.connection.prepareStatement(
+					"SELECT c.titulo, COUNT(cup.id) AS quantidade " + 
+					"FROM course AS c " + 
+					"INNER JOIN cupom AS cup " + 
+					"INNER JOIN item AS i " + 
+					"WHERE i.id = cup.cup_ite_id " + 
+					"AND c.id = i.ite_cur_id " + 
+					"AND cup.registry BETWEEN ? AND ? " + 
+					"GROUP BY c.titulo " + 
+					"ORDER BY COUNT(cup.id) DESC");
+			
+			this.ps.setDate(1, new java.sql.Date(rcs.getStartDate().getTime()));
+			this.ps.setDate(2, new java.sql.Date(rcs.getEndDate().getTime()));
+			
+			this.rs = this.ps.executeQuery();
+			
+			rcs.setCursosCupom(new ArrayList<>());
+			
+			while(this.rs.next())
+			{	cc = new CursoCupom();
+				cc.setCurso(this.rs.getString(1));
+				cc.setQtd(this.rs.getInt(2));
+				rcs.getCursosCupom().add(cc);
+			}
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {System.out.println(e1.getMessage());}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2)	{System.out.println(e2.getMessage());}
+		}
+	}
+	
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
 	}
 }

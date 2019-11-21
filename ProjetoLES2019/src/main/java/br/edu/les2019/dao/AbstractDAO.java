@@ -39,10 +39,11 @@ public abstract class AbstractDAO implements IDAO
 	}
 	
 	@Override public void delete(EntityDomain ed)
-	{	this.ps = null;
-		this.table = ed.getClass().getSimpleName().toLowerCase();
+	{	this.table = ed.getClass().getSimpleName().toLowerCase();
 		try
-		{	this.connection.setAutoCommit(false);
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("DELETE FROM " +
 				this.table + " WHERE id = ?");	
 			//this.ps.setInt(1, ed.getId());

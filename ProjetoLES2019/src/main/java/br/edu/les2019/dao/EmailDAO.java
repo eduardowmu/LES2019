@@ -187,4 +187,10 @@ public class EmailDAO extends AbstractDAO
 
 	public boolean isSave() {return save;}
 	public void setSave(boolean save) {this.save = save;}
+
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
+	}
 }

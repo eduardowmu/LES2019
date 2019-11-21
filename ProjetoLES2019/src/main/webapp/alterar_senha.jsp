@@ -48,19 +48,19 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Sistema de Atendimento</b></h2>
+						<h2 class="barra"><b id=titulo>ULearn</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="login.jsp">Login</a></li>
-							<li><a class="barra-direita" href="#">Contato</a></li>
-							<li><a class="barra-direita" href="#">Empresa</a></li>
+							<li><a class="barra-direita" href="principal.html">Home</a></li>
+							<li><a class="barra-direita" href="cadastroUsuarios.jsp">Cadastrar</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
     	</div>
 		<div id="form" align="center">
-			<form action="MyServlet" method="post">
+			<form action="ClientServlet" method="post">
 				<fieldset>
 					<legend>Alterar senha</legend>
 					<table>
@@ -85,8 +85,8 @@
 							</tr>
 							<tr>
 								<td>
-									<Button type="submit" name="funcionario" id="funcionario" 
-										class="btn btn-primary form-control" value="AlterarSenha">
+									<Button type="submit" name="action" id="action" 
+										class="btn btn-primary form-control" value="updateKey">
 										Entrar</Button>
 								</td>
 							</tr>
@@ -120,8 +120,8 @@
 			    				<li class="item-rede-social"><a href="https://www.linkedin.com/school/fatec-mogi-das-cruzes/about/">
 			    					<img src="imagens/linkedin.png" class="img-circle">
 			    				</a></li>
-			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/junior-cesar-57710a133/">
-			    					<img src="imagens/Erinilson.png" class="img-circle">
+			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/sergio-paulo-ferreira-24760724/">
+			    					<img src="imagens/sergio.jpg" class="img-circle">
 			    					<br/>
 			    					Erinilson<br/>
 			    					Business<br/>

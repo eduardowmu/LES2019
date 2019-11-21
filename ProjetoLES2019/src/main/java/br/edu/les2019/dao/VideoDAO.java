@@ -99,4 +99,9 @@ public class VideoDAO extends AbstractDAO
 	@Override public List<EntityDomain> search() {
 		return null;
 	}
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
+	}
 }

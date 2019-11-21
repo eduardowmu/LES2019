@@ -143,10 +143,12 @@ public class MyServlet2 extends HttpServlet
 				if(sdao.deleteClientCourse(this.client, course))
 				{	for(EntityDomain ed:this.result.getEntities())
 					{	if(ed instanceof ShopCar)
-						{	ShopCar sc = new ShopCar();
+						{	ShopCar sc = (ShopCar)ed;
 							for(Course c:sc.getCourses())
 							{	if(c.getId() == course.getId())
-								{sc.getCourses().remove(c);}
+								{	sc.getCourses().remove(c);
+									break;
+								}
 							}
 						}
 					}
@@ -154,7 +156,7 @@ public class MyServlet2 extends HttpServlet
 				rd = request.getRequestDispatcher("meuCarrinho.jsp");
 				break;
 		}
-		request.getSession().setAttribute("result", result);
+		request.getSession().setAttribute("result", this.result);
 		rd.forward(request, response);
 	}
 
@@ -182,23 +184,31 @@ public class MyServlet2 extends HttpServlet
 				
 				Motivo motivo = new Motivo(request.getParameter("motivo"));
 				
-				cupom = new Cupom(Double.parseDouble(request.getParameter("valor")), 
-					"troca", request.getParameter("item_code"), "pendente", this.client, item, motivo);
+				if(motivo.getText() != null && !motivo.getText().equals(""))
+				{	cupom = new Cupom(Double.parseDouble(request.getParameter("valor")), 
+						"troca", request.getParameter("item_code"), "pendente", this.client, item, motivo);
 				
-				CupomDAO cupdao = new CupomDAO();
-				cupdao.save(cupom);
-				if(cupdao.isSalvou())
-				{	this.result.getEntities().remove(this.client);
-					this.client.setName("");
-					this.client.setSurname("");
-					this.result.getEntities().addAll(new ClientDAO().search(this.client));
-					this.result.setMsg("Cupom " + cupom.getCodigo() + " gerado com sucesso");
-					rd = request.getRequestDispatcher("meusCupons.jsp");
+					CupomDAO cupdao = new CupomDAO();
+					cupdao.save(cupom);
+					if(cupdao.isSalvou())
+					{	this.result.getEntities().remove(this.client);
+						this.client.setName("");
+						this.client.setSurname("");
+						this.result.getEntities().addAll(new ClientDAO().search(this.client));
+						this.result.setMsg("Cupom " + cupom.getCodigo() + " gerado com sucesso");
+						rd = request.getRequestDispatcher("meusCupons.jsp");
+					}
+					
+					else
+					{	this.result.setMsg("Estamos com problemas no servidr. "
+							+ "Favor tentar novamente mais tarde.");
+						rd = request.getRequestDispatcher("meusCursos2.jsp");
+					}
 				}
 				
 				else
-				{	this.result.setMsg("Não foi possível gerar o cupom");
-					rd = request.getRequestDispatcher("meusCupons.jsp");
+				{	this.result.setMsg("É necessário um motivo para gerar o cupom de troca.");
+					rd = request.getRequestDispatcher("meusCursos2.jsp");
 				}
 				
 				break;
@@ -209,6 +219,24 @@ public class MyServlet2 extends HttpServlet
 				this.client.setId(Integer.parseInt(request.getParameter("cli_id")));
 				cupom.setClient(client);
 				cupom.setStatus("aprovado");
+				
+				dao = new CupomDAO();
+				dao.update(cupom);
+				
+				this.result.setEntities(new ArrayList<EntityDomain>());
+				this.result.getEntities().addAll(new ClientDAO().search());
+				this.result.getEntities().addAll(new CourseDAO().search());
+				
+				rd = request.getRequestDispatcher("gerenciarCupons.jsp");
+				
+				break;
+				
+			case "reprovarCupom":
+				cupom = new Cupom();
+				cupom.setCodigo(request.getParameter("cupom_id"));
+				this.client.setId(Integer.parseInt(request.getParameter("cli_id")));
+				cupom.setClient(client);
+				cupom.setStatus("reprovado");
 				
 				dao = new CupomDAO();
 				dao.update(cupom);

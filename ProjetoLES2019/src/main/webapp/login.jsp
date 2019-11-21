@@ -69,8 +69,8 @@
 							</tr>
 							<tr>
 								<td align="center">
-									<a class="btn btn-warning form-control" id="alterar" href="alterar_senha.jsp">
-										Esqueceu a senha?</a>
+									<a class="btn btn-warning form-control" id="alterar" 
+										href="alterar_senha.jsp">Esqueceu a senha?</a>
 								</td>
 							</tr>
 							<tr>

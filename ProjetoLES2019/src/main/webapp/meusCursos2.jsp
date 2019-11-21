@@ -31,7 +31,7 @@
 		  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 		  crossorigin="anonymous"></script>
 	   	<script>
-	    	$(document).ready(function()
+	    	/*$(document).ready(function()
 	    	{	confirmouSla = false;
 	    		$(".btn-troca").on("click", function(e) 
 	    		{	if (!confirmouSla) 
@@ -44,7 +44,7 @@
 	    				else alert('Inserir um motivo para solicitação de cupom de troca');
 	    			} 
 	    		});
-	    	});
+	    	});*/
 	    </script>
 	    <link href="CSS/ListaFuncionarios.css" rel="stylesheet">
 	    <script src="scripts.js"></script>
@@ -99,6 +99,11 @@
 			</nav>
     	</div>
 		<div id="form">
+			<%	if(result != null)
+				{	if(result.getMsg() != null && !result.getMsg().equals(""))
+					{out.print("<div align='center' class='alert alert-warning'>" + result.getMsg() + "</div>");}
+				}
+			%>
 			<form action="CourseServlet" method="get">
 				<%	if(client != null)
 					{out.print("<input type='hidden' name='clientID' value='"+client.getId()+"'/>");}
@@ -157,7 +162,8 @@
 							if(client.getSales() != null && !client.getSales().isEmpty())
 							{	StringBuilder sb = new StringBuilder();
 								for(Sale sale:client.getSales())
-								{	for(Item item:sale.getListItem())
+								{	int i = 0;
+									for(Item item:sale.getListItem())
 									{	sb.append("<form action='MyServlet2' method='post'>");
 										sb.append("<input type='hidden' id='cliID' name='cliID' value="+client.getId()+"/>");
 										sb.append("<tr align='center'>");
@@ -184,11 +190,10 @@
 											sb.append("<td class='linha'><img src='imagens/prova.png'></td>");
 											sb.append("<td class='linha' align='center'><img src='imagens/diploma.png'></td>");
 										}
-										
 										sb.append("<td class='linha' align='center'>");
 										sb.append("<input type='text' name='motivo' id='motivo' placeholder='Motivo da troca'/>");
 										sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' "+
-											"onclick='motivo()' value='gerarCupom'>");
+											"value='gerarCupom'>");
 										sb.append("<img src='imagens/troca.png'></button></td><tr/></form>");
 									}
 								}
@@ -224,7 +229,7 @@
 			    				<li class="item-rede-social"><a href="https://www.linkedin.com/school/fatec-mogi-das-cruzes/about/">
 			    					<img src="imagens/linkedin.png" class="img-circle">
 			    				</a></li>
-			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/junior-cesar-57710a133/">
+			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/sergio-paulo-ferreira-24760724/">
 			    					<img src="imagens/sergio.jpg" class="img-circle">
 			    					<br/>
 			    					Sergio

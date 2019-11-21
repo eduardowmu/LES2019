@@ -71,7 +71,7 @@
 						</h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="#">Home</a></li>
+							<li><a class="barra-direita" href="inicialAdm.jsp">Home</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
@@ -214,7 +214,7 @@
 			    				<li class="item-rede-social"><a href="https://www.linkedin.com/school/fatec-mogi-das-cruzes/about/">
 			    					<img src="imagens/linkedin.png" class="img-circle">
 			    				</a></li>
-			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/junior-cesar-57710a133/">
+			    				<li class="item-rede-social"><a href="https://www.linkedin.com/in/sergio-paulo-ferreira-24760724/">
 			    					<img src="imagens/sergio.jpg" class="img-circle">
 			    					<br/>
 			    					Sergio

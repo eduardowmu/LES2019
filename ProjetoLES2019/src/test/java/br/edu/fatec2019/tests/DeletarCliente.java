@@ -12,15 +12,13 @@ public class DeletarCliente
 		WebDriver driver = new ChromeDriver();
 		Thread thread = new Thread();
 		if(driver!=null)
-		{	driver.get("http://localhost:8080/ProjetoLES2019/principal.html");
-		    driver.manage().window().setSize(new Dimension(1382, 744));
-		    driver.findElement(By.id("aluno")).click();
+		{	driver.get("http://localhost:8080/ProjetoLES2019/login.jsp");
+		    driver.manage().window().maximize();;
 		    driver.findElement(By.id("email")).click();
 		    driver.findElement(By.id("email")).sendKeys("yyy@ymail.com");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.id("senha")).click();
-		    driver.findElement(By.id("senha")).sendKeys("!@#Abc123");
+			driver.findElement(By.id("senha")).sendKeys("!@#Abc123");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("action")).click();

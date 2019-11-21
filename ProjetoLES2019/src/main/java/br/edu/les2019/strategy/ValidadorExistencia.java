@@ -25,7 +25,12 @@ public class ValidadorExistencia extends AbstractStrategy
 			for(EntityDomain entity:entities)
 			{	Client cli = (Client)entity;
 				if(client.getCpf().equals(cli.getCpf()))
-				{return "Client already exist";}
+				{return "Client already exist with cpf " + client.getCpf();}
+				
+				for(String email:cli.getEmails())
+				{	if(client.getEmails().get(0).equals(email))
+					{return "Usuário já existente";}
+				}
 			}
 			return null;
 		}

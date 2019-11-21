@@ -84,6 +84,8 @@ public class CupomDAO extends AbstractDAO
 			this.ps.executeUpdate();
 			
 			this.connection.commit();
+			
+			this.setSalvou(true);
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());
@@ -163,10 +165,15 @@ public class CupomDAO extends AbstractDAO
 				rcs.getCupons().add(cs);
 			}
 		}
-		catch(SQLException e)	{System.err.println(e.getMessage());}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
 		finally
 		{	try
-			{	//this.ps.close();
+			{	ps.close();
 				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
@@ -175,4 +182,9 @@ public class CupomDAO extends AbstractDAO
 	
 	public boolean isSalvou() {return salvou;}
 	public void setSalvou(boolean salvou) {this.salvou = salvou;}
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
+	}
 }

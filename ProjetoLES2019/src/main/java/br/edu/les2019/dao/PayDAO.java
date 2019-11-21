@@ -64,4 +64,10 @@ public class PayDAO extends AbstractDAO
 	@Override public List<EntityDomain> search() 
 	{	return null;
 	}
+
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
+	}
 }

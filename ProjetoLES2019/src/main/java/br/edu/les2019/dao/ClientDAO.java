@@ -161,6 +161,8 @@ public class ClientDAO extends AbstractDAO
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 			
+			this.connection.setAutoCommit(false);
+		
 			this.ps = this.connection.prepareStatement("SELECT * FROM " + 
 				this.table + " WHERE id = ? OR name LIKE ? OR surname LIKE ?");
 			
@@ -249,11 +251,13 @@ public class ClientDAO extends AbstractDAO
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
 			e.printStackTrace();
 		}
 		finally
 		{	try
-			{	ps.close();
+			{	this.ps.close();
 				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
@@ -266,7 +270,9 @@ public class ClientDAO extends AbstractDAO
 		try
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
-		
+			
+			this.connection.setAutoCommit(false);
+			
 			this.ps = this.connection.prepareStatement("SELECT * FROM client");
 		
 			this.rs = this.ps.executeQuery();
@@ -349,15 +355,51 @@ public class ClientDAO extends AbstractDAO
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
 			e.printStackTrace();
 		}
 		finally
 		{	try
-			{	ps.close();
+			{	this.ps.close();
 				if(this.ctrlTransaction)	this.connection.close();
 			}
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 		return entities;
+	}
+
+	@Override public void updateKey(EntityDomain ed) 
+	{	client = (Client)ed;
+		this.table = client.getClass().getSimpleName().toLowerCase();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			
+			this.connection.setAutoCommit(false);
+		
+			this.ps = this.connection.prepareStatement("UPDATE " + this.table + 
+				" SET password = ? WHERE id = ?");
+			
+			this.ps.setString(1, client.getPassword());
+			this.ps.setInt(2, client.getId());
+			
+			this.ps.executeUpdate();
+			
+			this.connection.commit();
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			try {this.connection.rollback();}
+			catch(SQLException e1) {e1.printStackTrace();}
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
 	}
 }

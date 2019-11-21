@@ -22,6 +22,7 @@ import br.edu.les2019.command.SaveCommand;
 import br.edu.les2019.command.SearchCommand;
 import br.edu.les2019.command.ShowCommand;
 import br.edu.les2019.command.UpdateCommand;
+import br.edu.les2019.command.UpdateKeyCommand;
 import br.edu.les2019.domain.CreditCard;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.result.Result;
@@ -59,6 +60,7 @@ public class MyServlet extends HttpServlet
     	this.commands.put("login", new LoginCommand());
     	this.commands.put("show", new ShowCommand());
     	this.commands.put("view", new CommandView());
+    	this.commands.put("updateKey", new UpdateKeyCommand());
     	
     	//instanciateing ViewHelper
     	this.views = new HashMap<String, IViewHelper>();

@@ -58,7 +58,7 @@ button.btn-primary
 
 #rodape 
 {	background: rgba(0, 0, 0, 0.9);
-	margin-top:50px;
+	margin-top:20px;
 }
 
 #rodape h4 {color:white;}
@@ -68,7 +68,7 @@ div#rodape2
   	left: 0;
  	bottom: 0;
   	width: 100%;
-  	margin-top:10px;
+  	padding-top:15px;
 }
 
 /*flutua��o de componentes a direita da p�gina*/

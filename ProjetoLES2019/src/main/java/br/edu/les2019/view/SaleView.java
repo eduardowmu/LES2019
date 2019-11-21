@@ -66,7 +66,7 @@ public class SaleView implements IViewHelper
 				payment.setStatus("pendente");
 				paymap = new HashMap<>();
 				
-				if(request.getParameter("cardValor").equals("0.00"))
+				if(request.getParameter("cardValor") == null || request.getParameter("cardValor").equals("0.00"))
 				{paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("total")));}
 				
 				else	

@@ -112,6 +112,7 @@
 				<table class="table table-striped table-bordered table-hover table-condensed">
 					<tr align="center">
 						<td class="tabela"><b>Código</b></td>
+						<td class="tabela"><b>Referência</b></td>
 						<td class="tabela"><b>Valor</b></td>
 						<td class="tabela"><b>Tipo</b></td>
 						<td class="tabela"><b>Status</b></td>
@@ -124,7 +125,10 @@
 												"<td class='linha' align='center'>" +
 													cupom.getCodigo() + 
 												"</td>" +
-												"<td class='linha' align='center'>" + 
+												"<td class='linha' align='center'>" +
+													cupom.getItem().getCourse().getName() + 
+												"</td>" +
+											"<td class='linha' align='center'>" + 
 													"R$" + nf.format(cupom.getValue()) +
 												"</td>" + 
 												"<td class='linha' align='center'>" + 

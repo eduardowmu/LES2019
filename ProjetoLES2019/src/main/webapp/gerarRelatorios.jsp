@@ -23,7 +23,110 @@
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript" src="jQuery.js"></script>
     	
+    	<script type="text/javascript">
+		
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawSale);
+		
+		//google.charts.setOnLoadCallback(drawBasic);
+		  
+		  var queryObject3="";
+		  var queryObjectLen3="";
+		  $.ajax({
+            type : 'GET',
+            url : 'api3.jsp',
+            dataType:'json',
+            success : function(data) {
+                queryObject3 = eval('(' + JSON.stringify(data) + ')');
+                queryObjectLen3 = queryObject3.empdetails.length;
+            },
+                error : function(xhr, type) {
+                //alert('server error occoured');
+            }
+        });
+	  
+	  // Função que cria e preenche os dados da tabela, instancia o gráfico, passa os dados e desenha.
+	  function drawSale() {
+        	
+        // Cria a tabela de dados.
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Cliente');
+		data.addColumn('number', 'Total');
+		for(var i=0;i<queryObjectLen3;i++)
+		{	var cli = queryObject3.empdetails[i].Cliente;
+			var valor = parseInt(queryObject3.empdetails[i].Total);
+			
+			data.addRows([
+				  [cli, valor]
+				]);
+		}
+		
+		// Define opções do gráfico
+		var options = {'title':'Valor total de compra - Por Cliente',
+					   'width':500,
+					   'height':500,
+					   legend: { position: 'bottom' }
+					   };
+
+		// Instantiate and draw our chart, passing in some options.
+		var chart = new google.visualization.ColumnChart(document.getElementById('chart_sale'));
+		chart.draw(data, options);
+	  }
+		</script>
+		
 		<script type="text/javascript">
+		
+		google.charts.load('current', {'packages':['corechart']});
+		google.charts.setOnLoadCallback(drawCourse);
+		
+		//google.charts.setOnLoadCallback(drawBasic);
+		  
+		  var queryObject4="";
+		  var queryObjectLen4="";
+		  $.ajax({
+            type : 'GET',
+            url : 'api4.jsp',
+            dataType:'json',
+            success : function(data) {
+                queryObject4 = eval('(' + JSON.stringify(data) + ')');
+                queryObjectLen4 = queryObject4.empdetails.length;
+            },
+                error : function(xhr, type) {
+                //alert('server error occoured');
+            }
+        });
+	  
+	  // Função que cria e preenche os dados da tabela, instancia o gráfico, passa os dados e desenha.
+	  function drawCourse() {
+        	
+        // Cria a tabela de dados.
+		var data = new google.visualization.DataTable();
+		data.addColumn('string', 'Curso');
+		data.addColumn('number', 'Qtd');
+		for(var i=0;i<queryObjectLen4;i++)
+		{	var cur = queryObject4.empdetails[i].Curso;
+			var qtd = parseInt(queryObject4.empdetails[i].Qtd);
+			
+			data.addRows([
+				  [cur, qtd]
+				]);
+		}
+		
+		// Define opções do gráfico
+		var options = {'title':'Quantidade de Cupons de troca - Por Curso',
+					   'width':500,
+					   'height':500,
+					   legend: { position: 'bottom' }
+					   };
+
+		// Instantiate and draw our chart, passing in some options.
+		var chart = new google.visualization.ColumnChart(document.getElementById('chart_course'));
+		chart.draw(data, options);
+	  }
+		</script>
+    	
+		<script type="text/javascript">
+		
 			google.charts.load('current', {'packages':['corechart']});
 			google.charts.setOnLoadCallback(drawChart);
 			
@@ -72,33 +175,21 @@
 		}
 		  //chart.draw(data, options);
 		</script>
+		
 		<script type="text/javascript">
-/*
-            $(document).ready(function(){
-                // First load the chart once 
-                drawChart();
-                // Set interval to call the drawChart again
-                setInterval(drawChart, 1000);
-                });*/
-    	</script>
-    	
-    	
-    	<script type="text/javascript">
 		
 		google.charts.load('current', {'packages':['corechart']});
 		google.charts.setOnLoadCallback(drawBasic);
 		
-		//google.charts.setOnLoadCallback(drawBasic);
-		  
-		  var queryObject="";
-		  var queryObjectLen="";
+		  var queryObject2="";
+		  var queryObjectLen2="";
 		  $.ajax({
             type : 'GET',
-            url : 'api.jsp',
+            url : 'api2.jsp',
             dataType:'json',
             success : function(data) {
-                queryObject = eval('(' + JSON.stringify(data) + ')');
-                queryObjectLen = queryObject.empdetails.length;
+                queryObject2 = eval('(' + JSON.stringify(data) + ')');
+                queryObjectLen2 = queryObject2.empdetails.length;
             },
                 error : function(xhr, type) {
                 //alert('server error occoured');
@@ -110,21 +201,21 @@
         	
         // Cria a tabela de dados.
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'Categoria');
+		data.addColumn('string', 'Status');
 		data.addColumn('number', 'Quantidade');
-		for(var i=0;i<queryObjectLen;i++)
-		{	var cat = queryObject.empdetails[i].Categoria;
-			var valor = parseInt(queryObject.empdetails[i].Quantidade);
+		for(var i=0;i<queryObjectLen2;i++)
+		{	var sts = queryObject2.empdetails[i].Status;
+			var valor = parseInt(queryObject2.empdetails[i].Quantidade);
 			
 			data.addRows([
-				  [cat, valor]
+				  [sts, valor]
 				]);
 		}
 		
 		
 
 		// Define opções do gráfico
-		var options = {'title':'Cursos vendidos em % - Por Categoria',
+		var options = {'title':'Quantidade de solicitação de cupons de troca - Por status',
 					   'width':500,
 					   'height':500,
 					   legend: { position: 'bottom' }
@@ -135,22 +226,36 @@
 		chart.draw(data, options);
 	  }
 		</script>
+		
+
+		
 		<script type="text/javascript">
 		
 			$(document).ready(function(){
-			// First load the chart once 
-	        drawChart();
-	        // Set interval to call the drawChart again
-	        setInterval(drawChart, 1000);
-	        
-			
+				// Third load 
+	            drawSale();
+	            
+	         	// Set interval to call the drawChart again
+	            setInterval(drawSale, 1000);
+	            
+	            //fourth load
+	            drawCourse();
+	            
+	         	// Set interval to call the drawChart again
+	            setInterval(drawCourse, 1000);
 				
-			// Second load the chart once 
-            drawBasic();
-            // Set interval to call the drawChart again
-            setInterval(drawBasic, 1000);
-            
-			});
+				// First load the chart once 
+		        drawChart();
+		        // Set interval to call the drawChart again
+		        setInterval(drawChart, 1000);
+		        
+				// Second load the chart once 
+	            drawBasic();
+	            // Set interval to call the drawChart again
+	            setInterval(drawBasic, 1000);
+	            
+	            
+	        });
         </script>
     	
 		<style>
@@ -214,12 +319,11 @@
 						{	client = (Client)ed;
 							break;
 						}
-						
 					}
-					
 				}
 			%>
-		    	<center><label> Data de Início</label>
+		    <center>
+		    	<label> Data de Início</label>
 		    	<input type="hidden" id="clientID" name="clientID" value="<%if(client != null)
 																	    	{client.getId();}
 		    																%>"/>
@@ -235,6 +339,9 @@
 			<fieldset>
 				<legend>GRÁFICOS</legend>
 				<table align="center">
+					<!-- <tr><td><div id="chart_div"></div></td></tr> -->
+					<tr><td><div id="chart_sale"></div></td></tr>
+					<tr><td><div id="chart_course"></div></td></tr>
 					<tr><td><div id="chart_pizza"></div></td></tr>
 					<tr><td><div id="chart_div"></div></td></tr>
 				</table>

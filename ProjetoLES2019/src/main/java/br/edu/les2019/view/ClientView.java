@@ -5,11 +5,15 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import br.edu.les2019.dao.ClientDAO;
+import br.edu.les2019.dao.IDAO;
 import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.CreditCard;
 import br.edu.les2019.domain.EntityDomain;
@@ -128,6 +132,27 @@ public class ClientView implements IViewHelper
 			case "delete":
 				client.setId(Integer.parseInt(request.getParameter("id")));
 				break;
+				
+			case "updateKey":
+				client.setEmails(new ArrayList<>());
+				client.getEmails().add(request.getParameter("email"));
+				client.setPassword(request.getParameter("senha"));
+				client.setPassword2(request.getParameter("senha2"));
+				IDAO dao = new ClientDAO();
+				List<EntityDomain> entities = dao.search();
+				if(entities != null && !entities.isEmpty())
+				{	for(EntityDomain ed:entities)
+					{	if(ed != null)
+						{	Client cli = (Client)ed;
+							if(cli.getEmails().get(0).equals(client.getEmails().get(0)))
+							{	client.setId(cli.getId());
+								break;
+							}
+						}
+					}
+				}
+				
+				break;
 		}
 		return client;
 	}
@@ -179,7 +204,7 @@ public class ClientView implements IViewHelper
 				if(result.getMsg() == null)
 				{	result.setMsg("Dados alterados!");
 					request.getSession().setAttribute("result", result);
-					rd = request.getRequestDispatcher("meusCursos.jsp");
+					rd = request.getRequestDispatcher("meusCursos2.jsp");
 				}
 				
 				else
@@ -200,6 +225,20 @@ public class ClientView implements IViewHelper
 			case "delete":
 				request.getSession().setAttribute("result", result);
 				rd = request.getRequestDispatcher("gerenciarClientes.jsp");
+				break;
+				
+			case "updateKey":
+				if(result.getMsg() == null)
+				{	result.setMsg("Senha alterada");
+					request.getSession().setAttribute("result", result);
+					rd = request.getRequestDispatcher("login.jsp");
+				}
+				
+				else
+				{	request.getSession().setAttribute("result", result);
+					rd = request.getRequestDispatcher("alterar_senha.jsp");
+				}
+				
 				break;
 		}
 		rd.forward(request, response);

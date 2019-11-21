@@ -38,14 +38,14 @@
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="inicialAdm.jsp">Página Inicial</a></li>
-							<li><a class="barra-direita" href="principal.jsp">Sair</a></li>
+							<li><a class="barra-direita" href="login.jsp">Sair</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
     	</div>
 		<div id="form" align="center">
-			<% 	Result result = (Result)session.getAttribute("result");
+			<% 	/*Result result = (Result)session.getAttribute("result");
 				Course course = null;
 				if(result != null)
 				{	if(!result.getMsg().equals(""))
@@ -58,7 +58,7 @@
 							}
 						}
 					}
-				}
+				}*/
 			%>
 			<fieldset>
 				<legend>Cadastro de Cursos</legend>
@@ -66,13 +66,17 @@
 						<b>Dados do Curso</b><br/>
 						<br/>
 						Instrutor:
-						<input type="text" name="instrutor" id="instrutor" value="<%	if(course != null)
+						<input type="text" name="instrutor" id="instrutor" value="<%	/*if(course != null)
 																						{out.print(course.getInstructor());}
-																					%>" required/>
+																					*/%>" required/>
 						<br/>
 						Categoria:
 						<select name="cat">
-							<%	if(course != null)
+							<option>Linguagem de Programação</option>
+							<option>Hardware</option>
+							<option>Software</option>
+							<%	/*
+								if(course != null)
 								{	if(course.getCategoria().equals("Linguagem de Programação"))
 									{	out.print("<option selected>Linguagem de Programação</option>" +
 												  "<option>Hardware</option>" +
@@ -96,25 +100,29 @@
 								{	out.print("<option>Linguagem de Programação</option>" +
 												"<option>Hardware</option>" + 
 												"<option>Software</option>");
-								}
+								}*/
 							%>
 						</select>
 						Titulo:
-						<input type="text" name="titulo" id="titulo" value="<%	if(course != null)
+						<input type="text" name="titulo" id="titulo" value="<%	/*if(course != null)
 																				{out.print(course.getName());}
-																			%>" required/>
+																			*/%>" required/>
 						Descrição:
-						<input type="text" name="descricao" id="descricao" value="<%	if(course != null)
+						<input type="text" name="descricao" id="descricao" value="<%	/*if(course != null)
 																						{out.print(course.getDescricao());}
-																					%>" required/>
+																					*/%>" required/>
 						<br/>
 						Valor:
-						<input type="number" id="valor" name="valor" value="<%	if(course != null)
+						<input type="number" id="valor" name="valor" value="<%	/*if(course != null)
 																				{out.print(course.getPrice());}
-																			%>" required/>
+																			*/%>" required/>
 						Grupo de Precificação:
 						<select name="grupo">
-							<%	if(course != null)
+							<option>x1.15</option>
+							<option>x1.25</option>
+							<option>x1.50</option>
+							<%	/*
+								if(course != null)
 								{	if(course.getGrupoP().equals("x1.15"))
 									{	out.print("<option selected>x1.15</option>" + 
 													"<option>x1.25</option>" + 
@@ -138,7 +146,7 @@
 								{	out.print("<option>x1.15</option>" + 
 												"<option>x1.25</option>" +
 												"<option>x1.50</option>");
-								}
+								}*/
 							%>
 						<select/>
 						<button type="submit" name="action" id="action" class="btn btn-primary" value="save">

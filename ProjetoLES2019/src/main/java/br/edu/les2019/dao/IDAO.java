@@ -9,4 +9,5 @@ public interface IDAO
 	public abstract void delete(EntityDomain ed);
 	public abstract List<EntityDomain> search(EntityDomain ed);
 	public abstract List<EntityDomain> search();
+	public abstract void updateKey(EntityDomain ed);
 }

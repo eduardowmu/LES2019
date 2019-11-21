@@ -121,8 +121,9 @@
 						<td class="tabela"><b>Valor</b></td>
 						<td class="tabela"><b>Tipo</b></td>
 						<td class="tabela"><b>Status</b></td>
+						<td class="tabela"><b>Motivo</b></td>
 						<td class="tabela"><b>Aprovar</b></td>
-						
+						<td class="tabela"><b>Reprovar</b></td>
 					</tr>
 					<%	StringBuilder sb = new StringBuilder();
 						if(result != null)
@@ -145,12 +146,21 @@
 												sb.append("<input type='hidden' name='cupom_tipo' value='" + cupom.getTipo() + "'/></td>");
 												sb.append("<td class='tabela'>" + cupom.getStatus());
 												sb.append("<input type='hidden' name='cupom_status' value='" + cupom.getStatus() + "'/></td>");
+												if(cupom.getMotivo() != null)	{sb.append("<td class='tabela'>"+cupom.getMotivo().getText()+"</td>");}
+												
+												else {sb.append("<td class='tabela'></td>");}
+												
 												if(cupom.getStatus().equalsIgnoreCase("pendente"))
 												{	sb.append("<td class='tabela'><button type='submit' name='action' value='aprovarCupom' class='btn btn-link acao'>");
-													sb.append("<img src='imagens/joia.png'/></button></td></tr></form>");
+													sb.append("<img src='imagens/joia.png'/></button></td>");
+													sb.append("<td class='tabela'><button type='submit' name='action' value='reprovarCupom' class='btn btn-link acao'>");
+													sb.append("<img src='imagens/nao_joia.png'/></button></td></tr></form>");
 												}
 												
-												else	{sb.append("<td class='tabela'><img src='imagens/joia.png'/></td></tr></form>");}
+												else	
+												{	sb.append("<td class='tabela'><img src='imagens/joia.png'/></td>");
+													sb.append("<td class='tabela'><img src='imagens/nao_joia.png'/></td></tr></form>");
+												}
 											}
 										}
 									}

@@ -163,7 +163,7 @@
 											"<td class='center'>" + scar.getCourses().get(i).getName() + "</td>" +
 											"<td class='center'>" + scar.getCourses().get(i).RealFormat(scar.getCourses().get(i).getPrice()) + "</td>" +
 											"<td class='center'>" +
-												"<input type='checkbox' name='courseID"+i+"' value='"+scar.getCourses().get(i).getId()+"'/>" +
+												"<input type='radio' name='courseID' value='"+scar.getCourses().get(i).getId()+"'/>" +
 											"</td>" +
 									 "</tr>");
 								}
@@ -173,6 +173,7 @@
 					%>
 					<tr>
 						<td></td>
+						
 						<td>Subtotal R$</td>
 						<td>
 							<input type="text" id="subtotal" name="subtotal" value="<%	if(scar != null)
@@ -217,7 +218,8 @@
 								{	for(int i = 0; i < client.getCupons().size(); i++)
 									{	if(client.getCupons().get(i) != null && 
 											client.getCupons().get(i).getStatus().equals("aprovado"))
-										{	out.print("<option value='"+(i+1)+"'>");
+										{	int j = i;
+											out.print("<option value='"+(j+1)+"'>");
 											out.print(client.getCupons().get(i).getCodigo());
 											out.print("</option>");
 										}
@@ -230,7 +232,7 @@
 						%>
 					</td>
 					<td>
-						<button type="button" class="btn btn-primary form-control" 
+						<button type="button" class="btn btn-primary form-control" id="addCupom"
 							onclick="calcularTotal()">Add Cupom
 						</button>
 					</td>

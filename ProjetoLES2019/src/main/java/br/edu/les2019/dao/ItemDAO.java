@@ -127,4 +127,9 @@ public class ItemDAO extends AbstractDAO
 		// TODO Auto-generated method stub
 		return null;
 	}
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
+	}
 }

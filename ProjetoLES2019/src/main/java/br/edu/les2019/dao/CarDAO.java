@@ -179,6 +179,8 @@ public class CarDAO extends AbstractDAO
 			this.ps.executeUpdate();
 			
 			this.connection.commit();
+			
+			deletou = true;
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());
@@ -194,5 +196,11 @@ public class CarDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 		return deletou;
+	}
+
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
 	}
 }

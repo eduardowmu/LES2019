@@ -109,6 +109,7 @@ public class Facade implements IFacade
 		List<IStrategy> rnConsultarClient = new ArrayList<>();
 		List<IStrategy> rnDeletarClient = new ArrayList<>();
 		List<IStrategy> rnLogin = new ArrayList<>();
+		List<IStrategy> rnAlterarSenha = new ArrayList<>();
 		
 		//regras para salvar cliente
 		rnSalvarClient.add(vdd);
@@ -139,6 +140,11 @@ public class Facade implements IFacade
 		//regras para deletar clientes
 		
 		
+		//regras para alterar senha de cliente
+		rnAlterarSenha.add(vemail);
+		rnAlterarSenha.add(cs);
+		rnAlterarSenha.add(vs);
+		
 		//mapeamento de todas as regras para o cliente
 		Map<String, List<IStrategy>> regrasClient = 
 				new HashMap<String, List<IStrategy>>();
@@ -149,7 +155,7 @@ public class Facade implements IFacade
 		regrasClient.put("save", rnSalvarClient);
 		regrasClient.put("login", rnLogin);
 		regrasClient.put("update", rnAlterarClient);
-				
+		regrasClient.put("updateKey", rnAlterarSenha);
 		
 		//Lista de regras para cursos
 		List<IStrategy> rnSalvarCurso = new ArrayList<>();
@@ -329,7 +335,6 @@ public class Facade implements IFacade
 	@Override public Result update(EntityDomain ed) 
 	{	result = new Result();
 		List<EntityDomain> entities = new ArrayList<>();
-		entities.add(ed);
 		if(this.executeRules(ed, "update") == null)
 		{	IDAO dao = daos.get(ed.getClass().getName());
 			try	
@@ -347,6 +352,25 @@ public class Facade implements IFacade
 		}
 		else result.setMsg(this.executeRules(ed, "update"));
 		
+		entities.add(ed);
+		result.setEntities(entities);
+		return result;
+	}
+	
+	public Result updateKey(EntityDomain ed)
+	{	result = new Result();
+		List<EntityDomain> entities = new ArrayList<>();
+		if(this.executeRules(ed, "updateKey") == null)
+		{	IDAO dao = daos.get(ed.getClass().getName());
+			try	{dao.updateKey(ed);}
+			catch(Exception e)
+			{	System.out.println(e.getMessage());
+				result.setMsg("Estamos com um problema, "
+					+ "mas em breve será resolvido");
+			}
+		}
+		else	result.setMsg(this.executeRules(ed, "updateKey"));
+		entities.add(ed);
 		result.setEntities(entities);
 		return result;
 	}

@@ -12,6 +12,9 @@ import br.edu.les2019.domain.Sale;
 public class InserirNovoEmail extends AbstractStrategy 
 {	@Override public String process(EntityDomain ed) 
 	{	Sale sale = (Sale)ed;
+		if(sale.getClient().getEmails().get(sale.getClient().getEmails().size() - 1).equals(""))
+		{return null;}
+		
 		EmailDAO dao = new EmailDAO();
 		List<EntityDomain> entities = dao.search(sale.getClient());
 		if(entities != null && !entities.isEmpty())

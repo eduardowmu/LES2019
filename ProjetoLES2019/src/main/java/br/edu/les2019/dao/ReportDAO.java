@@ -60,6 +60,16 @@ public class ReportDAO extends AbstractDAO
 			cdao.connection = this.connection;
 			cdao.search2(rcs);
 			
+			SaleDAO sdao = new SaleDAO();
+			sdao.ctrlTransaction = false;
+			sdao.connection = this.connection;
+			sdao.searchClientSale(rcs);
+			
+			CourseDAO codao = new CourseDAO();
+			codao.ctrlTransaction = false;
+			codao.connection = this.connection;
+			codao.searchCursoCupom(rcs);
+			
 			entidades.add(rcs);
 		}
 		catch(SQLException e)
@@ -80,5 +90,11 @@ public class ReportDAO extends AbstractDAO
 
 	@Override public List<EntityDomain> search() 
 	{	return null;
+	}
+
+	@Override
+	public void updateKey(EntityDomain ed) {
+		// TODO Auto-generated method stub
+		
 	}
 }
