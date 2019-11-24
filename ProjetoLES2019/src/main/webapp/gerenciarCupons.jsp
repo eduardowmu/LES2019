@@ -147,9 +147,9 @@
 												sb.append("<td class='tabela'>" + cupom.getStatus());
 												sb.append("<input type='hidden' name='cupom_status' value='" + cupom.getStatus() + "'/></td>");
 												if(cupom.getMotivo() != null)	{sb.append("<td class='tabela'>"+cupom.getMotivo().getText()+"</td>");}
-												
+													
 												else {sb.append("<td class='tabela'></td>");}
-												
+													
 												if(cupom.getStatus().equalsIgnoreCase("pendente"))
 												{	sb.append("<td class='tabela'><button type='submit' name='action' value='aprovarCupom' class='btn btn-link acao'>");
 													sb.append("<img src='imagens/joia.png'/></button></td>");
@@ -164,8 +164,8 @@
 											}
 										}
 									}
-								} 
-							}
+								}
+							} 
 							out.print(sb);
 						}
 					%>

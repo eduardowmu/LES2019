@@ -245,7 +245,6 @@ public class ClientDAO extends AbstractDAO
 						cupom.setClient(cli);
 					}
 				}
-				
 				entities.add(cli);
 			}
 		}
@@ -322,7 +321,6 @@ public class ClientDAO extends AbstractDAO
 						card.setClient(this.client);
 					}
 				}
-				
 				SaleDAO sdao = new SaleDAO();
 				sdao.connection = this.connection;
 				sdao.ctrlTransaction = false;

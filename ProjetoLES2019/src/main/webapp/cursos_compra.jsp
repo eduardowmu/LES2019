@@ -104,9 +104,8 @@
 														"<td class='linha' align='center'>" + course.RealFormat(course.getPrice()) + "</td>" +
 													"</tr>" + 
 												  "</form>");
+										i++;
 									}
-									
-									i++;
 								}
 							}
 						%>

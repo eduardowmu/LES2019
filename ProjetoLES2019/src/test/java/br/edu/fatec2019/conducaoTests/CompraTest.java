@@ -21,9 +21,9 @@ public class CompraTest
 		{	driver.get("http://localhost:8080/ProjetoLES2019/login.jsp");
 			driver.manage().window().maximize();
 			thread.sleep(2000);
-			driver.findElement(By.id("email")).sendKeys("eeefff@gmail.com");
+			driver.findElement(By.id("email")).sendKeys("fff@gmail.com");
 			thread.sleep(1000);
-			driver.findElement(By.id("senha")).sendKeys("@#$Abc123");
+			driver.findElement(By.id("senha")).sendKeys("!@#Abc123");
 			thread.sleep(1000);
 			driver.findElement(By.id("action")).click();
 			thread.sleep(1000);
@@ -53,7 +53,7 @@ public class CompraTest
 			driver.findElement(By.linkText("adicionar novo cartão")).click();
 			thread.sleep(2000);
 			driver.getCurrentUrl();
-			driver.findElement(By.name("numero")).sendKeys("1234567896547892");
+			driver.findElement(By.name("numero")).sendKeys("4566321178996546");
 			thread.sleep(1000);
 			driver.findElement(By.name("code")).sendKeys("963");
 			thread.sleep(1000);
@@ -63,7 +63,7 @@ public class CompraTest
 			thread.sleep(1000);
 			driver.findElement(By.name("vencimento")).sendKeys("2026");
 			thread.sleep(1000);
-			driver.findElement(By.name("titular")).sendKeys("eee fff");
+			driver.findElement(By.name("titular")).sendKeys("fff ggg");
 			thread.sleep(1000);
 			driver.findElement(By.id("salvar")).click();
 			thread.sleep(2000);
@@ -74,7 +74,7 @@ public class CompraTest
 			thread.sleep(1000);
 			driver.findElement(By.id("selCARD")).click();
 			thread.sleep(1000);
-			driver.findElement(By.name("email")).sendKeys("ef@gmail.com");
+			driver.findElement(By.name("email")).sendKeys("fg@gmail.com");
 			thread.sleep(1000);
 			driver.findElement(By.id("fechar")).click();
 		}

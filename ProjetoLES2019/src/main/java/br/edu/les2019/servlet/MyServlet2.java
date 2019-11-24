@@ -171,9 +171,10 @@ public class MyServlet2 extends HttpServlet
 				this.result = (Result)request.getSession().getAttribute("result");
 				
 				if(this.result != null)
-				{	for(EntityDomain ed:result.getEntities())
+				{	for(EntityDomain ed:this.result.getEntities())
 					{	if(ed instanceof Client)	
 						{	this.client = (Client)ed;
+							//this.result.getEntities().remove(ed);
 							break;
 						}
 					}
@@ -191,8 +192,7 @@ public class MyServlet2 extends HttpServlet
 					CupomDAO cupdao = new CupomDAO();
 					cupdao.save(cupom);
 					if(cupdao.isSalvou())
-					{	this.result.getEntities().remove(this.client);
-						this.client.setName("");
+					{	this.client.setName("");
 						this.client.setSurname("");
 						this.result.getEntities().addAll(new ClientDAO().search(this.client));
 						this.result.setMsg("Cupom " + cupom.getCodigo() + " gerado com sucesso");
@@ -222,6 +222,23 @@ public class MyServlet2 extends HttpServlet
 				
 				dao = new CupomDAO();
 				dao.update(cupom);
+				List<EntityDomain> entities = dao.search(this.client);
+				if(entities != null || !entities.isEmpty())
+				{	for(EntityDomain ed:entities)
+					{	if(ed instanceof Cupom)
+						{	Cupom c = (Cupom)ed;
+							if(cupom.getCodigo().equals(c.getCodigo()))
+							{	cupom.setItem(c.getItem());
+								break;
+							}
+						}
+					}
+				}
+				
+				IDAO idao = new ItemDAO();
+				
+				cupom.getItem().setStatus("inativo");
+				idao.update(cupom.getItem());
 				
 				this.result.setEntities(new ArrayList<EntityDomain>());
 				this.result.getEntities().addAll(new ClientDAO().search());

@@ -8,6 +8,7 @@ import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.ClienteVenda;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.CreditCard;
+import br.edu.les2019.domain.Cupom;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
 import br.edu.les2019.domain.Payment;

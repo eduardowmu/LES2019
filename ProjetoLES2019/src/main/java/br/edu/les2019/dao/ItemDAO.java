@@ -55,16 +55,31 @@ public class ItemDAO extends AbstractDAO
 	}
 
 	@Override public void update(EntityDomain ed) 
-	{	Sale sale = (Sale)ed;
+	{	Sale sale = null;
+		Item item = null;
+		if(ed instanceof Sale)	{sale = (Sale)ed;}
+		else item = (Item)ed;
 		try
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 		
-			this.ps = this.connection.prepareStatement("UPDATE item SET status = ? " +
-				"WHERE ite_sal_id = ?");
+			this.connection.setAutoCommit(false);
 			
-			this.ps.setString(1, sale.getSaleStatus());
-			this.ps.setInt(2, sale.getId());
+			if(sale != null)
+			{	this.ps = this.connection.prepareStatement("UPDATE item SET status = ? " +
+					"WHERE ite_sal_id = ?");
+			
+				this.ps.setString(1, sale.getListItem().get(0).getStatus());
+				this.ps.setInt(2, sale.getId());
+			}
+			
+			else
+			{	this.ps = this.connection.prepareStatement("UPDATE item SET status = ? " +
+					"WHERE id = ?");
+			
+				this.ps.setString(1, item.getStatus());
+				this.ps.setInt(2, item.getId());
+			}
 			
 			this.ps.executeUpdate();
 			
@@ -84,7 +99,7 @@ public class ItemDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 	}
-
+	
 	@Override public List<EntityDomain> search(EntityDomain ed) 
 	{	List<EntityDomain> itens = new ArrayList<>();
 		Sale sale = (Sale)ed;
@@ -100,11 +115,14 @@ public class ItemDAO extends AbstractDAO
 			
 			while(this.rs.next())
 			{	this.item = new Item();
-				this.item.setId(this.rs.getInt(1));
-				this.item.setCode(this.rs.getString(2));
+				this.item.setId(this.rs.getInt("id"));
+				this.item.setCode(this.rs.getString("code"));
 				this.item.setCourse(new Course());
-				this.item.getCourse().setId(this.rs.getInt(3));
+				this.item.getCourse().setId(this.rs.getInt("ite_cur_id"));
+				this.item.setSale(new Sale());
+				this.item.getSale().setId(this.rs.getInt("ite_sal_id"));
 				this.item.setStatus(this.rs.getString("status"));
+				this.item.setRegistry(new java.sql.Date(this.rs.getDate("registry").getTime()));
 				itens.add(this.item);
 			}
 		}
@@ -122,10 +140,41 @@ public class ItemDAO extends AbstractDAO
 		return itens;
 	}
 
-	@Override
-	public List<EntityDomain> search() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override public List<EntityDomain> search() 
+	{	List<EntityDomain> itens = new ArrayList<>();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			
+			this.ps = this.connection.prepareStatement("SELECT * FROM item");
+			
+			this.rs = this.ps.executeQuery();
+			
+			while(this.rs.next())
+			{	this.item = new Item();
+				this.item.setId(this.rs.getInt(1));
+				this.item.setCode(this.rs.getString(2));
+				this.item.setCourse(new Course());
+				this.item.getCourse().setId(this.rs.getInt(3));
+				this.item.setSale(new Sale());
+				this.item.getSale().setId(this.rs.getInt(4));
+				this.item.setStatus(this.rs.getString("status"));
+				this.item.setRegistry(new java.sql.Date(this.rs.getDate(5).getTime()));
+				itens.add(this.item);
+			}
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+		return itens;
 	}
 	@Override
 	public void updateKey(EntityDomain ed) {

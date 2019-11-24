@@ -56,8 +56,7 @@ public class SaleView implements IViewHelper
 					{client = (Client)ed;}
 				}
 				
-				if(request.getParameter("email") != null && 
-					!request.getParameter("email").equals(""))
+				if(request.getParameter("email") != null)
 				{client.getEmails().add(request.getParameter("email"));}
 				
 				payment = new Payment();
@@ -66,14 +65,20 @@ public class SaleView implements IViewHelper
 				payment.setStatus("pendente");
 				paymap = new HashMap<>();
 				
-				if(request.getParameter("cardValor") == null || request.getParameter("cardValor").equals("0.00"))
+				if(payment.getQtdParcelas() == 1)
 				{paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("total")));}
 				
 				else	
-				{	paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("id_valor_parcela")));
-					paymap.put(client.getCards().get(1), Double.parseDouble(request.getParameter("cardValor")));
+				{	for(int i = 0; i < payment.getQtdParcelas(); i++)
+					{	if(i == 0)
+						{paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("id_valor_parcela")));}
+					
+						else	paymap.put(client.getCards().get(1), Double.parseDouble(request.getParameter("cardValor"+i)));
+					}
 				}
-				/*if(Integer.parseInt(request.getParameter("qtd_card")) > 0)
+				
+				/*
+				if(Integer.parseInt(request.getParameter("qtd_card")) > 0)
 				{	int k = 1;
 					for(int i = 1; i <= Integer.parseInt(request.getParameter("qtd_card")); i++)
 					{	if(request.getParameter("selCARD"+i) != null && 
@@ -85,7 +90,8 @@ public class SaleView implements IViewHelper
 							k++;
 						}
 					}
-				}*/
+				}
+				*/
 				
 				payment.setPaymap(paymap);
 				

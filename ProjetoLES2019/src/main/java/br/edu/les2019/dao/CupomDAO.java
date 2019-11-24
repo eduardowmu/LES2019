@@ -6,10 +6,12 @@ import java.util.Date;
 import java.util.List;
 
 import br.edu.les2019.domain.Client;
+import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.Cupom;
 import br.edu.les2019.domain.CupomStatus;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
+import br.edu.les2019.domain.Motivo;
 import br.edu.les2019.domain.ReportCoursesSold;
 
 public class CupomDAO extends AbstractDAO 
@@ -49,6 +51,30 @@ public class CupomDAO extends AbstractDAO
 			
 			this.connection.commit();
 			this.salvou = true;
+			/*
+			ItemDAO idao = new ItemDAO();
+			idao.ctrlTransaction = false;
+			idao.connection = this.connection;
+			for(EntityDomain edo:idao.search())
+			{	if(edo != null)
+				{	Item item = (Item)edo;
+					if(cupom.getId() == item.getId())
+					{	CourseDAO cdao = new CourseDAO();
+						cdao.ctrlTransaction = false;
+						cdao.connection = this.connection;
+						for(EntityDomain edo2:cdao.search())
+						{	if(edo2 != null)
+							{	Course course = (Course)edo2;
+								if(item.getCourse().getId() == course.getId())
+								{	item.setCourse(course);
+									this.cupom.setItem(item);
+									break;
+								}
+							}
+						}
+					}
+				}
+			}*/
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());
@@ -110,10 +136,44 @@ public class CupomDAO extends AbstractDAO
 			{this.connection = this.getConnection();}
 			
 			this.ps = this.connection.prepareStatement(
-				"SELECT cup_ite_id, codigo, tipo, valor, status FROM cupom WHERE " +
-				"cup_cli_id = ?");
+				"SELECT * FROM cupom WHERE cup_cli_id = ?");
 			
 			this.ps.setInt(1, ed.getId());
+			
+			this.rs = this.ps.executeQuery();
+			
+			while(this.rs.next())
+			{	this.cupom = new Cupom();
+				this.cupom.setId(this.rs.getInt(1));
+				this.cupom.setItem(new Item());
+				this.cupom.getItem().setId(this.rs.getInt("cup_ite_id"));
+				this.cupom.setCodigo(this.rs.getString("codigo"));
+				this.cupom.setTipo(this.rs.getString("tipo"));
+				this.cupom.setValue(this.rs.getDouble("valor"));
+				this.cupom.setMotivo(new Motivo(this.rs.getString("motivo")));
+				this.cupom.setStatus(this.rs.getString("status"));
+				this.cupom.setRegistry(new java.sql.Date(this.rs.getDate("registry").getTime()));
+				entities.add(this.cupom);
+			}
+		}
+		catch(SQLException e)	{System.err.println(e.getMessage());}
+		finally
+		{	try
+			{	//this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+		return entities;
+	}
+	
+	@Override public List<EntityDomain> search() 
+	{	List<EntityDomain> entities = new ArrayList<>();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			
+			this.ps = this.connection.prepareStatement("SELECT * FROM cupom");
 			
 			this.rs = this.ps.executeQuery();
 			
@@ -137,10 +197,6 @@ public class CupomDAO extends AbstractDAO
 			catch(SQLException e2){e2.printStackTrace();}
 		}
 		return entities;
-	}
-	
-	@Override public List<EntityDomain> search() 
-	{	return null;
 	}
 	
 	public void search2(ReportCoursesSold rcs)

@@ -132,25 +132,7 @@
 					<%	StringBuilder sb = new StringBuilder();
 						if(scar != null)
 						{	if(scar.getCourses() != null && !scar.getCourses().isEmpty())
-							{	/*int i = 0;
-								for(EntityDomain ed:scar.getCourses())
-								{	course = (Course)ed;
-									String code = "";
-									code += String.valueOf(client.getId());
-									code += "-";
-									code += String.valueOf(course.getId());
-									out.print("<tr class='odd gradeX'>" + 
-													"<input type='hidden' name='code"+i+"' id='code' value='"+ code +"'/>" +
-													"<td class='center'>" + code + "</td>" + 
-													"<td class='center'>" + course.getName() + "</td>" +
-													"<td class='center'>" + course.RealFormat(course.getPrice()) + "</td>" +
-													"<td class='center'>" +
-														"<input type='checkbox' name='courseID"+i+"' value='"+course.getId()+"'/>" +
-													"</td>" +
-											 "</tr>");
-									i++;
-								}*/
-								int qtd = 0;
+							{	int qtd = 0;
 								for(int i = 0; i < scar.getCourses().size(); i++)
 								{	String code = "";
 									code += String.valueOf(client.getId());
@@ -179,12 +161,11 @@
 							<input type="text" id="subtotal" name="subtotal" value="<%	if(scar != null)
 																						{	if(scar.getCourses() != null && 
 																								!scar.getCourses().isEmpty())
-																							{	Course c = null;
-																								for(EntityDomain e:scar.getCourses())
-																								{	c = (Course)e;
-																									total += c.getPrice();
+																							{	for(EntityDomain e:scar.getCourses())
+																								{	course = (Course)e;
+																									total += course.getPrice();
 																								}
-																								out.print(c.RealFormat(total));
+																								out.print(course.RealFormat(total));
 																							}
 																						}
 																					%>"disabled="disabled"/>
