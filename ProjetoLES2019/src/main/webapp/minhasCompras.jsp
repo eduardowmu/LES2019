@@ -12,7 +12,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
     	<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="UTF-8">
-		<title>Meus Cursos</title>
+		<title>Minhas Compras</title>
 		<!-- Bootstrap -->
     	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements
@@ -71,7 +71,7 @@
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
 						<h3 class="barra">
-							<b id=titulo>Meus Cursos</b>
+							<b id=titulo>Minhas Compras</b>
 							<%	Result result = (Result)session.getAttribute("result");
 								Client client = null;
 								if(result != null)
@@ -90,7 +90,7 @@
 							<li><a class="barra-direita" href="alterarSenha.html">| Alterar Senha |</a></li>
 							<li><a class="barra-direita" href="meusCupons.jsp">| Meus Cupons |</a></li>
 							<li><a class="barra-direita" href="cursos_compra.jsp">| Comprar Cursos |</a></li>
-							<li><a class="barra-direita" href="minhasCompras.jsp">| Histórico de Transações |</a></li>
+							<li><a class="barra-direita" href="transacoes.jsp">| Histórico de Transações |</a></li>
 							<!-- <li><a class="barra-direita" href="meuCarrinho.jsp">| Meu Carrinho |</a></li> -->
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul><br><br>
@@ -104,56 +104,16 @@
 					{out.print("<div align='center' class='alert alert-warning'>" + result.getMsg() + "</div>");}
 				}
 			%>
-			<form action="CourseServlet" method="get">
-				<%	if(client != null)
-					{out.print("<input type='hidden' name='clientID' value='"+client.getId()+"'/>");}
-				%>
-				<table align="center">
-					<thead>
-					<tr>
-						<td class="formulario"><br/>
-							<!-- <input type="text" id="nome" name="nome" placeholder="Nome do curso" 
-								size="30" class="form-control"/> -->
-						</td>
-						<td class="formulario"><br/>
-							<!-- <input type="text" name="instrutor" placeholder="Nome do instrutor" max="11"
-								size="30" class="form-control"/> -->
-						</td>
-						<td class="formulario"><br/>
-							<!-- <label>Categoria:</label>
-							<select name="categoria" id="categoria">
-								<option></option>
-								<option>Programação</option>
-								<option>Desenvolvimento</option>
-								<option>IoT</option>
-								<option>Sistemas</option>
-								<option>Segurança</option>
-								<option>Redes</option>
-							</select> -->
-						</td>
-					</tr>
-					</thead>
-				</table>
-				<table align="center">
-					<tr>
-						<td class="formulario"><br/>
-							<!-- <button type="submit" name="action" id="action" value="search" 
-								class="btn btn-primary form-control">Consultar</button> -->
-						</td>
-					</tr>
-				</table>
-			</div><br/>
-			</form>
+			<%	if(client != null)
+				{out.print("<input type='hidden' name='clientID' value='"+client.getId()+"'/>");}
+			%>
 			<div id="tabela">
 				<table class="table table-striped table-bordered table-hover table-condensed">
 					<tr align="center">
-						<td class="tabela"><b>Nome</b></td>
-						<td class="tabela"><b>Categoria</b></td>
-						<td class="tabela"><b>Instrutor</b></td>
+						<td class="tabela"><b>Código</b></td>
+						<td class="tabela"><b>Cursos</b></td>
+						<td class="tabela"><b>Valor</b></td>
 						<td class="tabela"><b>status</b></td>
-						<td class="tabela"><b>Assistir Videos</b></td>
-						<td class="tabela"><b>Realizar Prova</b></td>
-						<td class="tabela"><b>Solicitar Certificado</b></td>
 						<td class="tabela"><b>Solicitar Troca</b></td>
 					</tr>
 				<%	if(result != null)
@@ -162,41 +122,22 @@
 							if(client.getSales() != null && !client.getSales().isEmpty())
 							{	StringBuilder sb = new StringBuilder();
 								for(Sale sale:client.getSales())
-								{	for(Item item:sale.getListItem())
-									{	if(item.getStatus().equalsIgnoreCase("pendente") || item.getStatus().equalsIgnoreCase("aprovada"))
-										{	sb.append("<form action='MyServlet2' method='post'>");
-											sb.append("<input type='hidden' id='cliID' name='cliID' value="+client.getId()+"/>");
-											sb.append("<tr align='center'>");
-											sb.append("<input type='hidden' name='item_id' value='"+item.getId()+"'/>");
-											sb.append("<input type='hidden' name='item_code' value='"+item.getCode()+"'/>");
-											sb.append("<input type='hidden' name='sale_id' value='"+sale.getId()+"'/>");
-											sb.append("<input type='hidden' name='course_id' value='"+item.getCourse().getId()+"'/>");
-											sb.append("<input type='hidden' name='course_name' value='"+item.getCourse().getName()+"'/>");
-											sb.append("<input type='hidden' name='valor' value='"+item.getCourse().getPrice()+"'/>");
-											sb.append("<td class='linha'>" + item.getCourse().getName() + "</td>");
-											sb.append("<input type='hidden' name='categoria' value='"+ item.getCourse().getCategoria() +"'/>");
-											sb.append("<td class='linha'>" + item.getCourse().getCategoria() + "</td>");
-											sb.append("<input type='hidden' name='instrutor' value='"+item.getCourse().getInstructor()+"'/>");
-											sb.append("<td class='linha'>" + item.getCourse().getInstructor() + "</td>");
-											sb.append("<input type='hidden' name='status' value='"+item.getStatus()+"'/>");
-											sb.append("<td class='linha'>" + item.getStatus() + "</td>");
-											if(item.getStatus().equals("aprovada"))
-											{	sb.append("<td class='linha'><a href='#'><img src='imagens/video.png'></a></td>");
-												sb.append("<td class='linha'><a href='#'><img src='imagens/prova.png'></a></td>");
-												sb.append("<td class='linha' align='center'><a href='#'><img src='imagens/diploma.png'></a></td>");
-											}
-											else
-											{	sb.append("<td class='linha'><img src='imagens/video.png'></td>");
-												sb.append("<td class='linha'><img src='imagens/prova.png'></td>");
-												sb.append("<td class='linha' align='center'><img src='imagens/diploma.png'></td>");
-											}
+								{	sb.append("<form action='CupomServlet' method='post'>");
+										sb.append("<input type='hidden' id='cliID' name='cliID' value="+client.getId()+"/>");
+										sb.append("<input type='hidden' name='saleID' value='"+sale.getId()+"'/>");
+										sb.append("<tr align='center'>");
+											sb.append("<td class='linha'>" + sale.getCode() + "</td>");
+											sb.append("<td class='linha'>");
+												for(Item item:sale.getListItem())
+												{sb.append(item.getCourse().getName()+"<br>");}
+											sb.append("</td>");
+											sb.append("<td class='linha'>" + sale.getTotal() + "</td>");
+											sb.append("<td class='linha'>" + sale.getSaleStatus() + "</td>");
 											sb.append("<td class='linha' align='center'>");
 											sb.append("<input type='text' name='motivo' id='motivo' placeholder='Motivo da troca'/>");
 											sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' "+
-												"value='gerarCupom'>");
+												"value='save'>");
 											sb.append("<img src='imagens/troca.png'></button></td><tr/></form>");
-										}
-									}
 								}
 								out.print(sb);
 							}

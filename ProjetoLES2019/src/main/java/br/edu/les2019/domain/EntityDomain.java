@@ -6,6 +6,7 @@ public abstract class EntityDomain
 {	Integer id;
 	String name;
 	String photo;
+	String status;
 	Date registry;
 	Client client;
 	
@@ -23,4 +24,7 @@ public abstract class EntityDomain
 	
 	public Client getClient() {return client;}
 	public void setClient(Client client) {this.client = client;}
+	
+	public String getStatus() {return status;}
+	public void setStatus(String status) {this.status = status;}
 }

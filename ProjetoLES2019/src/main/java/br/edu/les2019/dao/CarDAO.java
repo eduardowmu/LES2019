@@ -102,7 +102,7 @@ public class CarDAO extends AbstractDAO
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
 		
-			this.ps = this.connection.prepareStatement("SELECT cur.id, cur.titulo, cur.valor FROM course " + 
+			this.ps = this.connection.prepareStatement("SELECT cur.id, cur.titulo, cur.valor, cur.gr_precos FROM course " + 
 				"AS cur JOIN shopcar as sca WHERE sca.car_cli_id = ? AND sca.car_cur_id = cur.id");
 			
 			this.ps.setInt(1, client.getId());
@@ -114,6 +114,7 @@ public class CarDAO extends AbstractDAO
 				course.setId(this.rs.getInt(1));
 				course.setName(this.rs.getString(2));
 				course.setPrice(this.rs.getDouble(3));
+				course.setGrupoP(this.rs.getString(4));
 				courses.add(course);
 			}
 		}

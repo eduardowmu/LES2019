@@ -443,15 +443,16 @@ public class Facade implements IFacade
 			}
 			catch(Exception e)	{System.out.println(e.getMessage());}*/
 			//this.addUser(entities, client);
-			if(ed.getId() > 1)	entities.add(ed);
-			
-			else entities.addAll(new ClientDAO().search());
-			
-			entities.addAll(new CourseDAO().search());
-			result.setEntities(entities);
 		}
 		
 		else result.setMsg(this.executeRules(ed, "login"));
+		
+		if(ed.getId() > 1)	entities.add(ed);
+		
+		else entities.addAll(new ClientDAO().search());
+		
+		entities.addAll(new CourseDAO().search());
+		result.setEntities(entities);
 		return result;
 	}
 	
@@ -483,7 +484,7 @@ public class Facade implements IFacade
 		{	IDAO dao = daos.get(ed.getClass().getName());
 			entities = dao.search();
 		}
-		else result.setMsg(this.executeRules(ed, "search"));
+		else result.setMsg(this.executeRules(ed, "view"));
 		return result;
 	}
 	
@@ -506,6 +507,22 @@ public class Facade implements IFacade
 	{	result = new Result();
 		result.setEntities(new ArrayList<>());
 		result.getEntities().add(ed);
+		return result;
+	}
+
+	@Override public Result active(EntityDomain ed) 
+	{	result = new Result();
+		List<EntityDomain> entities = new ArrayList<>();
+		if(this.executeRules(ed, "active") == null)
+		{	IDAO dao = daos.get(ed.getClass().getName());
+			dao.active(ed);
+		}
+		else result.setMsg("Estamos com problemas mas será resolvido em breve");
+		
+		entities.addAll(new ClientDAO().search());
+		entities.addAll(new CourseDAO().search());
+		result.setEntities(entities);
+		
 		return result;
 	}
 }

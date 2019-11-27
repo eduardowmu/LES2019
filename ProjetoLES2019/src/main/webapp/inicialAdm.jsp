@@ -121,9 +121,10 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="ListaCursos.jsp"> | Gerenciar Cursos |</a></li>
 							<li><a name ="gerpedidos" class="barra-direita" href="gerenciarVendas.jsp"> | Gerenciar Vendas |</a></li>
-							<li><a name ="gertrocacancel" class="barra-direita" href="gerTrocaCancel.jsp"> | Gerenciar Trocas/Cancelamentos |</a></li>
+							<!-- <li><a name ="gertrocacancel" class="barra-direita" href="gerTrocaCancel.jsp"> | Gerenciar Trocas/Cancelamentos |</a></li> -->
 							<li><a class="barra-direita" href="gerenciarCupons.jsp">| Gerenciar Cupons |</a></li>
 							<li><a class="barra-direita" href="gerenciarClientes.jsp">| Gerenciar Clientes |</a></li>
+							<li><a class="barra-direita" href="rankClientes.jsp">| Ranking de Clientes |</a></li>
 							<li><a class="barra-direita" href="gerarRelatorios.jsp">| Gerar Relatórios |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>

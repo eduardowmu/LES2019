@@ -23,7 +23,7 @@ public class CourseDAO extends AbstractDAO
 				this.connection = this.getConnection();
 			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("INSERT INTO " + this.table + 
-				"(instrutor, categoria, titulo, descricao, valor, gr_precos) VALUES"+
+				"(instrutor, categoria, titulo, descricao, valor, gr_precos, status) VALUES"+
 				"(?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
 			
 			this.ps.setString(1, this.course.getInstructor());
@@ -32,6 +32,7 @@ public class CourseDAO extends AbstractDAO
 			this.ps.setString(4, this.course.getDescricao());
 			this.ps.setDouble(5, this.course.getPrice());
 			this.ps.setString(6, this.course.getGrupoP());
+			this.ps.setString(7, this.course.getStatus());
 			
 			this.ps.executeUpdate();
 			this.rs = this.ps.getGeneratedKeys();
@@ -134,7 +135,9 @@ public class CourseDAO extends AbstractDAO
 				this.course.setPrice(this.rs.getDouble(6));
 				this.course.setGrupoP(this.rs.getString(7));
 				this.course.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
-				this.course.setPhoto(this.rs.getString(9));
+				this.course.setStatus(this.rs.getString(9));
+				if(this.rs.getString(10) != null)
+				{this.course.setPhoto(this.rs.getString(10));}
 				VideoDAO dao = new VideoDAO();
 				dao.connection = this.connection;
 				dao.ctrlTransaction = false;
@@ -183,7 +186,21 @@ public class CourseDAO extends AbstractDAO
 				this.course.setPrice(this.rs.getDouble(6));
 				this.course.setGrupoP(this.rs.getString(7));
 				this.course.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
-				this.course.setPhoto(this.rs.getString(9));
+				this.course.setStatus(this.rs.getString(9));
+				if(this.rs.getString(10) != null)
+				{this.course.setPhoto(this.rs.getString(10));}
+				VideoDAO dao = new VideoDAO();
+				dao.connection = this.connection;
+				dao.ctrlTransaction = false;
+				List<EntityDomain> videos = dao.search(course);
+				if(videos != null)
+				{	course.setVideos(new ArrayList<>());
+					for(EntityDomain e:videos)
+					{	Video video = (Video)e;
+						if(course.getId() == video.getCourse().getId())
+						{course.getVideos().add(video);}
+					}
+				}
 				eds.add(this.course);
 			}
 		}

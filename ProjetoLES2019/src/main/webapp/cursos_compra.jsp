@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*,br.edu.les2019.result.*" %>
 <%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
-<%@ page import = "java.text.DecimalFormat.*"%>
-<%@ page import = "java.text.DecimalFormatSymbols.*"%>
+<%@ page import = "java.text.*"%>
 <!--possibilita usar a tag core, que chama o looping forEach--> 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -90,6 +89,7 @@
 						</tr>
 						<%	if(result != null && client != null)
 							{	int i = 0;
+								NumberFormat nf = new DecimalFormat("0.00");
 								for(EntityDomain ed:result.getEntities())
 								{	if(ed instanceof Course)
 									{	Course course = (Course)ed;
@@ -101,7 +101,9 @@
 													 			"<img src='" + ed.getPhoto() + "' width='50px' height='50'/>" +
 													  		"</button></td>" +
 														"<td class='linha' align='center'>" + ed.getName() + "</td>" +
-														"<td class='linha' align='center'>" + course.RealFormat(course.getPrice()) + "</td>" +
+														"<td class='linha' align='center'>" + 
+															nf.format(course.getTotalPrice(course.getPrice(), course.getGrupoP())) + 
+														"</td>" +
 													"</tr>" + 
 												  "</form>");
 										i++;

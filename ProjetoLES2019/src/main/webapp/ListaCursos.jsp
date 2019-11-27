@@ -134,12 +134,11 @@
 					<tr align="center">
 						<td class="tabela"><b>Codigo</b></td>
 						<td class="tabela"><b>Nome</b></td>
-						<td class="tabela"><b>Duração (min)</b></td>
 						<td class="tabela"><b>Categoria</b></td>
 						<td class="tabela"><b>Instrutor</b></td>
-						<td class="tabela"><b>Qtd Alunos</b></td>
 						<td class="tabela"><b>Valor</b></td>
-						<td class="tabela"><b>Add Videos</b></td>
+						<td class="tabela"><b>Status</b></td>
+						<td class="tabela"><b>Gerenciar Videos</b></td>
 						<td class="tabela"><b>Alterar</b></td>
 						<td class="tabela"><b>Ativar/Inativar</b></td>
 						<td class="tabela"><b>Deletar</b></td>
@@ -154,15 +153,14 @@
 														"<input type='hidden' name='codigo' value='"+course.getId()+"'/>"+
 														"<td class='linha' align='center'>"+course.getId()+"</td>"+
 														"<td class='linha' align='center'>"+course.getName()+"</td>"+
-														"<td class='linha' align='center'>0</td>"+
 														"<td class='linha' align='center'>"+course.getCategoria()+"</td>"+
 														"<td class='linha' align='center'>"+course.getInstructor()+"</td>"+
-														"<td class='linha' align='center'>0</td>"+
 														"<td class='linha' align='center'>"+course.RealFormat(course.getPrice())+"</td>"+
+														"<td class='linha' align='center'>"+course.getStatus()+"</td>"+
 														"<td class='linha' align='center'>"+
-															"<button type='submit' id='action' name='action' value='add'><img src='imagens/addProj.jpg'></button></td>"+
+															"<button type='submit' id='action' name='action' value='add'><img src='imagens/video.png'></button></td>"+
 														"<td class='linha' align='center'>"+
-															"<button type='submit' name='action' id='update' value='show'><img src='imagens/edit_pencil_6320.png'></button></td>"+
+															"<button type='submit' id='action' name='action' value='show'><img src='imagens/edit_pencil_6320.png'></button></td>"+
 														"<td class='linha' align='center'>"+
 															"<a href='#'>"+
 																"<img src='imagens/disable_remove_delete_exit_close_11881.png'>"+

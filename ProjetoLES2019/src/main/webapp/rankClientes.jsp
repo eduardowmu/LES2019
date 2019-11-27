@@ -2,8 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*, br.edu.les2019.domain.*" %>
 <%@ page import="java.util.*, br.edu.les2019.result.*" %>
-<%@ page import="java.text.DateFormat" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.*"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -36,7 +35,7 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Gerenciar Clientes</b></h2>
+						<h2 class="barra"><b id=titulo>Ranking de Clientes</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
 							<li><a class="barra-direita" href="inicialAdm.jsp">| Página Inicial |</a></li>
@@ -51,73 +50,35 @@
 			<%	Result result = (Result)session.getAttribute("result");
 				DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 			%>
-			<form action="ClientServlet" method="get">
-				<fieldset>
-					<legend>Visualização Geral</legend>
-					<table>
-						<tr>
-							<td>
-								<input type="number" name="id" id="id" placeholder="Código do cliente"/>
-							</td>
-							<td>
-								<input type="text" name="name" id="name" placeholder="Nome do cliente"/>
-							</td>
-							<td>
-								<input type="text" name="surname" id="surname" placeholder="Sobrenome do cliente"/>
-							</td>
-						</tr>
-						<tr>
-							<button type="submit" name="action" id="action" value="search">Buscar</button>
-						</tr>
-					</table>
-			</form>
-					<table id="stusuarios" width = "600px" border="1px" align="center"
-						 class="table table-striped table-bordered table-hover table-condensed">
-						<tr align="center">
-							<td class="tabela"><b>Id</b></td>
-							<td class="tabela"><b>Nome</b></td>
-							<td class="tabela"><b>Sobrenome</b></td>
-							<td class="tabela"><b>CPF</b></td>
-							<td class="tabela"><b>Genero</b></td>
-							<td class="tabela"><b>Telefone</b></td>
-							<td class="tabela"><b>Data de Nascimento</b></td>
-							<td class="tabela"><b>E-mail</b></td>
-							<td class="tabela"><b>Status</b></td>
-							<td class="tabela"><b>Ativar/Inativar</b></td>
-						</tr>
-							<%	StringBuilder sb = new StringBuilder();
-								if(result!=null)
-								{	for(EntityDomain ed:result.getEntities())
-									{	if(ed instanceof Client)
-										{	Client client = (Client)ed;
-											//System.out.println(client.getId());
-											if(client.getId() > 1)
-											{	sb.append("<form action='ClientServlet' method='post'>");
-												sb.append("<input type='hidden' name='id' value='"+client.getId()+"'/>");
-												sb.append("<input type='hidden' name='status' value='"+client.getStatus()+"'/>");
-												sb.append("<tr align='center'><td class='tabela'>"+client.getId()+"</td>");
-												sb.append("<td class='tabela'>"+client.getName()+"</td>");
-												sb.append("<td class='tabela'>"+client.getSurname()+"</td>");
-												sb.append("<td class='tabela'>"+client.getCpf()+"</td>");
-												sb.append("<td class='tabela'>"+client.getGenero()+"</td>");
-												sb.append("<td class='tabela'>"+client.getPhone().toString()+"</td>");
-												sb.append("<td class='tabela'>"+df.format(client.getBirthday())+"</td>");
-												sb.append("<td class='tabela'>");
-												for(String email:client.getEmails())
-												{sb.append(email + " / ");}
-												sb.append("</td>");
-												sb.append("<td class='tabela'>"+client.getStatus()+"</td>");
-												sb.append("<td class='tabela'>");
-												sb.append("<button type='submit' class='form-control' name='action' id='action' value='active'>");
-												sb.append("<img src='imagens/disable_remove_delete_exit_close_11881.png'/>");
-												sb.append("</button></td></tr>");
-												sb.append("</form>");
-											}
+			<table id="stusuarios" width = "600px" border="1px" align="center"
+					 class="table table-striped table-bordered table-hover table-condensed">
+					<tr align="center">
+						<td class="tabela"><b>Classificação</b></td>
+						<td class="tabela"><b>Id</b></td>
+						<td class="tabela"><b>Cliente</b></td>
+						<td class="tabela"><b>Total R$</b></td>
+					</tr>
+					<%	StringBuilder sb = new StringBuilder();
+						if(result!=null)
+						{	for(EntityDomain ed:result.getEntities())
+							{	if(ed instanceof Ranking)
+								{	Ranking rank = (Ranking)ed;
+									NumberFormat nf = new DecimalFormat("0.00");
+									//System.out.println(client.getId());
+									if(rank != null)
+									{	for(int i = 0; i < rank.getClients().size(); i++)
+										{	sb.append("<tr align='center'><td class='tabela'>"+(i+1)+"º</td>");
+											sb.append("<td class='tabela'>"+rank.getCodes().get(i)+"</td>");
+											sb.append("<td class='tabela'>"+rank.getClients().get(i)+"</td>");
+											sb.append("<td class='tabela'>"+nf.format(rank.getValues().get(i))+"</td></tr>");
 										}
+										break;
 									}
-									out.print(sb);
 								}
-							%>
+							}
+							out.print(sb);
+						}
+					%>
 					</table>
 				</fieldset>
 			

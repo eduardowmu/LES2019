@@ -14,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.edu.les2019.dao.ClientDAO;
 import br.edu.les2019.dao.IDAO;
+import br.edu.les2019.dao.RankingDAO;
 import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.CreditCard;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Phone;
+import br.edu.les2019.domain.Ranking;
 import br.edu.les2019.result.Result;
 
 public class ClientView implements IViewHelper 
@@ -65,6 +67,7 @@ public class ClientView implements IViewHelper
 				//senha
 				client.setPassword(request.getParameter("pass"));
 				client.setPassword2(request.getParameter("pass2"));
+				client.setStatus("ativado");
 				break;
 				
 			case "login":
@@ -151,6 +154,14 @@ public class ClientView implements IViewHelper
 						}
 					}
 				}
+				break;
+				
+			case "active":
+				client.setId(Integer.parseInt(request.getParameter("id")));
+				if(request.getParameter("status").equalsIgnoreCase("ativado"))
+				{client.setStatus("inativado");}
+				
+				else client.setStatus("ativado");
 				
 				break;
 		}
@@ -182,7 +193,8 @@ public class ClientView implements IViewHelper
 					for(EntityDomain entity:result.getEntities())
 					{	if(entity instanceof Client)
 						{	if(entity.getId() == 1)
-							{	rd = request.getRequestDispatcher("inicialAdm.jsp");
+							{	result.getEntities().add(new RankingDAO().searchRank(new Ranking()));
+								rd = request.getRequestDispatcher("inicialAdm.jsp");
 								break;
 							}
 						
@@ -239,6 +251,22 @@ public class ClientView implements IViewHelper
 					rd = request.getRequestDispatcher("alterar_senha.jsp");
 				}
 				
+				break;
+				
+			case "active":
+				Client client = null;
+				for(EntityDomain ed:result.getEntities())
+				{	if(ed instanceof Client)
+					{	client = (Client)ed;
+						break;
+					}
+				}
+				
+				if(result.getMsg() == null)
+				{result.setMsg("Cliente " + client.getStatus());}
+				
+				request.getSession().setAttribute("result", result);
+				rd = request.getRequestDispatcher("gerenciarClientes.jsp");
 				break;
 		}
 		rd.forward(request, response);

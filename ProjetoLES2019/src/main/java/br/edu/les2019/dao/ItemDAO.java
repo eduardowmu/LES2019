@@ -69,7 +69,7 @@ public class ItemDAO extends AbstractDAO
 			{	this.ps = this.connection.prepareStatement("UPDATE item SET status = ? " +
 					"WHERE ite_sal_id = ?");
 			
-				this.ps.setString(1, sale.getListItem().get(0).getStatus());
+				this.ps.setString(1, sale.getSaleStatus());
 				this.ps.setInt(2, sale.getId());
 			}
 			

@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*,br.edu.les2019.result.*" %>
 <%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
-<%@ page import = "java.text.DecimalFormat.*"%>
-<%@ page import = "java.text.DecimalFormatSymbols.*"%>
+<%@ page import = "java.text.*"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -102,6 +101,7 @@
 		<div style="padding-top:200px;">
 		<form action="MyServlet2" method="get">
 			<%	Result result = (Result)session.getAttribute("result");
+				NumberFormat nf = new DecimalFormat("0.00");
 				Client client = null;
 				ShopCar scar = null;
 				Course course = null;
@@ -139,11 +139,11 @@
 									code += "-";
 									code += String.valueOf(scar.getCourses().get(i).getId());
 									out.print("<tr class='odd gradeX'>" + 
-											"<input type='hidden' name='code"+i+"' id='code' value='"+ code +"'/>" +
-											"<input type='hidden' name='courseID"+i+"' value='"+scar.getCourses().get(i).getId()+"'/>" +
+											"<input type='hidden' name='code"+(i+0)+"' id='code' value='"+ code +"'/>" +
+											"<input type='hidden' name='courseID"+(i+0)+"' value='"+scar.getCourses().get(i).getId()+"'/>" +
 											"<td class='center'>" + code + "</td>" + 
 											"<td class='center'>" + scar.getCourses().get(i).getName() + "</td>" +
-											"<td class='center'>" + scar.getCourses().get(i).RealFormat(scar.getCourses().get(i).getPrice()) + "</td>" +
+											"<td class='center'>" + nf.format(scar.getCourses().get(i).getTotalPrice(scar.getCourses().get(i).getPrice(), scar.getCourses().get(i).getGrupoP())) + "</td>" +
 											"<td class='center'>" +
 												"<input type='radio' name='courseID' value='"+scar.getCourses().get(i).getId()+"'/>" +
 											"</td>" +
@@ -163,9 +163,9 @@
 																								!scar.getCourses().isEmpty())
 																							{	for(EntityDomain e:scar.getCourses())
 																								{	course = (Course)e;
-																									total += course.getPrice();
+																									total += course.getTotalPrice(course.getPrice(), course.getGrupoP());
 																								}
-																								out.print(course.RealFormat(total));
+																								out.print(nf.format(total));
 																							}
 																						}
 																					%>"disabled="disabled"/>
@@ -178,7 +178,7 @@
 						<td>Total R$</td>
 						<td>
 							<input type="text" id="Total" value="<%	if(course != null)
-																	{out.print(course.RealFormat(total));}
+																	{out.print(nf.format(total));}
 																	%>" disabled="disabled"/>
 							<input type="hidden" name="total" id="total" value="<%out.print(total);%>"/>
 						</td>

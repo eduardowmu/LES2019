@@ -200,7 +200,7 @@ public class MyServlet2 extends HttpServlet
 					}
 					
 					else
-					{	this.result.setMsg("Estamos com problemas no servidr. "
+					{	this.result.setMsg("Estamos com problemas no servidor. "
 							+ "Favor tentar novamente mais tarde.");
 						rd = request.getRequestDispatcher("meusCursos2.jsp");
 					}

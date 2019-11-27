@@ -9,6 +9,7 @@ import java.util.Timer;
 public class Course extends EntityDomain 
 {	Double price;
 	List<Video> videos;
+	String status;
 	String instructor;
 	String categoria;
 	String descricao;
@@ -48,5 +49,16 @@ public class Course extends EntityDomain
 	{	//Locale local = new Locale("pt", "br");
 		DecimalFormat nf = new DecimalFormat("#,##0.00");
 		return nf.format(price);
+	}
+
+	public String getStatus() {return status;}
+	public void setStatus(String status) {this.status = status;}
+	
+	public double getTotalPrice(double p, String g)
+	{	if(g.contains("x1.5"))	return p*1.5;
+	
+		else if(g.contains("x1.25"))	return p*1.25;
+	
+		return p*1.15;
 	}
 }

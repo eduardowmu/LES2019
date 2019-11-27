@@ -8,6 +8,7 @@ public class Client extends EntityDomain
 	String surname;
 	String genero;
 	String cpf;
+	String status;
 	List<String> emails;
 	String password, password2;
 	Date birthday;
@@ -68,4 +69,7 @@ public class Client extends EntityDomain
 	
 	public List<Cupom> getCupons() {return cupons;}
 	public void setCupons(List<Cupom> cupons) {this.cupons = cupons;}
+	
+	public String getStatus() {return status;}
+	public void setStatus(String status) {this.status = status;}
 }

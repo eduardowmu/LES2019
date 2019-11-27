@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*,br.edu.les2019.result.*" %>
 <%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
-<%@ page import = "java.text.DecimalFormat.*"%>
-<%@ page import = "java.text.DecimalFormatSymbols.*"%>
+<%@ page import = "java.text.*"%>
 <!--possibilita usar a tag core, que chama o looping forEach--> 
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -68,6 +67,7 @@
 		<div id="form" align="center">
 			<form action="ShopCarServlet" method="post">
 				<%  Result result = (Result)session.getAttribute("result"); 
+					NumberFormat nf = new DecimalFormat("0.00");
 					Course course = null;
 					Client client = null;
 					ShopCar scar = null;
@@ -103,7 +103,7 @@
 									%>
 									.<br/><br/>
 									<%	if(course != null) 
-										{out.print(course.RealFormat(course.getPrice()));}
+										{out.print(nf.format(course.getTotalPrice(course.getPrice(), course.getGrupoP())));}
 									%> - (Certificado incluso se atingir a média nas avaliações)
 								</p>
 								<input type="hidden" name="itemID" value="<%	if(scar != null)	out.print(scar.getId());%>"/>

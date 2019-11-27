@@ -26,8 +26,8 @@ public class ClientDAO extends AbstractDAO
 			{this.connection = this.getConnection();}	
 			this.connection.setAutoCommit(false);
 			this.ps = this.connection.prepareStatement("INSERT INTO " + 
-				this.table + "(name, surname, nascimento, cpf, genero, password, cadastro) " + 
-				"VALUES(?, ?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
+				this.table + "(name, surname, nascimento, cpf, genero, password, cadastro, status) " + 
+				"VALUES(?, ?, ?, ?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
 			
 			//prepara os dados a serem armazenados no BD
 			this.ps.setString(1, this.client.getName());
@@ -37,6 +37,7 @@ public class ClientDAO extends AbstractDAO
 			this.ps.setString(5, this.client.getGenero());
 			this.ps.setString(6, this.client.getPassword());
 			this.ps.setDate(7, new java.sql.Date(System.currentTimeMillis()));
+			this.ps.setString(8, this.client.getStatus());
 			//this.ps.setString(6, this.client.getPhoto());
 			
 			this.ps.executeUpdate();
@@ -189,8 +190,9 @@ public class ClientDAO extends AbstractDAO
 				cli.setGenero(this.rs.getString(6));
 				cli.setPassword(this.rs.getString(7));
 				cli.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
-				if(this.rs.getString(9) != null)
-				{cli.setPhoto(this.rs.getString(9));}
+				cli.setStatus(this.rs.getString(9));
+				if(this.rs.getString(10) != null)
+				{cli.setPhoto(this.rs.getString(10));}
 				
 				EmailDAO edao = new EmailDAO();
 				edao.connection = this.connection;
@@ -286,8 +288,9 @@ public class ClientDAO extends AbstractDAO
 				this.client.setGenero(this.rs.getString(6));
 				this.client.setPassword(this.rs.getString(7));
 				this.client.setRegistry(new java.sql.Date(this.rs.getDate(8).getTime()));
-				if(this.rs.getString(9) != null)
-				{this.client.setPhoto(this.rs.getString(9));}
+				this.client.setStatus(this.rs.getString(9));
+				if(this.rs.getString(10) != null)
+				{this.client.setPhoto(this.rs.getString(10));}
 				
 				EmailDAO edao = new EmailDAO();
 				edao.connection = this.connection;

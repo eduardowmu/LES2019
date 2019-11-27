@@ -65,6 +65,36 @@ public abstract class AbstractDAO implements IDAO
 			catch(SQLException e) {e.printStackTrace();}
 		}
 	}
+	
+	@Override public void active(EntityDomain ed)
+	{	this.table = ed.getClass().getSimpleName().toLowerCase();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+			this.connection.setAutoCommit(false);
+			this.ps = this.connection.prepareStatement("UPDATE " +
+				this.table + " SET status = ? WHERE id = ?");	
+			//this.ps.setInt(1, ed.getId());
+			this.ps.setString(1, ed.getStatus());
+			this.ps.setInt(2, ed.getId());
+			this.ps.executeUpdate();
+			this.connection.commit();
+		}
+		catch(SQLException e)
+		{	System.out.println(e.getMessage());
+			try {connection.rollback();}
+			catch(SQLException  e1) {System.out.println(e1.getMessage());}
+		}
+		finally
+		{	try
+			{	ps.close();
+				if(this.ctrlTransaction) 
+					connection.close();
+			}
+			catch(SQLException e) {e.printStackTrace();}
+		}
+	}
+	
 	public Connection getConnection()
 	{	this.server = "localhost:3306";
 		this.user = "root";

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.edu.les2019.command.AddCommand;
+import br.edu.les2019.command.AtivarCommand;
 import br.edu.les2019.command.CommandView;
 /*import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -61,6 +63,8 @@ public class MyServlet extends HttpServlet
     	this.commands.put("show", new ShowCommand());
     	this.commands.put("view", new CommandView());
     	this.commands.put("updateKey", new UpdateKeyCommand());
+    	this.commands.put("add", new AddCommand());
+    	this.commands.put("active", new AtivarCommand());
     	
     	//instanciateing ViewHelper
     	this.views = new HashMap<String, IViewHelper>();

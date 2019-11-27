@@ -31,6 +31,8 @@ public class CourseView implements IViewHelper
 				course.setPrice(Double.parseDouble(request.getParameter("valor")));
 				
 				course.setGrupoP(request.getParameter("grupo"));
+				
+				course.setStatus("inativado");
 				break;
 				
 			case "update":

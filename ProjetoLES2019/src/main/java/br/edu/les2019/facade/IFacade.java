@@ -12,4 +12,5 @@ public interface IFacade
 	public abstract Result show(EntityDomain ed);
 	public abstract Result view(EntityDomain ed);
 	public abstract Result add(EntityDomain ed);
+	public abstract Result active(EntityDomain ed);
 }

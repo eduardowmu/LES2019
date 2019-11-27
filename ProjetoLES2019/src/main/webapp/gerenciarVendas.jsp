@@ -135,6 +135,7 @@
 						<td class="tabela"><b>Data de Realização</b></td>
 						<td class="tabela"><b>Status de Pagamento</b></td>
 						<td class="tabela"><b>Aprovar</b></td>
+						<td class="tabela"><b>Reprovar</b></td>
 					</tr>
 					<%	StringBuilder sb = new StringBuilder();
 						DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -153,11 +154,16 @@
 									if(sale.getSaleStatus().equals("pendente"))
 									{	sb.append("<td class='linha' align='center'>");
 										sb.append("<button type='submit' name='action' value='aprovarPagto' class='btn btn-link acao'>");
-										sb.append("<img src='imagens/joia.png'/></button></td></tr></form>");
+										sb.append("<img src='imagens/joia.png'/></button></td>");
+										sb.append("<td class='linha' align='center'>");
+										sb.append("<button type='submit' name='action' value='reprovarPagto' class='btn btn-link acao'>");
+										sb.append("<img src='imagens/nao_joia.png'/></button></td></tr></form>");
 									}
 									else
 									{	sb.append("<td class='linha' align='center'>");
-										sb.append("<img src='imagens/joia.png'/></td></tr></form>");
+										sb.append("<img src='imagens/joia.png'/></td>");
+										sb.append("<td class='linha' align='center'>");
+										sb.append("<img src='imagens/nao_joia.png'/></td></tr></form>");
 									}
 								}
 							}
