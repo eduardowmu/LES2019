@@ -47,7 +47,7 @@ public class SaleView implements IViewHelper
 					itens.add(item);
 				}
 				
-				client.setId(Integer.parseInt(request.getParameter("clientID")));
+				client.setId(Integer.parseInt(request.getParameter("clientID").trim()));
 				client.setName("");
 				client.setSurname("");
 				List<EntityDomain> clients = new ClientDAO().search(client);
@@ -56,42 +56,36 @@ public class SaleView implements IViewHelper
 					{client = (Client)ed;}
 				}
 				
-				if(request.getParameter("email") != null)
-				{client.getEmails().add(request.getParameter("email"));}
+				if(request.getParameter("email").trim() != null)
+				{client.getEmails().add(request.getParameter("email").trim());}
 				
 				payment = new Payment();
 				payment.setClient(client);
-				payment.setQtdParcelas(Integer.parseInt(request.getParameter("id_qtde")));
+				payment.setQtdParcelas(Integer.parseInt(request.getParameter("id_qtde").trim()));
 				payment.setStatus("pendente");
 				paymap = new HashMap<>();
 				
-				if(payment.getQtdParcelas() == 1)
-				{paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("total")));}
-				
-				else	
-				{	for(int i = 0; i < payment.getQtdParcelas(); i++)
-					{	if(i == 0)
-						{paymap.put(client.getCards().get(0), Double.parseDouble(request.getParameter("id_valor_parcela")));}
-					
-						else	paymap.put(client.getCards().get(1), Double.parseDouble(request.getParameter("cardValor"+i)));
-					}
+				if(request.getParameter("id_valor_parcela").trim() != null && 
+					!request.getParameter("id_valor_parcela").equals(""))
+				{	paymap.put(client.getCards().get(0), 
+					Double.parseDouble(request.getParameter("id_valor_parcela").trim()));
 				}
 				
-				/*
 				if(Integer.parseInt(request.getParameter("qtd_card")) > 0)
-				{	int k = 1;
-					for(int i = 1; i <= Integer.parseInt(request.getParameter("qtd_card")); i++)
+				{	for(int i = 1; i <= Integer.parseInt(request.getParameter("qtd_card")); i++)
 					{	if(request.getParameter("selCARD"+i) != null && 
 							!request.getParameter("selCARD"+i).equals(""))
-						{	CreditCard card = new CreditCard();
-							card.setId(Integer.parseInt(request.getParameter("cardID"+k)));
-							client.getCards().add(card);
-							paymap.put(client.getCards().get(k), Double.parseDouble("parcela"));
-							k++;
+						{	if(client.getCards().get(i).getId() == Integer.parseInt(request.getParameter("selCARD"+i)))
+							{	if(request.getParameter("cardValor"+i).trim() != null && 
+								!request.getParameter("cardValor"+i).trim().equals("") && 
+								Double.parseDouble(request.getParameter("cardValor"+i).trim()) > 0)
+								{	paymap.put(client.getCards().get(i), 
+									Double.parseDouble(request.getParameter("cardValor"+i).trim()));
+								}
+							}
 						}
 					}
 				}
-				*/
 				
 				payment.setPaymap(paymap);
 				

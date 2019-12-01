@@ -28,6 +28,6 @@ public class InserirNovoEmail extends AbstractStrategy
 		}
 		if(dao.isSave())	return null;
 		
-		else return "Não foi possível salvar este e-mail";
+		else return "Não foi possível salvar este e-mail. ";
 	}
 }

@@ -21,7 +21,7 @@ public class CompraTest
 		{	driver.get("http://localhost:8080/ProjetoLES2019/login.jsp");
 			driver.manage().window().maximize();
 			thread.sleep(2000);
-			driver.findElement(By.id("email")).sendKeys("hhh@gmail.com");
+			driver.findElement(By.id("email")).sendKeys("kkk@gmail.com");
 			thread.sleep(1000);
 			driver.findElement(By.id("senha")).sendKeys("!@#Abc123");
 			thread.sleep(1000);
@@ -31,7 +31,7 @@ public class CompraTest
 			driver.findElement(By.linkText("| Comprar Cursos |")).click();
 			thread.sleep(1000);
 			driver.get("http://localhost:8080/ProjetoLES2019/cursos_compra.jsp");
-			driver.findElement(By.id("0")).click();
+			driver.findElement(By.id("3")).click();
 			thread.sleep(2000);
 			driver.getCurrentUrl();
 			driver.findElement(By.name("action")).click();
@@ -40,7 +40,7 @@ public class CompraTest
 			driver.findElement(By.linkText("Continuar Comprando")).click();
 			thread.sleep(2000);
 			driver.getCurrentUrl();
-			driver.findElement(By.id("1")).click();
+			driver.findElement(By.id("4")).click();
 			thread.sleep(2000);
 			driver.getCurrentUrl();
 			driver.findElement(By.name("action")).click();
@@ -53,9 +53,9 @@ public class CompraTest
 			driver.findElement(By.linkText("adicionar novo cartão")).click();
 			thread.sleep(2000);
 			driver.getCurrentUrl();
-			driver.findElement(By.name("numero")).sendKeys("4566321178996546");
+			driver.findElement(By.name("numero")).sendKeys("3210456198747895");
 			thread.sleep(1000);
-			driver.findElement(By.name("code")).sendKeys("963");
+			driver.findElement(By.name("code")).sendKeys("246");
 			thread.sleep(1000);
 			driver.findElement(By.name("vencimento")).sendKeys("14");
 			thread.sleep(1000);
@@ -63,20 +63,22 @@ public class CompraTest
 			thread.sleep(1000);
 			driver.findElement(By.name("vencimento")).sendKeys("2026");
 			thread.sleep(1000);
-			driver.findElement(By.name("titular")).sendKeys("hhh iii");
+			driver.findElement(By.name("titular")).sendKeys("kkk lll");
 			thread.sleep(1000);
 			driver.findElement(By.id("salvar")).click();
 			thread.sleep(2000);
 			driver.getCurrentUrl();
 			driver.findElement(By.id("id_valor_parcela")).clear();
 			thread.sleep(1000);
-			driver.findElement(By.id("id_valor_parcela")).sendKeys("25");
+			driver.findElement(By.id("id_valor_parcela")).sendKeys("15");
 			thread.sleep(1000);
-			driver.findElement(By.id("selCARD")).click();
+			driver.findElement(By.id("selCARD1")).click();
 			thread.sleep(1000);
-			driver.findElement(By.name("email")).sendKeys("hhi@gmail.com");
+			driver.findElement(By.name("email")).sendKeys("kkll@gmail.com");
 			thread.sleep(1000);
 			driver.findElement(By.id("fechar")).click();
+			thread.sleep(6000);
+			driver.close();
 		}
 	}
 }

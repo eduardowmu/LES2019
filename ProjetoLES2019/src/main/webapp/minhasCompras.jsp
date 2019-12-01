@@ -112,7 +112,7 @@
 					<tr align="center">
 						<td class="tabela"><b>Código</b></td>
 						<td class="tabela"><b>Cursos</b></td>
-						<td class="tabela"><b>Valor</b></td>
+						<td class="tabela"><b>Valor (R$)</b></td>
 						<td class="tabela"><b>status</b></td>
 						<td class="tabela"><b>Solicitar Troca</b></td>
 					</tr>
@@ -121,17 +121,19 @@
 						{	List<Course> courses = new ArrayList<>();
 							if(client.getSales() != null && !client.getSales().isEmpty())
 							{	StringBuilder sb = new StringBuilder();
+								NumberFormat nf = new DecimalFormat("0.00");
 								for(Sale sale:client.getSales())
 								{	sb.append("<form action='CupomServlet' method='post'>");
 										sb.append("<input type='hidden' id='cliID' name='cliID' value="+client.getId()+"/>");
 										sb.append("<input type='hidden' name='saleID' value='"+sale.getId()+"'/>");
+										sb.append("<input type='hidden' name='total' value='"+sale.getTotal()+"'/>");
 										sb.append("<tr align='center'>");
 											sb.append("<td class='linha'>" + sale.getCode() + "</td>");
 											sb.append("<td class='linha'>");
 												for(Item item:sale.getListItem())
 												{sb.append(item.getCourse().getName()+"<br>");}
 											sb.append("</td>");
-											sb.append("<td class='linha'>" + sale.getTotal() + "</td>");
+											sb.append("<td class='linha'>" + nf.format(sale.getTotal()) + "</td>");
 											sb.append("<td class='linha'>" + sale.getSaleStatus() + "</td>");
 											sb.append("<td class='linha' align='center'>");
 											sb.append("<input type='text' name='motivo' id='motivo' placeholder='Motivo da troca'/>");

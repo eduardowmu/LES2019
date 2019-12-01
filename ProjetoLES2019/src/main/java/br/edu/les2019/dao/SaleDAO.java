@@ -136,7 +136,7 @@ public class SaleDAO extends AbstractDAO
 			while(this.rs.next())
 			{	sale = new Sale();
 				sale.setId(this.rs.getInt(1));
-				sale.setClient(new Client());
+				sale.setClient(client);
 				sale.getClient().setId(this.rs.getInt(2));
 				sale.setCode(this.rs.getString(3));
 				sale.setTotal(this.rs.getDouble(4));
@@ -170,8 +170,6 @@ public class SaleDAO extends AbstractDAO
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());
-			try {this.connection.rollback();}
-			catch(SQLException e1) {e1.printStackTrace();}
 			e.printStackTrace();
 		}
 		finally
@@ -214,8 +212,6 @@ public class SaleDAO extends AbstractDAO
 		}
 		catch(SQLException e)
 		{	System.err.println(e.getMessage());
-			try {this.connection.rollback();}
-			catch(SQLException e1) {e1.printStackTrace();}
 			e.printStackTrace();
 		}
 		finally

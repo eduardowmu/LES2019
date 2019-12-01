@@ -71,7 +71,7 @@ public class CarDAO extends AbstractDAO
 			{	this.scar = new ShopCar();
 				this.scar.setCourses(new ArrayList<Course>());
 				Course course = new Course();
-				course.setId(this.rs.getInt(3));
+				course.setId(this.rs.getInt("car_cur_id"));
 				this.scar.getCourses().add(course);
 				entities.add(this.scar);
 			}

@@ -1,5 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import = "java.util.*,br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
+<%@ page import = "java.text.DecimalFormat.*"%>
+<%@ page import = "java.text.DecimalFormatSymbols.*"%>
+<%@ page import = "java.text.*"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -19,12 +23,12 @@
 					<div class="navbar-header">
 						<!-- na classe foi inserido o mesmo nome dado a
 							classe da <div></div> para linkar as listas
-							ao botão -->
+							ao botÃ£o -->
 						<button type="button" class="navbar-toggle collapsed" 
 							data-toggle="collapse" data-target="#barra-navegacao">
-							<!-- botão que aparece quando a tela fica menor
-								de forma que não fique visível alguns componentes -->
-							<span class="sr-only">Alternar navegação</span>
+							<!-- botÃ£o que aparece quando a tela fica menor
+								de forma que nÃ£o fique visÃ­vel alguns componentes -->
+							<span class="sr-only">Alternar navegaÃ§Ã£o</span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
@@ -32,16 +36,22 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Acesso à Aplicação</b></h2>
+						<h2 class="barra"><b id=titulo>Acesso Ã  AplicaÃ§Ã£o</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="principal.html">Página Inicial</a></li>
+							<li><a class="barra-direita" href="principal.html">PÃ¡gina Inicial</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
     	</div>
 		<div id="form" align="center">
+			<%	Result result = (Result)session.getAttribute("result");
+				if(result != null)
+				{	if(result.getMsg() != null && !result.getMsg().equals(""))
+					{out.print("<div align='center' class='alert alert-info'>" + result.getMsg() + "</div>");}
+				}
+			%>
 			<form action="ClientServlet" method="post">
 				<fieldset>
 					<legend>Login</legend>
@@ -76,7 +86,7 @@
 							<tr>
 								<td align="center">
 									<a class="btn btn-success form-control" id="alterar" href="cadastroUsuarios.jsp">
-										Não possui uma Conta? Faça seu Cadastro!
+										NÃ£o possui uma Conta? FaÃ§a seu Cadastro!
 									</a>
 								</td>
 							</tr>
@@ -102,7 +112,7 @@
 			    			<ul class="nav">
 			    				<li class="item"><a href="#">Artistas</a></li>
 			    				<li class="item"><a href="#">Desenvolvedores</a></li>
-			    				<li class="item"><a href="#">Portfólio</a></li>
+			    				<li class="item"><a href="#">PortfÃ³lio</a></li>
 			    			</ul>
 			    		</div>
 			    		<div class="col-md-4">

@@ -183,7 +183,7 @@ public class MyServlet2 extends HttpServlet
 				Item item = new Item();
 				item.setId(Integer.parseInt(request.getParameter("item_id")));
 				
-				Motivo motivo = new Motivo(request.getParameter("motivo"));
+				Motivo motivo = new Motivo(request.getParameter("motivo").trim());
 				
 				if(motivo.getText() != null && !motivo.getText().equals(""))
 				{	cupom = new Cupom(Double.parseDouble(request.getParameter("valor")), 

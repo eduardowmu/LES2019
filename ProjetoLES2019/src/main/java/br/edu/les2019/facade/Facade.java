@@ -15,11 +15,13 @@ import br.edu.les2019.dao.IDAO;
 import br.edu.les2019.dao.ItemDAO;
 import br.edu.les2019.dao.PhoneDAO;
 import br.edu.les2019.dao.ReportDAO;
+import br.edu.les2019.dao.SaleCupomDAO;
 import br.edu.les2019.dao.SaleDAO;
 import br.edu.les2019.dao.VideoDAO;
 import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.CreditCard;
+import br.edu.les2019.domain.Cupom;
 import br.edu.les2019.domain.EntityDomain;
 import br.edu.les2019.domain.Item;
 import br.edu.les2019.domain.ReportCoursesSold;
@@ -34,6 +36,7 @@ import br.edu.les2019.strategy.InserirNovoEmail;
 import br.edu.les2019.strategy.ValidadorCPF;
 import br.edu.les2019.strategy.ValidadorCartao;
 import br.edu.les2019.strategy.ValidadorCategoria;
+import br.edu.les2019.strategy.ValidadorCupomVenda;
 import br.edu.les2019.strategy.ValidadorDados;
 import br.edu.les2019.strategy.ValidadorDatas;
 import br.edu.les2019.strategy.ValidadorEmail;
@@ -42,6 +45,8 @@ import br.edu.les2019.strategy.ValidadorGrupo;
 import br.edu.les2019.strategy.ValidadorImagem;
 import br.edu.les2019.strategy.ValidadorLogin;
 import br.edu.les2019.strategy.ValidadorMeusCursos;
+import br.edu.les2019.strategy.ValidadorMotivo;
+import br.edu.les2019.strategy.ValidadorParcelas;
 import br.edu.les2019.strategy.ValidadorPhone;
 import br.edu.les2019.strategy.ValidadorSenha;
 import br.edu.les2019.strategy.ValidadorVideo;
@@ -67,6 +72,7 @@ public class Facade implements IFacade
 		SaleDAO sdao = new SaleDAO();
 		CardDAO cadao = new CardDAO();
 		ReportDAO rdao = new ReportDAO();
+		SaleCupomDAO scd = new SaleCupomDAO();
 		
 		//mapping each DAO's type
 		daos.put(Client.class.getName(), cdao);
@@ -77,6 +83,7 @@ public class Facade implements IFacade
 		daos.put(Sale.class.getName(), sdao);
 		daos.put(CreditCard.class.getName(), cadao);
 		daos.put(ReportCoursesSold.class.getName(), rdao);
+		daos.put(Cupom.class.getName(), scd);
 		
 		//instantiating each Strategies for clients
 		ValidadorDados vdd = new ValidadorDados();
@@ -98,9 +105,6 @@ public class Facade implements IFacade
 		//strategies for Item
 		ValidadorMeusCursos vmc = new ValidadorMeusCursos();
 		ValidarCarrinho vcar = new ValidarCarrinho();
-		
-		//strategies for Sale
-		InserirNovoEmail ine = new InserirNovoEmail();
 		
 		//listas de todas as regras para clientes
 		List<IStrategy> rnSalvarClient = new ArrayList<>();
@@ -216,10 +220,15 @@ public class Facade implements IFacade
 		//para cada evento de Cartão de Crédito
 		regrasCreditCard.put("save", rnSalvarCard);
 		
+		//strategies for Sale
+		ValidadorParcelas vpar = new ValidadorParcelas();
+		InserirNovoEmail ine = new InserirNovoEmail();
+				
 		//lista de regras para vendas
 		List<IStrategy> rnSalvarVenda = new ArrayList<>();
 		
 		//regras para salvar venda
+		rnSalvarVenda.add(vpar);
 		rnSalvarVenda.add(ine);
 		
 		//mapeamento de todas as regras para a venda
@@ -254,12 +263,30 @@ public class Facade implements IFacade
 		//regras para salvar video
 		rnSalvarVideo.add(vv);
 		
-		//mapeamento de todas as regras para relatório
+		//mapeamento de todas as regras para video
 		Map<String, List<IStrategy>> regrasVideo = 
 			new HashMap<String, List<IStrategy>>();
 				
 		//regras para cada evento de Video
 		regrasVideo.put("save", rnSalvarVideo);
+		
+		//strategies para cupom de venda
+		ValidadorCupomVenda vcv = new ValidadorCupomVenda();
+		ValidadorMotivo vm = new ValidadorMotivo();
+		
+		//Lista de regras para cupom de venda
+		List<IStrategy> rnSalvarCupom = new ArrayList<>();
+		
+		//regras para salvar cupom de venda
+		rnSalvarCupom.add(vm);
+		rnSalvarCupom.add(vcv);
+		
+		//mapeamento de todas regras para cupom de venda
+		Map<String, List<IStrategy>> regrasCupomVenda = 
+			new HashMap<String, List<IStrategy>>();
+		
+		//regras para cada evento de cupom de venda
+		regrasCupomVenda.put("save", rnSalvarCupom);
 		
 		/*Adiciona o mapa com as regras indexadas pelas operações no mapa 
 		geral indexado pelo nome da entidade*/
@@ -270,6 +297,7 @@ public class Facade implements IFacade
 		busRules.put(Sale.class.getName(), regrasVenda);
 		busRules.put(ReportCoursesSold.class.getName(), regrasRelatorio);
 		busRules.put(Video.class.getName(), regrasVideo);
+		busRules.put(Cupom.class.getName(), regrasCupomVenda);
 	}
 	
 	//execução das regras de negócio
@@ -428,7 +456,15 @@ public class Facade implements IFacade
 		if(this.executeRules(ed, "login") == null)
 		{	IDAO dao = daos.get(ed.getClass().getName());
 			if(this.getCompletyEntity(dao, ed) != null)
-			{ed = this.getCompletyEntity(dao, ed);}
+			{	ed = this.getCompletyEntity(dao, ed);
+				
+				if(ed.getId() > 1)	entities.add(ed);
+				
+				else entities.addAll(new ClientDAO().search());
+				
+				entities.addAll(new CourseDAO().search());
+				result.setEntities(entities);
+			}
 			/*try
 			{	for(EntityDomain entity:dao.search())
 				{	Client cli = (Client)entity;
@@ -447,12 +483,6 @@ public class Facade implements IFacade
 		
 		else result.setMsg(this.executeRules(ed, "login"));
 		
-		if(ed.getId() > 1)	entities.add(ed);
-		
-		else entities.addAll(new ClientDAO().search());
-		
-		entities.addAll(new CourseDAO().search());
-		result.setEntities(entities);
 		return result;
 	}
 	

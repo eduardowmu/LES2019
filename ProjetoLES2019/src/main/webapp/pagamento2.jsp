@@ -80,9 +80,14 @@
 			</nav>
     	</div>
     	<div id="pedido">
+    		<%	Result result = (Result)session.getAttribute("result"); 
+				if(result.getMsg() != null &&
+					(result.getMsg().contains("A soma das parcelas não totalizam o preço de venda") ||
+					result.getMsg().contains("Não foi possível salvar este e-mail")))
+				{out.print("<div class='alert alert-info' align='center'>" + result.getMsg() + "</div>");}
+    		%>
     		<form action="SaleServlet" method="post">
-    			<%	Result result = (Result)session.getAttribute("result"); 
-    				Client client = null;
+    			<%	Client client = null;
     				Course course = null;
     				Sale sale = null;
     				Item item = null;
@@ -202,8 +207,8 @@
 	                    	{	DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
 	                    		for(int i = 0; i < client.getCards().size(); i++)
 		                    	{	if(i > 0)
-			                    	{	out.print("<input type='hidden' id='cardID"+i+"' name='cardID"+
-		                    							i+"' value='"+client.getCards().get(k).getId()+"'/>");
+			                    	{	out.print("<input type='hidden' id='cardID"+i+"' name='cardID"+i+
+			                    			"' value='"+client.getCards().get(k).getId()+"'/>");
 		                    			out.print("<tr><td class='center'>");
 		                    			if(client.getCards().get(i) != null)
 		                    			{	if(client.getCards().get(i).getBanner().equalsIgnoreCase("master"))
@@ -227,18 +232,18 @@
 					                    		client.getCards().get(i).getName() + "</td>");
 				                    		
 				                    		out.print("<td class='center'>" + 
-						                    			"<input type='text' id='"+client.getCards().get(i).getId()+"' name='cardValor' value='0.00'/>" + 
+						                    			"<input type='text' id='"+client.getCards().get(i).getId()+"' name='cardValor"+i+"' value='0.00'/>" + 
 				                    				  "</td>");
 					                    		
 				                    		out.print("<td class='center'>" +
-				                    						"<input type='checkbox' id='selCARD' name='selCARD' value='" +
+				                    						"<input type='checkbox' id='selCARD"+i+"' name='selCARD"+i+"' class='selCARD' value='" +
 				                    							client.getCards().get(i).getId() + 
 				                    							"' onclick = 'setValue()' /></td></tr>");
 				                    		k++;
 				                    	}
 			                    	}
 		                    	}
-	                    		//out.print("<input type='hidden' id='qtd_card' name='qtd_card' value='"+k+"'/>");
+	                    		out.print("<input type='hidden' id='qtd_card' name='qtd_card' value='"+k+"'/>");
                     		}
                     	%>
                     </table>
@@ -344,9 +349,19 @@
         {	var total = document.getElementById("total").value;
         	var cardP = document.getElementById("id_valor_parcela").value;
         	var cardS = total - cardP;
-        	var idBox = document.getElementById("selCARD").value;
-        	
-        	document.getElementById(idBox).value = cardS.toFixed(2);
+        	var idBox = document.getElementsByClassName("selCARD");
+        	var i;
+        	var k;
+        	var id;
+        	for(i = 0; i < idBox.length; i++)
+        	{	if(idBox[i].type == "checkbox" && idBox[i].checked)
+        		{ 	k = i+1;
+        			id = document.getElementById("selCARD"+k).value;
+        			break;
+        		}
+        	}
+        	if(cardS > 0)
+        	{document.getElementById(id).value = cardS.toFixed(2);}
         }
         //window.load = setValue();
     	/*function menu_enderecos(){

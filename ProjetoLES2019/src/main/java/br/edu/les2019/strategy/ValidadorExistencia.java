@@ -22,14 +22,16 @@ public class ValidadorExistencia extends AbstractStrategy
 		{	Client client = (Client)ed;
 			dao = new ClientDAO();
 			List<EntityDomain> entities = dao.search();
-			for(EntityDomain entity:entities)
-			{	Client cli = (Client)entity;
-				if(client.getCpf().equals(cli.getCpf()))
-				{return "Client already exist with cpf " + client.getCpf();}
-				
-				for(String email:cli.getEmails())
-				{	if(client.getEmails().get(0).equals(email))
-					{return "Usuário já existente";}
+			if(entities != null && !entities.isEmpty())
+			{	for(EntityDomain entity:entities)
+				{	Client cli = (Client)entity;
+					if(client.getCpf().equals(cli.getCpf()))
+					{return "Cliente já existe com cpf " + client.getCpf();}
+					
+					for(String email:cli.getEmails())
+					{	if(client.getEmails().get(0).equals(email))
+						{return "Usuário já existente";}
+					}
 				}
 			}
 			return null;
@@ -53,6 +55,23 @@ public class ValidadorExistencia extends AbstractStrategy
 					{	CreditCard c = (CreditCard)entity;
 						if(c.getNumber().equalsIgnoreCase(card.getNumber()))
 						{return "Cartão já existente";}
+					}
+				}
+			}
+		}
+	
+		else if(ed instanceof ShopCar)
+		{	dao = new CarDAO();
+			ShopCar car = (ShopCar)ed;
+			List<EntityDomain> cars = dao.search(ed.getClient());
+			if(cars != null && !cars.isEmpty())
+			{	for(EntityDomain e:cars)
+				{	ShopCar c = (ShopCar)e;
+					for(int i = 0; i < c.getCourses().size(); i++)
+					{	for(int j = 0; j < car.getCourses().size(); j++)
+						{	if(car.getCourses().get(j).getId() == c.getCourses().get(i).getId())
+							{return "O curso já existe em seu carrinho!";}
+						}
 					}
 				}
 			}

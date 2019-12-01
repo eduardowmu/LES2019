@@ -48,7 +48,7 @@
 						<h2 class="barra"><b id=titulo>Dados do Usuário</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a class="barra-direita" href="principal.html">Página Inicial</a></li>
+							<li><a class="barra-direita" href="meusCursos2.jsp">Página Inicial</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>

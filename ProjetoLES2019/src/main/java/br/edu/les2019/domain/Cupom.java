@@ -9,6 +9,7 @@ public class Cupom extends EntityDomain
 	String status;
 	Item item;
 	Motivo motivo;
+	Sale sale;
 	
 	public Cupom() {}
 	
@@ -40,4 +41,7 @@ public class Cupom extends EntityDomain
 
 	public Motivo getMotivo() {return motivo;}
 	public void setMotivo(Motivo motivo) {this.motivo = motivo;}
+
+	public Sale getSale() {return sale;}
+	public void setSale(Sale sale) {this.sale = sale;}
 }

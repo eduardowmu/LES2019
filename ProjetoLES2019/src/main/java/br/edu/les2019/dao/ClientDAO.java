@@ -247,6 +247,17 @@ public class ClientDAO extends AbstractDAO
 						cupom.setClient(cli);
 					}
 				}
+				
+				SaleCupomDAO scdao = new SaleCupomDAO();
+				scdao.connection = this.connection;
+				scdao.ctrlTransaction = false;
+				for(EntityDomain entity5:scdao.search(cli))
+				{	if(entity5 != null)
+					{	Cupom cupom = (Cupom)entity5;
+						cli.getCupons().add(cupom);
+						cupom.setClient(cli);
+					}
+				}
 				entities.add(cli);
 			}
 		}
@@ -351,6 +362,18 @@ public class ClientDAO extends AbstractDAO
 						cupom.setClient(this.client);
 					}
 				}
+				
+				SaleCupomDAO scdao = new SaleCupomDAO();
+				scdao.connection = this.connection;
+				scdao.ctrlTransaction = false;
+				for(EntityDomain entity5:scdao.search(this.client))
+				{	if(entity5 != null)
+					{	Cupom cupom = (Cupom)entity5;
+						this.client.getCupons().add(cupom);
+						cupom.setClient(this.client);
+					}
+				}
+				
 				entities.add(this.client);
 			}
 		}

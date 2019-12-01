@@ -19,10 +19,7 @@ nav.navbar-transparente
 	border: none;
 }
 
-body
-{
-	background-color: F4F4FA;
-}
+body {background-color: F4F4FA;}
 
 fieldset 
 {	/*padding: 0px 500px 0px 500px;*/
@@ -50,6 +47,11 @@ button.btn-primary
 	padding-botton:15px;
 }
 
+button.btn-success
+{	padding-botton:150px;
+	
+}
+
 #alterar 
 {	margin-left:10px;
 	margin-top:10px;
@@ -58,17 +60,17 @@ button.btn-primary
 
 #rodape 
 {	background: rgba(0, 0, 0, 0.9);
-	margin-top:20px;
+	margin-top:40px;
 }
 
 #rodape h4 {color:white;}
 
 div#rodape2 
-{	position: fixed;
-  	left: 0;
+{	left: 0;
  	bottom: 0;
   	width: 100%;
-  	padding-top:15px;
+  	padding-bottom:0px;
+  	padding-top:250px;
 }
 
 /*flutua��o de componentes a direita da p�gina*/
