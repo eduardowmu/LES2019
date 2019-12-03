@@ -38,8 +38,6 @@
 		        	{	document.getElementById("Total").value = total2.toFixed(2);
 			    		document.getElementById("total").value = total2.toFixed(2);
 			    	}
-			    	
-			    	else	{alert("Não poderá comprar sem custo");}
 			    }
 		    }
 	    	//window.load = calcularTotal();
@@ -195,27 +193,27 @@
 					<td>
 						<select class="cupom form-control" id="cupom">
 							<option value="0">Selecione Cupom</option>
-							<%	if(client.getCupons() != null && !client.getCupons().isEmpty())
-								{	for(int i = 0; i < client.getCupons().size(); i++)
-									{	if(client.getCupons().get(i) != null && 
-											client.getCupons().get(i).getStatus().equals("aprovado"))
-										{	int j = i;
-											out.print("<option value='"+(j+1)+"'>");
-											out.print(client.getCupons().get(i).getCodigo());
-											out.print("</option>");
+								<%	if(client.getCupons() != null && !client.getCupons().isEmpty())
+									{	for(int i = 0; i < client.getCupons().size(); i++)
+										{	if(client.getCupons().get(i) != null && 
+												client.getCupons().get(i).getStatus().equals("aprovado"))
+											{	int j = i;
+												out.print("<option value='"+(j+1)+"'>");
+													out.print(client.getCupons().get(i).getCodigo());
+													out.print("</option>");
+											}
 										}
 									}
-								}
-							%>
+								%>
 						</select>
-						<%	for(int j = 0; j < client.getCupons().size(); j++)
-							{out.print("<input type='hidden' id='"+(j+1)+"' value='"+client.getCupons().get(j).getValue()+"'/>");}	 
-						%>
+							<%	for(int j = 0; j < client.getCupons().size(); j++)
+								{out.print("<input type='hidden' id='"+(j+1)+"' value='"+client.getCupons().get(j).getValue()+"'/>");}	 
+							%>
 					</td>
 					<td>
 						<button type="button" class="btn btn-primary form-control" id="addCupom"
 							onclick="calcularTotal()">Add Cupom
-						</button>
+						</button> 
 					</td>
 				</tr>
 				<tr>

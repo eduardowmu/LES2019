@@ -61,7 +61,9 @@
 				<%	Result result = (Result)session.getAttribute("result");
 					Client client = null;
 					if(result != null && result.getEntities() != null)
-					{	for(EntityDomain ed:result.getEntities())
+					{	if(result.getMsg() != null && (result.getMsg().contains("Cartão inválido.") ||
+							result.getMsg().contains("Cartão já existente")))
+						for(EntityDomain ed:result.getEntities())
 						{	if(ed instanceof Client)
 							{	client = (Client)ed;
 								break;

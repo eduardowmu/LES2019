@@ -76,7 +76,7 @@ public class ShopCarView implements IViewHelper
 				
 				else
 				{	request.getSession().setAttribute("result", result);
-					rd = request.getRequestDispatcher("curso_informacao.jsp");
+					rd = request.getRequestDispatcher("cursos_compra.jsp");
 				}
 				break;
 		}

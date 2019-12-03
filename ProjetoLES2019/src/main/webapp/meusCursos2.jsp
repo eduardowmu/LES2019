@@ -100,8 +100,11 @@
     	</div>
 		<div id="form">
 			<%	if(result != null)
-				{	if(result.getMsg() != null && !result.getMsg().equals(""))
-					{out.print("<div align='center' class='alert alert-warning'>" + result.getMsg() + "</div>");}
+				{	if(result.getMsg() != null && 
+						(result.getMsg().contains("Bem vindo") ||
+						result.getMsg().contains("Dados alterados!") ||
+						result.getMsg().contains("Compra realizada com sucesso")))
+					{out.print("<div align='center' class='alert alert-info'>" + result.getMsg() + "</div>");}
 				}
 			%>
 			<form action="CourseServlet" method="get">
@@ -181,20 +184,21 @@
 											sb.append("<input type='hidden' name='status' value='"+item.getStatus()+"'/>");
 											sb.append("<td class='linha'>" + item.getStatus() + "</td>");
 											if(item.getStatus().equals("aprovada"))
-											{	sb.append("<td class='linha'><a href='#'><img src='imagens/video.png'></a></td>");
+											{	sb.append("<td class='linha'><a href='curso_estrutura.jsp'><img src='imagens/video.png'></a></td>");
 												sb.append("<td class='linha'><a href='#'><img src='imagens/prova.png'></a></td>");
 												sb.append("<td class='linha' align='center'><a href='#'><img src='imagens/diploma.png'></a></td>");
+												sb.append("<td class='linha' align='center'>");
+												sb.append("<input type='text' name='motivo' id='motivo' placeholder='Motivo da troca'/>");
+												sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' "+
+													"value='gerarCupom'>");
+												sb.append("<img src='imagens/troca.png'></button></td><tr/></form>");
 											}
 											else
 											{	sb.append("<td class='linha'><img src='imagens/video.png'></td>");
 												sb.append("<td class='linha'><img src='imagens/prova.png'></td>");
 												sb.append("<td class='linha' align='center'><img src='imagens/diploma.png'></td>");
+												sb.append("<td class='linha' align='center'><img src='imagens/troca.png'></td><tr/></form>");
 											}
-											sb.append("<td class='linha' align='center'>");
-											sb.append("<input type='text' name='motivo' id='motivo' placeholder='Motivo da troca'/>");
-											sb.append("<button type='submit' id='action' name='action' class='btn btn-link btn-troca form-control' "+
-												"value='gerarCupom'>");
-											sb.append("<img src='imagens/troca.png'></button></td><tr/></form>");
 										}
 									}
 								}

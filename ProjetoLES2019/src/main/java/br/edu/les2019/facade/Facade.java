@@ -52,6 +52,7 @@ import br.edu.les2019.strategy.ValidadorSenha;
 import br.edu.les2019.strategy.ValidadorVideo;
 import br.edu.les2019.strategy.ValidarCarrinho;
 import br.edu.les2019.strategy.ValidarCurso;
+import br.edu.les2019.strategy.ValidarVendaCartao;
 
 public class Facade implements IFacade
 {	Map<String, IDAO> daos;//map of DAOs
@@ -103,7 +104,6 @@ public class Facade implements IFacade
 		ValidarCurso vcurso = new ValidarCurso();
 		
 		//strategies for Item
-		ValidadorMeusCursos vmc = new ValidadorMeusCursos();
 		ValidarCarrinho vcar = new ValidarCarrinho();
 		
 		//listas de todas as regras para clientes
@@ -196,7 +196,6 @@ public class Facade implements IFacade
 		List<IStrategy> rnDeletarItem = new ArrayList<>();
 		
 		//regras para salvar item de compra
-		rnSalvarItem.add(vmc);
 		rnSalvarItem.add(vex);
 		
 		//mapeamento de todas as regras para o cliente
@@ -223,13 +222,16 @@ public class Facade implements IFacade
 		//strategies for Sale
 		ValidadorParcelas vpar = new ValidadorParcelas();
 		InserirNovoEmail ine = new InserirNovoEmail();
-				
+		ValidarVendaCartao vvc = new ValidarVendaCartao();
+		
 		//lista de regras para vendas
 		List<IStrategy> rnSalvarVenda = new ArrayList<>();
 		
 		//regras para salvar venda
+		rnSalvarVenda.add(vvc);
 		rnSalvarVenda.add(vpar);
 		rnSalvarVenda.add(ine);
+		
 		
 		//mapeamento de todas as regras para a venda
 		Map<String, List<IStrategy>> regrasVenda = 

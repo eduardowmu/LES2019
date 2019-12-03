@@ -14,7 +14,7 @@ public class ValidadorCartao extends AbstractStrategy
 				client.getCards().get(i).getCode().equals("") &&
 				client.getCards().get(i).getName().equals("") &&
 				client.getCards().get(i).getNumber().equals(""))
-			{return "Invalid card";}
+			{return "Cartão inválido. ";}
 		}
 		/*if(client.getCard().getBanner().equals("") && 
 			client.getCard().getCode().equals("") &&

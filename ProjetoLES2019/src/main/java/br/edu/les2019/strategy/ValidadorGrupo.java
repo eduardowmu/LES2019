@@ -9,6 +9,6 @@ public class ValidadorGrupo extends AbstractStrategy
 		if(!course.getGrupoP().equals(""))
 			return null;
 		
-		return "Curso sem grupo de precificação definido";
+		return "Curso sem grupo de precificação definido. ";
 	}
 }

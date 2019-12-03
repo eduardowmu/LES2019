@@ -38,7 +38,7 @@ public class VideoView implements IViewHelper
 				{result.setMsg("Curso Salvo com sucesso");}
 				
 				request.getSession().setAttribute("result", result);
-				rd = request.getRequestDispatcher("ListaCursos.jsp");
+				rd = request.getRequestDispatcher("curso_estrutura.jsp");
 				break;
 		}
 	}

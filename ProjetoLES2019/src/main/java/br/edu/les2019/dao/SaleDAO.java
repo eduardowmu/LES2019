@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.les2019.domain.Client;
-import br.edu.les2019.domain.ClienteVenda;
+import br.edu.les2019.domain.CursoVenda;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.CreditCard;
 import br.edu.les2019.domain.Cupom;
@@ -186,17 +186,19 @@ public class SaleDAO extends AbstractDAO
 	{return null;}
 	
 	public void searchClientSale(ReportCoursesSold rcs)
-	{	ClienteVenda cv = null;
+	{	CursoVenda cv = null;
 		try
 		{	if(this.connection == null || this.connection.isClosed())
 			{this.connection = this.getConnection();}
-		
-			this.ps = this.connection.prepareStatement("SELECT cli.name AS cliente, SUM(s.total) AS total "
-					+ "FROM client AS cli INNER JOIN sale AS s "
-					+ "WHERE cli.id = s.sal_cli_id "
-					+ "AND s.registry BETWEEN ? AND ? "
-					+ "GROUP BY cli.name "
-					+ "ORDER BY SUM(s.total) DESC");
+			
+			this.ps = this.connection.prepareStatement(
+				"SELECT i.registry AS tempo, "
+				+ "SUM(i.preco) AS venda, SUM(c.valor) AS custo "
+				+ "FROM item AS i JOIN course AS c "
+				+ "WHERE i.ite_cur_id = c.id AND i.registry "
+				+ "BETWEEN ? AND ? "
+				+ "GROUP BY CONCAT(YEAR(i.registry), '-', MONTH(i.registry)) "
+				+ "ORDER BY i.registry");
 			
 			this.ps.setDate(1, new java.sql.Date(rcs.getStartDate().getTime()));
 			this.ps.setDate(2, new java.sql.Date(rcs.getEndDate().getTime()));
@@ -204,9 +206,10 @@ public class SaleDAO extends AbstractDAO
 			this.rs = this.ps.executeQuery();
 			rcs.setVendas(new ArrayList<>());
 			while(this.rs.next())
-			{	cv = new ClienteVenda();
-				cv.setCliente(this.rs.getString(1));
-				cv.setTotal(this.rs.getDouble(2));
+			{	cv = new CursoVenda();
+				cv.setRegistry(new java.sql.Date(this.rs.getDate(1).getTime()));
+				cv.setTotalVenda(this.rs.getDouble(2));
+				cv.setTotalCurso(this.rs.getDouble(3));
 				rcs.getVendas().add(cv);
 			}
 		}

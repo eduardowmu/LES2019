@@ -48,7 +48,7 @@
 						<h2 class="barra"><b id=titulo>Cursos On-Line</b></h2>
 						<!-- barra do link abaixo a direita. -->
 						<ul class="nav navbar-nav navbar-right">
-							<li><a name="logout" class="barra-direita" href="principal.html">Logout</a></li>
+							<li><a name="logout" class="barra-direita" href="login.jsp">Logout</a></li>
 							<li><a class="barra-direita" href="#">Contato</a></li>
 							<li><a class="barra-direita" href="#">Empresa</a></li>
 						</ul>
@@ -59,13 +59,8 @@
 		<div id="form" align="center">
 			<form action="MyServlet" method="post">
 				<fieldset>
-					<legend>Angular</legend>
-					<iframe width="560" height="315" 
-						src="https://www.youtube.com/embed/tPOMG0D57S0" 
-						frameborder="0" 
-						allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-						allowfullscreen>
-					</iframe>
+					<legend>Engenharia de Software com Java</legend>
+					<iframe width="560" height="315" src="https://www.youtube.com/embed/oo6yc0OMWzw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					<aside>
 						<div class="playlist-items yt-scrollbar-dark style-scope ytd-playlist-panel-renderer">
 							<table>

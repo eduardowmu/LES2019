@@ -8,16 +8,18 @@
 	List empdetails = new LinkedList();
 	JSONObject responseObj = new JSONObject();
 	JSONObject empObj = null;
+	DateFormat df = new SimpleDateFormat("yyyy-MM");
 	if(result != null)
 	{	if(result.getEntities() != null && !result.getEntities().isEmpty())
 		{	for(EntityDomain ed:result.getEntities())
 			{	if(ed instanceof ReportCoursesSold)
 				{	rcs = (ReportCoursesSold)ed;
 					if(rcs != null)
-					{	for(ClienteVenda cv:rcs.getVendas())
+					{	for(CursoVenda cv:rcs.getVendas())
 						{	empObj = new JSONObject();
-							empObj.put("Cliente", cv.getCliente());
-							empObj.put("Total", cv.getTotal());
+							empObj.put("Venda", cv.getTotalVenda());
+							empObj.put("Custo", cv.getTotalCurso());
+							empObj.put("Data", df.format(cv.getRegistry()));
 							empdetails.add(empObj);
 						}
 					}

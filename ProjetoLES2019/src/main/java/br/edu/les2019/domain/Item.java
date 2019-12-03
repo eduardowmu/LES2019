@@ -6,6 +6,7 @@ public class Item extends EntityDomain
 	String code;
 	Sale sale;
 	String status;
+	Double preco;
 	
 	public Item() {}
 	
@@ -28,4 +29,7 @@ public class Item extends EntityDomain
 
 	public String getStatus() {return status;}
 	public void setStatus(String status) {this.status = status;}
+
+	public Double getPreco() {return preco;}
+	public void setPreco(Double preco) {this.preco = preco;}
 }

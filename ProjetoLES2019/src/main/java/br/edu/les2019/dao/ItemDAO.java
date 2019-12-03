@@ -24,12 +24,13 @@ public class ItemDAO extends AbstractDAO
 			this.connection.setAutoCommit(false);
 		
 			this.ps = this.connection.prepareStatement("INSERT INTO " + this.table +
-				" (code, ite_cur_id, ite_sal_id, status) VALUES(?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
+				" (code, preco, ite_cur_id, ite_sal_id, status) VALUES(?, ?, ?, ?, ?)", this.ps.RETURN_GENERATED_KEYS);
 			
 			this.ps.setString(1, item.getCode());
-			this.ps.setInt(2, item.getCourse().getId());
-			this.ps.setInt(3, item.getSale().getId());
-			this.ps.setString(4, item.getStatus());
+			this.ps.setDouble(2, item.getCourse().getTotalPrice(item.getCourse().getPrice(), item.getCourse().getGrupoP()));
+			this.ps.setInt(3, item.getCourse().getId());
+			this.ps.setInt(4, item.getSale().getId());
+			this.ps.setString(5, item.getStatus());
 			
 			this.ps.executeUpdate();
 			
@@ -117,6 +118,7 @@ public class ItemDAO extends AbstractDAO
 			{	this.item = new Item();
 				this.item.setId(this.rs.getInt("id"));
 				this.item.setCode(this.rs.getString("code"));
+				this.item.setPreco(this.rs.getDouble("preco"));
 				this.item.setCourse(new Course());
 				this.item.getCourse().setId(this.rs.getInt("ite_cur_id"));
 				this.item.setSale(new Sale());
@@ -152,14 +154,15 @@ public class ItemDAO extends AbstractDAO
 			
 			while(this.rs.next())
 			{	this.item = new Item();
-				this.item.setId(this.rs.getInt(1));
-				this.item.setCode(this.rs.getString(2));
+				this.item.setId(this.rs.getInt("id"));
+				this.item.setCode(this.rs.getString("code"));
+				this.item.setPreco(this.rs.getDouble("preco"));
 				this.item.setCourse(new Course());
-				this.item.getCourse().setId(this.rs.getInt(3));
+				this.item.getCourse().setId(this.rs.getInt("ite_cur_id"));
 				this.item.setSale(new Sale());
-				this.item.getSale().setId(this.rs.getInt(4));
+				this.item.getSale().setId(this.rs.getInt("ite_sal_id"));
 				this.item.setStatus(this.rs.getString("status"));
-				this.item.setRegistry(new java.sql.Date(this.rs.getDate(5).getTime()));
+				this.item.setRegistry(new java.sql.Date(this.rs.getDate("registry").getTime()));
 				itens.add(this.item);
 			}
 		}
@@ -176,6 +179,44 @@ public class ItemDAO extends AbstractDAO
 		}
 		return itens;
 	}
+	
+	public List<Course> searchClientCourse(Client client)
+	{	List<Course> courses = new ArrayList<>();
+		try
+		{	if(this.connection == null || this.connection.isClosed())
+			{this.connection = this.getConnection();}
+		
+			this.ps = this.connection.prepareStatement(
+				"SELECT DISTINCT i.ite_cur_id "
+				+ "FROM item AS i "
+				+ "INNER JOIN sale AS s "
+				+ "WHERE ite_sal_id = s.id "
+				+ "AND s.sal_cli_id = ?");
+			
+			this.ps.setInt(1, client.getId());
+			
+			this.rs = this.ps.executeQuery();
+			
+			while(this.rs.next())
+			{	Course course = new Course();
+				course.setId(this.rs.getInt(1));
+				courses.add(course);
+			}
+		}
+		catch(SQLException e)
+		{	System.err.println(e.getMessage());
+			e.printStackTrace();
+		}
+		finally
+		{	try
+			{	this.ps.close();
+				if(this.ctrlTransaction)	this.connection.close();
+			}
+			catch(SQLException e2){e2.printStackTrace();}
+		}
+		return courses;
+	}
+	
 	@Override
 	public void updateKey(EntityDomain ed) {
 		// TODO Auto-generated method stub

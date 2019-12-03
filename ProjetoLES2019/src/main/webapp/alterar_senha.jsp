@@ -3,7 +3,11 @@
 <!--Importação de Lista e pacote onde estão as classes de dominio e controle-->
 <%@ page import = "java.text.*" %>
 <!--possibilita usar a tag core, que chama o looping forEach-->    
-
+<%@ page import = "java.util.*,br.edu.les2019.result.*" %>
+<%@ page import = "java.util.*,br.edu.les2019.domain.*" %>
+<%@ page import = "java.text.DecimalFormat.*"%>
+<%@ page import = "java.text.DecimalFormatSymbols.*"%>
+<%@ page import = "java.text.*"%>
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -61,6 +65,14 @@
     	</div>
 		<div id="form" align="center">
 			<form action="ClientServlet" method="post">
+				<%	Result result = (Result)session.getAttribute("result");
+					if(result != null)
+					{	if(result.getMsg() != null && (result.getMsg().contains("E-mail inválido") ||
+							result.getMsg().contains("Senhas não conferem") ||
+							result.getMsg().contains("Senha inválida! No mínimo 8 caracteres, 1 letra minúscula e maiúscula e 1 caractere especial. Ex: !@#$%¨&*.")))
+						{out.print("<div class='alert alert-info' align='center'>" + result.getMsg() + "</div>");}
+					}
+				%>
 				<fieldset>
 					<legend>Alterar senha</legend>
 					<table>

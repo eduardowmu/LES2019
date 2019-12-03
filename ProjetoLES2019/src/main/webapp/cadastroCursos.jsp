@@ -45,8 +45,8 @@
 			</nav>
     	</div>
 		<div id="form" align="center">
-			<% 	/*Result result = (Result)session.getAttribute("result");
-				Course course = null;
+			<% 	Result result = (Result)session.getAttribute("result");
+			/*Course course = null;
 				if(result != null)
 				{	if(!result.getMsg().equals(""))
 					{out.print("<div class='alert alert-warning'>"+result.getMsg()+"<div>");}
@@ -61,6 +61,13 @@
 				}*/
 			%>
 			<fieldset>
+				<%	if(result != null)
+					{	if(result.getMsg() != null && (result.getMsg().contains("Categoria não definido") ||
+							result.getMsg().contains("Curso sem grupo de precificação definido") ||
+							result.getMsg().contains("Curso com nome já existente")))
+						{out.print("<div class='alert alert-info' align='center'>" + result.getMsg() + "</div>");}
+					}
+				%>
 				<legend>Cadastro de Cursos</legend>
 				<form action="CourseServlet" method="post">
 						<b>Dados do Curso</b><br/>

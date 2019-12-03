@@ -9,6 +9,6 @@ public class ValidadorCategoria extends AbstractStrategy
 		if(!course.getCategoria().equals(""))
 			return null;
 		
-		return "Categoria não definido";
+		return "Categoria não definido. ";
 	}
 }

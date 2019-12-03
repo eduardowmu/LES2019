@@ -16,7 +16,7 @@ public class CompraComCupom
 			driver.manage().window().maximize();
 			thread.sleep(2000);
 			
-			driver.findElement(By.id("email")).sendKeys("eeefff@gmail.com");
+			driver.findElement(By.id("email")).sendKeys("dudu@gmail.com");
 			thread.sleep(1000);
 			
 			driver.findElement(By.id("senha")).sendKeys("@#$Abc123");
@@ -34,7 +34,7 @@ public class CompraComCupom
 			driver.get("http://localhost:8080/ProjetoLES2019/cursos_compra.jsp");
 			thread.sleep(2000);
 			
-			driver.findElement(By.id("5")).click();
+			driver.findElement(By.id("10")).click();
 			thread.sleep(2000);
 			
 			driver.getCurrentUrl();
@@ -46,7 +46,7 @@ public class CompraComCupom
 			thread.sleep(2000);
 			
 			driver.getCurrentUrl();
-			driver.findElement(By.id("7")).click();
+			driver.findElement(By.id("11")).click();
 			thread.sleep(2000);
 			
 			driver.getCurrentUrl();
@@ -63,32 +63,6 @@ public class CompraComCupom
 			thread.sleep(2000);
 			
 			driver.getCurrentUrl();
-			driver.findElement(By.linkText("adicionar novo cartão")).click();
-			thread.sleep(2000);
-			
-			driver.getCurrentUrl();
-			driver.findElement(By.name("numero")).sendKeys("1236547899874561");
-			thread.sleep(1000);
-			
-			driver.findElement(By.name("code")).sendKeys("963");
-			thread.sleep(1000);
-			
-			driver.findElement(By.name("vencimento")).sendKeys("14");
-			thread.sleep(1000);
-			
-			driver.findElement(By.name("vencimento")).sendKeys("10");
-			thread.sleep(1000);
-			
-			driver.findElement(By.name("vencimento")).sendKeys("2026");
-			thread.sleep(1000);
-			
-			driver.findElement(By.name("titular")).sendKeys("eee fff");
-			thread.sleep(1000);
-			
-			driver.findElement(By.id("salvar")).click();
-			thread.sleep(2000);
-			
-			driver.getCurrentUrl();
 			driver.findElement(By.id("id_valor_parcela")).clear();
 			thread.sleep(1000);
 			
@@ -98,7 +72,7 @@ public class CompraComCupom
 			driver.findElement(By.id("selCARD")).click();
 			thread.sleep(1000);
 			
-			driver.findElement(By.name("email")).sendKeys("ef@gmail.com");
+			driver.findElement(By.name("email")).sendKeys("dududuedu@gmail.com");
 			thread.sleep(1000);
 			
 			driver.findElement(By.id("fechar")).click();

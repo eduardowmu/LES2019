@@ -9,6 +9,7 @@ import br.edu.les2019.dao.CardDAO;
 import br.edu.les2019.dao.ClientDAO;
 import br.edu.les2019.dao.CourseDAO;
 import br.edu.les2019.dao.IDAO;
+import br.edu.les2019.dao.ItemDAO;
 import br.edu.les2019.domain.Client;
 import br.edu.les2019.domain.Course;
 import br.edu.les2019.domain.CreditCard;
@@ -41,7 +42,7 @@ public class ValidadorExistencia extends AbstractStrategy
 		{	dao = new CourseDAO();
 			for(EntityDomain entity:dao.search())
 			{	if(entity.getName().equals(ed.getName()))
-					return "Curso com nome já existente";
+					return "Curso com nome já existente. ";
 			}
 		}
 	
@@ -54,7 +55,7 @@ public class ValidadorExistencia extends AbstractStrategy
 				{	if(entity != null)
 					{	CreditCard c = (CreditCard)entity;
 						if(c.getNumber().equalsIgnoreCase(card.getNumber()))
-						{return "Cartão já existente";}
+						{return "Cartão já existente. ";}
 					}
 				}
 			}
@@ -68,10 +69,19 @@ public class ValidadorExistencia extends AbstractStrategy
 			{	for(EntityDomain e:cars)
 				{	ShopCar c = (ShopCar)e;
 					for(int i = 0; i < c.getCourses().size(); i++)
-					{	for(int j = 0; j < car.getCourses().size(); j++)
-						{	if(car.getCourses().get(j).getId() == c.getCourses().get(i).getId())
-							{return "O curso já existe em seu carrinho!";}
-						}
+					{	if(car.getCourses().get(0).getId() == c.getCourses().get(i).getId())
+						{return "O curso já existe em seu carrinho! ";}
+					}
+				}
+			}
+			
+			ItemDAO idao = new ItemDAO();
+			List<Course> courses = idao.searchClientCourse(car.getClient());
+			if(courses != null && !courses.isEmpty())
+			{	for(Course course:courses)
+				{	for(Course cc:car.getCourses())
+					{	if(cc.getId() == course.getId())
+						{return "O curso " + cc.getName() + " já existe em sua conta";}
 					}
 				}
 			}

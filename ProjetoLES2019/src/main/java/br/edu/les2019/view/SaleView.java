@@ -105,7 +105,9 @@ public class SaleView implements IViewHelper
 		{	case "save":
 				request.getSession().setAttribute("result", result);
 				if(result.getMsg() == null)
-				{rd = request.getRequestDispatcher("meusCursos2.jsp");}
+				{	result.setMsg("Compra realizada com sucesso. ");
+					rd = request.getRequestDispatcher("meusCursos2.jsp");
+				}
 				
 				else
 				{rd = request.getRequestDispatcher("pagamento2.jsp");}

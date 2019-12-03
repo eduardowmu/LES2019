@@ -48,7 +48,9 @@
 		<div id="form" align="center">
 			<%	Result result = (Result)session.getAttribute("result");
 				if(result != null)
-				{	if(result.getMsg() != null && !result.getMsg().equals(""))
+				{	if(result.getMsg() != null && (result.getMsg().contains("Usuário cadastrado") ||
+						result.getMsg().contains("E-mail inválido") ||
+						result.getMsg().contains("E-mail ou senha inválidos")))
 					{out.print("<div align='center' class='alert alert-info'>" + result.getMsg() + "</div>");}
 				}
 			%>

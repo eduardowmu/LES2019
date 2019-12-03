@@ -9,6 +9,6 @@ public class ConfirmaSenhas extends AbstractStrategy
 		if(client.getPassword().equals(client.getPassword2()))
 			return null;
 		
-		return "Senhas não conferem";
+		return "Senhas não conferem. ";
 	}
 }

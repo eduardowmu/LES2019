@@ -68,23 +68,6 @@
 		<div id="form" align="center">
 			<fieldset>
 				<legend>Cadastro de video</legend>
-				<form action="MyServlet" method="get">
-					<img src=""/>
-					<table>
-						<tr>
-							<td><b>video: </b>
-								<input type="file" id="video" name="video" 
-									class="form-control"/>
-							</td>
-							<td>
-								<a id="envio" name="envio" href="videos.jsp"
-									class="btn btn-primary form-control">
-									Enviar
-								</button>
-							</td>
-						</tr>
-					</table>
-				</form>
 				<form action="VideoServlet" method="post">
 					<%	Result result = (Result)session.getAttribute("result"); 
 						Course course = null;

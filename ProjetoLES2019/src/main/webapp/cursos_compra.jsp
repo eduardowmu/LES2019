@@ -67,7 +67,11 @@
 			<%	Result result = (Result)session.getAttribute("result");
 				Client client = null;
 				if(result != null)
-				{	if(result.getEntities() != null &&
+				{	if(result.getMsg() != null && 
+						(result.getMsg().contains("O curso já existe em seu carrinho") ||
+						 result.getMsg().contains("já existe em sua conta")))
+					{out.print("<div class='alert alert-info' align='center'>" + result.getMsg() + "</div>");}
+					if(result.getEntities() != null &&
 						!result.getEntities().isEmpty())
 					{	for(EntityDomain ed:result.getEntities())
 						{	if(ed instanceof Client)
@@ -90,25 +94,28 @@
 						<%	if(result != null && client != null)
 							{	int i = 0;
 								NumberFormat nf = new DecimalFormat("0.00");
-								for(EntityDomain ed:result.getEntities())
-								{	if(ed instanceof Course)
-									{	Course course = (Course)ed;
-										out.print("<form action='MyServlet2' method='get'>" +
-													"<input type='hidden' id='clientID' name='clientID' value='" + client.getId() + "'/>" +
-											 		"<input type='hidden' id='courseID' name='courseID' value='" + ed.getId() + "'/>" +
-												 	"<tr><td class='linha' align='center'>" +
-													  		"<button type='submit' class='btn btn-link' name='action' id='"+i+"' value='viewItem'>" + 
-													 			"<img src='" + ed.getPhoto() + "' width='50px' height='50'/>" +
-													  		"</button></td>" +
-														"<td class='linha' align='center'>" + ed.getName() + "</td>" +
-														"<td class='linha' align='center'>" + 
-															nf.format(course.getTotalPrice(course.getPrice(), course.getGrupoP())) + 
-														"</td>" +
-													"</tr>" + 
-												  "</form>");
-										i++;
+								if(client.getStatus().equals("ativado"))
+								{	for(EntityDomain ed:result.getEntities())
+									{	if(ed instanceof Course)
+										{	Course course = (Course)ed;
+											out.print("<form action='MyServlet2' method='get'>" +
+														"<input type='hidden' id='clientID' name='clientID' value='" + client.getId() + "'/>" +
+												 		"<input type='hidden' id='courseID' name='courseID' value='" + ed.getId() + "'/>" +
+													 	"<tr><td class='linha' align='center'>" +
+														  		"<button type='submit' class='btn btn-link' name='action' id='"+i+"' value='viewItem'>" + 
+														 			"<img src='" + ed.getPhoto() + "' width='50px' height='50'/>" +
+														  		"</button></td>" +
+															"<td class='linha' align='center'>" + ed.getName() + "</td>" +
+															"<td class='linha' align='center'>" + 
+																nf.format(course.getTotalPrice(course.getPrice(), course.getGrupoP())) + 
+															"</td>" +
+														"</tr>" + 
+													  "</form>");
+											i++;
+										}
 									}
 								}
+								else	out.print("<div class='alert alert-info'>Seu perfil foi desativado. Contactar Administrador</div>");
 							}
 						%>
 						<!-- <tr>

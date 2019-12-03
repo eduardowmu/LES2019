@@ -99,11 +99,6 @@
 			</nav>
     	</div>
 		<div id="form">
-			<%	if(result != null)
-				{	if(result.getMsg() != null && !result.getMsg().equals(""))
-					{out.print("<div align='center' class='alert alert-warning'>" + result.getMsg() + "</div>");}
-				}
-			%>
 			<%	if(client != null)
 				{out.print("<input type='hidden' name='clientID' value='"+client.getId()+"'/>");}
 			%>

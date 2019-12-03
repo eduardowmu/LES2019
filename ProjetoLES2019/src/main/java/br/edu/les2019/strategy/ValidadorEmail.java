@@ -12,6 +12,6 @@ public class ValidadorEmail extends AbstractStrategy
 				{return null;}
 			}
 		}
-		return "Invalidate e-mail";
+		return "E-mail inválido. ";
 	}
 }

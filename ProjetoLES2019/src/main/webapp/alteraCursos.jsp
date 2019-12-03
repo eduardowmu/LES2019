@@ -48,7 +48,9 @@
 			<% 	Result result = (Result)session.getAttribute("result");
 				Course course = null;
 				if(result != null)
-				{	if(!result.getEntities().isEmpty() && result.getEntities() != null)
+				{	if(result.getMsg() != null && (result.getMsg().contains("Categoria não definido") ||
+						result.getMsg().contains("Curso sem grupo de precificação definido")))
+					if(!result.getEntities().isEmpty() && result.getEntities() != null)
 					{	for(EntityDomain e : result.getEntities())
 						{	if(e instanceof Course)
 							{	course = (Course)e;

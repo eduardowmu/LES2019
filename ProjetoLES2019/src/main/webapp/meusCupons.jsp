@@ -80,7 +80,7 @@
 				}
 			%>
 			<form action="CupomServlet" method="post">
-				<table align="center">
+				<!-- <table align="center">
 					<thead>
 					<tr>
 						<td class="formulario"><br/>
@@ -97,7 +97,7 @@
 						</td>
 					</tr>
 					</thead>
-				</table>
+				</table> 
 				<table align="center">
 					<tr>
 						<td class="formulario"><br/>
@@ -105,7 +105,7 @@
 								class="btn btn-primary form-control">Consultar</button>
 						</td>
 					</tr>
-				</table>
+				</table>-->
 			</div><br/>
 			</form>
 			<div>

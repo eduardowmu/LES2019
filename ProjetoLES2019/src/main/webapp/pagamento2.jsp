@@ -103,6 +103,7 @@
 		    						item = sale.getListItem().get(i);
 		    						out.print("<input type='hidden' name='itemID"+i+"' value='"+item.getId()+"'/>");
 		    						out.print("<input type='hidden' name='itemCode"+i+"' value='"+item.getCode()+"' />");
+		    						out.print("<input type='hidden' name='itemPreco"+i+"' value='"+item.getCourse().getTotalPrice(item.getCourse().getPrice(), item.getCourse().getGrupoP())+"' />");
 		    					}
 		    					break;
 		    				}
@@ -237,8 +238,7 @@
 					                    		
 				                    		out.print("<td class='center'>" +
 				                    						"<input type='checkbox' id='selCARD"+i+"' name='selCARD"+i+"' class='selCARD' value='" +
-				                    							client.getCards().get(i).getId() + 
-				                    							"' onclick = 'setValue()' /></td></tr>");
+				                    							client.getCards().get(i).getId() + "' onclick='setValue()' /></td></tr>");
 				                    		k++;
 				                    	}
 			                    	}

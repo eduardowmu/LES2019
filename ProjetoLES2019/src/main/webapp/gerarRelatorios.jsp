@@ -50,26 +50,34 @@
         	
         // Cria a tabela de dados.
 		var data = new google.visualization.DataTable();
-		data.addColumn('string', 'Cliente');
-		data.addColumn('number', 'Total');
+		data.addColumn('string', 'Data');
+		data.addColumn('number', 'Venda');
+		data.addColumn('number', 'Custo');
 		for(var i=0;i<queryObjectLen3;i++)
-		{	var cli = queryObject3.empdetails[i].Cliente;
-			var valor = parseInt(queryObject3.empdetails[i].Total);
+		{	var venda = parseFloat(queryObject3.empdetails[i].Venda);
+			var custo = parseFloat(queryObject3.empdetails[i].Custo);
+			var time = queryObject3.empdetails[i].Data;
 			
 			data.addRows([
-				  [cli, valor]
+				  [time, venda, custo]
 				]);
 		}
-		
+		/*
 		// Define opções do gráfico
-		var options = {'title':'Valor total de compra - Por Cliente',
+		var options = {'title':'Grafico de Venda e custo',
 					   'width':500,
 					   'height':500,
 					   legend: { position: 'bottom' }
-					   };
+					   };*/
+		
+		var options = {
+		          title: 'Company Performance',
+		          curveType: 'function',
+		          legend: { position: 'bottom' }
+		        };
 
 		// Instantiate and draw our chart, passing in some options.
-		var chart = new google.visualization.ColumnChart(document.getElementById('chart_sale'));
+		var chart = new google.visualization.LineChart(document.getElementById('chart_sale'));
 		chart.draw(data, options);
 	  }
 		</script>
@@ -340,7 +348,7 @@
 				<legend>GRÁFICOS</legend>
 				<table align="center">
 					<!-- <tr><td><div id="chart_div"></div></td></tr> -->
-					<tr><td><div id="chart_sale"></div></td></tr>
+					<tr><td><div id="chart_sale" style="width:900px; height:500px"></div></td></tr>
 					<tr><td><div id="chart_course"></div></td></tr>
 					<tr><td><div id="chart_pizza"></div></td></tr>
 					<tr><td><div id="chart_div"></div></td></tr>

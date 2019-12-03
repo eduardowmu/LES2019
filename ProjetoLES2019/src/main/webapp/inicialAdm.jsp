@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*, br.edu.les2019.domain.*" %>
 <%@ page import="java.util.*, br.edu.les2019.result.*" %>
+<%@ page import="java.text.*"%>
+
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
@@ -14,7 +16,7 @@
 		<link href="CSS/principal.css" rel="stylesheet">
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
-		  google.charts.load('current', {'packages':['corechart']});
+		  /*google.charts.load('current', {'packages':['corechart']});
 		  google.charts.setOnLoadCallback(drawChart);
 		  google.charts.setOnLoadCallback(drawChart2);
 		  function drawChart() {
@@ -41,12 +43,12 @@
 			var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 	
 			chart.draw(data, options);
-		  }
+		  }*/
 		</script>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 		<script type="text/javascript">
 		  // Carrega a API de Visualização e o pacote base de gráficos.
-		  google.charts.load('current', {'packages':['corechart']});
+		  /*google.charts.load('current', {'packages':['corechart']});
 		  // Define uma chamada para rodar quando a API de visualização é carregada.
 		  google.charts.setOnLoadCallback(drawChart2);
 		  // Função que cria e preenche os dados da tabela, instancia o gráfico, passa os dados e desenha.
@@ -71,7 +73,7 @@
 			chart.draw(data, options);
 		  }
 	
-			 chart.draw(data, options);
+			 chart.draw(data, options);*/
 		</script>
 		<style>
 		#curve_chart{
@@ -105,7 +107,7 @@
 					</div>
 					<!-- compatibilidade para dispositivos menores-->
 					<div class="collapse navbar-collapse" id="barra-navegacao">
-						<h2 class="barra"><b id=titulo>Bem Vindo <%	if(result != null/* && (result.getMsg().contains("Bem vindo") ||
+						<h2 class="barra"><b id=titulo>Bem Vindo<br /> <%	if(result != null/* && (result.getMsg().contains("Bem vindo") ||
 																		result.getMsg().contains("Dados alterados"))*/)
 																	{	//out.print(result.getMsg());
 																		for(EntityDomain ed:result.getEntities())
@@ -124,7 +126,6 @@
 							<!-- <li><a name ="gertrocacancel" class="barra-direita" href="gerTrocaCancel.jsp"> | Gerenciar Trocas/Cancelamentos |</a></li> -->
 							<li><a class="barra-direita" href="gerenciarCupons.jsp">| Gerenciar Cupons |</a></li>
 							<li><a class="barra-direita" href="gerenciarClientes.jsp">| Gerenciar Clientes |</a></li>
-							<li><a class="barra-direita" href="rankClientes.jsp">| Ranking de Clientes |</a></li>
 							<li><a class="barra-direita" href="gerarRelatorios.jsp">| Gerar Relatórios |</a></li>
 							<li><a class="barra-direita" href="login.jsp">| Sair |</a></li>
 						</ul>
@@ -132,13 +133,37 @@
 				</div>
 			</nav>
     	</div>
-		<div id="form" align="center">
-				<fieldset>
-					<legend>VISÃO GERAL</legend>
-					<div id="curve_chart"></div>
-    				<div id="chart_pizza"></div>
-				</fieldset>
-		</div>
+			<%		DateFormat df = new SimpleDateFormat("dd/MM/yyyy");%>
+			<table id="stusuarios" width = "600px" border="1px" align="center"
+					 class="table table-striped table-bordered table-hover table-condensed">
+					<tr align="center">
+						<td class="tabela"><b>Classificação</b></td>
+						<td class="tabela"><b>Id</b></td>
+						<td class="tabela"><b>Cliente</b></td>
+						<td class="tabela"><b>Total R$</b></td>
+					</tr>
+					<%	StringBuilder sb = new StringBuilder();
+						if(result!=null)
+						{	for(EntityDomain ed:result.getEntities())
+							{	if(ed instanceof Ranking)
+								{	Ranking rank = (Ranking)ed;
+									NumberFormat nf = new DecimalFormat("0.00");
+									//System.out.println(client.getId());
+									if(rank != null)
+									{	for(int i = 0; i < rank.getClients().size(); i++)
+										{	sb.append("<tr align='center'><td class='tabela'>"+(i+1)+"º</td>");
+											sb.append("<td class='tabela'>"+rank.getCodes().get(i)+"</td>");
+											sb.append("<td class='tabela'>"+rank.getClients().get(i)+"</td>");
+											sb.append("<td class='tabela'>"+nf.format(rank.getValues().get(i))+"</td></tr>");
+										}
+										break;
+									}
+								}
+							}
+							out.print(sb);
+						}
+					%>
+					</table>
 		<div id="left"></div>
 		<div id="right"></div>
 		<div id="rodape2">
@@ -167,16 +192,13 @@
                                         <img src="imagens/linkedin.png" class="img-circle">
                                     </a></li>
                                     <li class="item-rede-social"><a href="https://www.linkedin.com/in/sergio-paulo-ferreira-24760724/">
-                                        <img src="imagens/Sergio.png" class="img-circle">
+                                        <img src="imagens/sergio.jpg" class="img-circle">
                                         <br/>
-                                        Sergio<br/>
-                                        Business Analyst
+                                        Sergio
                                     </a></li><li class="item-rede-social"><a href="https://www.linkedin.com/in/emurakoshi/">
                                         <img src="imagens/eu.png" class="img-circle">
                                         <br/>
-                                        Eduardo<br/>
-                                        Full Stack<br/>
-                                        developer
+                                        Eduardo
                                     </a></li>
                                 </ul>
                         </div>

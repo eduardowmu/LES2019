@@ -23,13 +23,13 @@ public class AnaliseTeste
 			thread.sleep(1000);
 			driver.get("http://localhost:8080/ProjetoLES2019/gerarRelatorios.jsp");
 			thread.sleep(1000);
-			driver.findElement(By.name("txtDataInicio")).sendKeys("10");
+			driver.findElement(By.name("txtDataInicio")).sendKeys("12");
 			thread.sleep(1000);
 			driver.findElement(By.name("txtDataInicio")).sendKeys("01");
 			thread.sleep(1000);
-			driver.findElement(By.name("txtDataInicio")).sendKeys("2019");
+			driver.findElement(By.name("txtDataInicio")).sendKeys("2018");
 			thread.sleep(1000);
-			driver.findElement(By.name("txtDataFim")).sendKeys("11");
+			driver.findElement(By.name("txtDataFim")).sendKeys("12");
 			thread.sleep(1000);
 			driver.findElement(By.name("txtDataFim")).sendKeys("30");
 			thread.sleep(1000);
