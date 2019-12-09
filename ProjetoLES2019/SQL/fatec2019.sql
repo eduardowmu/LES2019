@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 02-Dez-2019 às 20:23
+-- Generation Time: 09-Dez-2019 às 12:47
 -- Versão do servidor: 10.1.25-MariaDB
 -- PHP Version: 7.1.7
 
@@ -49,7 +49,7 @@ INSERT INTO `client` (`id`, `name`, `surname`, `nascimento`, `cpf`, `genero`, `p
 (1, 'Eduardo', 'Murakoshi', '1984-01-24', '32167624832', 'M', '!@#Abc123', '2019-08-25', 'ativado', NULL),
 (24, 'ttttttttta', 'bbbbbbbbbbb', '1999-08-25', '58889372079', 'M', '!@#Abc123', '2019-08-25', 'ativado', NULL),
 (26, 'rrrrrrrrrrrrrr', 'ssssssssssssss', '1983-01-25', '31551172062', 'M', '!@#Abc123', '2019-08-26', 'ativado', NULL),
-(27, 'uuuuuuu', 'ttttttttt', '1992-08-26', '64359794053', 'M', '!@#Abc123', '2019-08-26', 'ativado', NULL),
+(27, 'uuuuuuu', 'ttttttttt', '1992-08-26', '64359794053', 'M', '!@#Abc123', '2019-08-26', 'inativado', NULL),
 (29, 'oooo', 'pppp', '1999-01-01', '94126895000', 'M', '!@#Abc123', '2019-08-26', 'ativado', NULL),
 (34, 'aaabbb', 'cccddd', '1995-02-14', '17658285030', 'M', '!@#Abc123', '2019-10-23', 'ativado', NULL),
 (35, 'ccc', 'ddd', '1999-01-01', '11499434081', 'M', '!@#Abc123', '2019-11-15', 'ativado', NULL),
@@ -63,7 +63,11 @@ INSERT INTO `client` (`id`, `name`, `surname`, `nascimento`, `cpf`, `genero`, `p
 (43, 'kkk', 'lll', '1999-01-01', '16824164020', 'M', '!@#Abc123', '2019-12-01', 'ativado', NULL),
 (44, 'lll', 'mmm', '1999-01-01', '30788023020', 'M', '!@#Abc123', '2019-12-02', 'ativado', NULL),
 (45, 'mmm', 'nnn', '1999-01-01', '37751223030', 'M', '!@#Abc123', '2019-12-02', 'ativado', NULL),
-(46, 'Eduardo', 'Silva', '1999-01-01', '66548250044', 'M', '!@#Abc123', '2019-12-02', 'ativado', NULL);
+(46, 'Eduardo', 'Silva', '1999-01-01', '66548250044', 'M', '!@#Abc123', '2019-12-02', 'ativado', NULL),
+(47, 'Sergio', 'Silva', '1999-01-01', '55733097060', 'M', '!@#Abc123', '2019-12-02', 'ativado', NULL),
+(48, 'Alex', 'Silva', '1999-01-01', '80462086046', 'M', '!@#Abc123', '2019-12-02', 'ativado', NULL),
+(49, 'Bruno', 'Silva', '1999-01-01', '48981148813', 'M', '!@#Abc123', '2019-12-03', 'ativado', NULL),
+(50, 'Anderson', 'Silva', '1999-01-01', '40223524000', 'M', '!@#Abc123', '2019-12-09', 'ativado', NULL);
 
 -- --------------------------------------------------------
 
@@ -89,7 +93,7 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`id`, `instrutor`, `categoria`, `titulo`, `descricao`, `valor`, `gr_precos`, `cadastro`, `status`, `img`) VALUES
-(2, 'Gustavo Guanabara', 'Linguagem de Programação', 'Curso Basico de Python', 'Aprenda a programar a linguagem de programação que mais cresce no ramo da internet e inteligência artificial.', 40, 'x1.15', '2019-09-01 19:59:28', 'ativado', 'imagens/python.png'),
+(2, 'Gustavo Guanabara', 'Linguagem de Programação', 'Curso Basico de Python', 'Aprenda a programar a linguagem de programação que mais cresce no ramo da internet e inteligência artificial.', 40, 'x1.15', '2019-09-01 19:59:28', 'inativado', 'imagens/python.png'),
 (3, 'Gustavo Guanabara', 'Linguagem de Programação', 'Curso basico de PHP', 'Aprenda a programar uma das linguagens programação mais usada no mundo web no Brasil.', 30, 'x1.15', '2019-09-01 20:02:33', 'ativado', 'imagens/php.jpg'),
 (4, 'Gustavo Guanabara', 'Software', 'Curso de MySQL', 'Aprenda a trabalhar de forma estrutural com programa de banco de dados mais simples e com ele saberá trabalhar com qualquer outro SQBD, pois a linguagem é a mesma.', 35, 'x1.15', '2019-09-01 20:08:51', 'ativado', 'imagens/mysql-logos.gif'),
 (5, 'Gustavo Guanabara', 'Linguagem de Programação', 'Curso Basico de Java Script', 'Aprenda a programar uma das linguagens programação mais usada no mundo web no mundo.', 50, 'x1.15', '2019-09-01 20:14:05', 'ativado', 'imagens/java.jpg'),
@@ -152,7 +156,15 @@ INSERT INTO `creditcard` (`id`, `car_cli_id`, `name`, `number`, `banner`, `code`
 (40, 44, 'lll mmm', '6547897132104563', 'Master', '123', '2024-12-12'),
 (41, 44, 'lll mmm', '1236654478998712', 'VISA', '246', '2026-12-10'),
 (42, 45, 'mmm nnn', '4566322178899877', 'Master', '123', '2024-12-12'),
-(43, 46, 'Eduardo Silva', '1236456998745663', 'Master', '123', '2024-12-12');
+(43, 46, 'Eduardo Silva', '1236456998745663', 'Master', '123', '2024-12-12'),
+(44, 46, 'Eduardo Silva', '3012045609870456', 'VISA', '246', '2026-12-10'),
+(45, 47, 'Sergio Silva', '0231045609870451', 'Master', '123', '2024-12-12'),
+(46, 47, 'Sergio Silva', '0312056407980604', 'VISA', '246', '2026-12-10'),
+(47, 48, 'Alex Silva', '1023045680799074', 'Master', '123', '2024-12-12'),
+(48, 48, 'Alex Silva', '1023504698075049', 'VISA', '246', '2026-12-10'),
+(49, 49, 'Bruno Silva', '4056032107890564', 'Master', '123', '2024-12-12'),
+(50, 49, 'Bruno Silva', '0546201308975046', 'VISA', '123', '2025-12-12'),
+(51, 50, 'Anderson Silva', '1032506489070465', 'Master', '123', '2024-12-12');
 
 -- --------------------------------------------------------
 
@@ -188,7 +200,9 @@ INSERT INTO `cupom` (`id`, `cup_cli_id`, `cup_ite_id`, `codigo`, `tipo`, `valor`
 (9, 26, 22, '26-4', 'troca', 35, '', 'pendente', '2019-11-19'),
 (10, 37, 34, '37-2', 'troca', 40, 'NÃ£o quero mais', 'reprovado', '2019-11-19'),
 (32, 39, 54, '39-3', 'troca', 30, 'Desisto', 'aprovado', '2019-11-24'),
-(33, 43, 63, '43-6', 'troca', 30, 'Desisto', 'aprovado', '2019-12-01');
+(33, 43, 63, '43-6', 'troca', 30, 'Desisto', 'aprovado', '2019-12-01'),
+(34, 46, 71, '46-4', 'troca', 35, 'Desisto', 'aprovado', '2019-12-02'),
+(35, 49, 89, '49-5', 'troca', 50, 'Desisto', 'aprovado', '2019-12-03');
 
 -- --------------------------------------------------------
 
@@ -257,7 +271,18 @@ INSERT INTO `email` (`id`, `ema_cli_id`, `adress`) VALUES
 (73, 45, 'mmm@gmail.com'),
 (74, 45, 'mmnn@gmail.com'),
 (75, 43, 'kklllkkk@gmail.com'),
-(76, 46, 'dudu@gmail.com');
+(76, 46, 'dudu@gmail.com'),
+(77, 46, 'duduedu@gmail.com'),
+(78, 46, 'eduardowmu@gmail.com'),
+(79, 47, 'sergio@gmail.com'),
+(80, 47, 'ssilva@gmail.com'),
+(81, 47, 'sergiosilva@gmail.com'),
+(82, 48, 'alex@gmail.com'),
+(83, 48, 'alexsilva@gmail.com'),
+(84, 46, 'dudueduedu@gmail.com'),
+(85, 49, 'bruno@gmail.com'),
+(86, 49, 'brunosilva@gmail.com'),
+(87, 50, 'anderson@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -377,7 +402,27 @@ INSERT INTO `item` (`id`, `code`, `preco`, `ite_cur_id`, `ite_sal_id`, `status`,
 (67, '44-5', 57.49, 5, 40, 'pendente', '2019-11-02 12:07:15'),
 (68, '44-2', 46, 2, 41, 'pendente', '2019-11-02 12:08:35'),
 (69, '45-5', 57.49, 5, 42, 'pendente', '2019-12-02 13:33:10'),
-(70, '45-2', 46, 2, 42, 'pendente', '2019-12-02 13:33:15');
+(70, '45-2', 46, 2, 42, 'pendente', '2019-12-02 13:33:15'),
+(71, '46-4', 40.25, 4, 43, 'inativo', '2019-12-02 16:29:47'),
+(72, '46-3', 34.5, 3, 43, 'aprovada', '2019-12-02 16:29:47'),
+(73, '46-14', 118.75, 14, 44, 'aprovada', '2019-12-02 16:32:28'),
+(74, '46-5', 57.49999999999999, 5, 44, 'aprovada', '2019-12-02 16:32:28'),
+(75, '46-6', 34.5, 6, 44, 'aprovada', '2019-12-02 16:32:28'),
+(76, '46-7', 51.74999999999999, 7, 44, 'aprovada', '2019-12-02 16:32:28'),
+(77, '46-13', 46, 13, 44, 'aprovada', '2019-12-02 16:32:28'),
+(78, '47-5', 57.49999999999999, 5, 45, 'pendente', '2019-12-02 16:43:47'),
+(79, '47-4', 40.25, 4, 45, 'pendente', '2019-12-02 16:43:47'),
+(80, '47-10', 62.5, 10, 46, 'pendente', '2019-12-02 16:49:31'),
+(81, '47-2', 46, 2, 46, 'pendente', '2019-12-02 16:49:31'),
+(82, '47-3', 34.5, 3, 46, 'pendente', '2019-12-02 16:49:31'),
+(83, '47-7', 51.74999999999999, 7, 46, 'pendente', '2019-12-02 16:49:31'),
+(84, '47-8', 69, 8, 46, 'pendente', '2019-12-02 16:49:31'),
+(85, '47-9', 37.5, 9, 46, 'pendente', '2019-12-02 16:49:31'),
+(86, '48-5', 57.49999999999999, 5, 47, 'pendente', '2019-12-02 19:54:30'),
+(87, '48-4', 40.25, 4, 47, 'pendente', '2019-12-02 19:54:30'),
+(88, '46-10', 62.5, 10, 48, 'pendente', '2019-12-02 19:57:57'),
+(89, '49-5', 57.49999999999999, 5, 49, 'inativo', '2019-12-03 18:53:23'),
+(90, '49-4', 40.25, 4, 49, 'aprovada', '2019-12-03 18:53:23');
 
 -- --------------------------------------------------------
 
@@ -447,7 +492,19 @@ INSERT INTO `payment` (`id`, `pay_sal_id`, `pay_car_id`, `parcelas`, `total`, `s
 (45, 40, 41, 1, 77, 'pendente'),
 (46, 41, 40, 1, 40, 'pendente'),
 (47, 41, 41, 1, 6, 'pendente'),
-(48, 42, 42, 1, 103.5, 'pendente');
+(48, 42, 42, 1, 103.5, 'pendente'),
+(49, 43, 43, 1, 20, 'pendente'),
+(50, 43, 44, 1, 54.75, 'pendente'),
+(51, 44, 43, 1, 308.5, 'pendente'),
+(52, 45, 45, 1, 20, 'pendente'),
+(53, 45, 46, 1, 77.75, 'pendente'),
+(54, 46, 45, 1, 200, 'pendente'),
+(55, 46, 46, 1, 101.25, 'pendente'),
+(56, 47, 47, 1, 20, 'pendente'),
+(57, 47, 48, 1, 77.75, 'pendente'),
+(58, 48, 43, 1, 27.5, 'pendente'),
+(59, 49, 49, 1, 50, 'pendente'),
+(60, 49, 50, 1, 47.75, 'pendente');
 
 -- --------------------------------------------------------
 
@@ -506,7 +563,11 @@ INSERT INTO `phone` (`id`, `pho_cli_id`, `number`, `ddd`, `type`) VALUES
 (29, 43, '999999999', '11', 'movel'),
 (30, 44, '999999999', '11', 'movel'),
 (31, 45, '999999999', '11', 'movel'),
-(32, 46, '999999999', '11', 'movel');
+(32, 46, '999999999', '11', 'movel'),
+(33, 47, '999999999', '11', 'movel'),
+(34, 48, '999999999', '11', 'movel'),
+(35, 49, '999999999', '11', 'movel'),
+(36, 50, '999999999', '11', 'movel');
 
 -- --------------------------------------------------------
 
@@ -579,7 +640,14 @@ INSERT INTO `sale` (`id`, `sal_cli_id`, `code`, `total`, `status`, `registry`) V
 (39, 43, '433', 34.5, 'pendente', '2019-12-01 19:35:31'),
 (40, 44, '4465', 92, 'pendente', '2019-12-02 12:07:15'),
 (41, 44, '442', 46, 'pendente', '2019-12-02 12:08:35'),
-(42, 45, '4552', 103.5, 'pendente', '2019-12-02 13:32:55');
+(42, 45, '4552', 103.5, 'pendente', '2019-12-02 13:32:55'),
+(43, 46, '4643', 74.75, 'aprovada', '2019-12-02 16:29:47'),
+(44, 46, '461456713', 308.5, 'aprovada', '2019-12-02 16:32:28'),
+(45, 47, '4754', 97.75, 'pendente', '2019-12-02 16:43:47'),
+(46, 47, '471023789', 301.25, 'pendente', '2019-12-02 16:49:31'),
+(47, 48, '4854', 97.75, 'pendente', '2019-12-02 19:54:30'),
+(48, 46, '4610', 27.5, 'pendente', '2019-12-02 19:57:57'),
+(49, 49, '4954', 97.75, 'aprovada', '2019-12-03 18:53:22');
 
 -- --------------------------------------------------------
 
@@ -642,6 +710,13 @@ CREATE TABLE `shopcar` (
   `registry` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Extraindo dados da tabela `shopcar`
+--
+
+INSERT INTO `shopcar` (`id`, `car_cli_id`, `car_cur_id`, `registry`) VALUES
+(1, 47, 11, '2019-12-02 19:07:05');
+
 -- --------------------------------------------------------
 
 --
@@ -657,6 +732,15 @@ CREATE TABLE `video` (
   `frame` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `registro` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Extraindo dados da tabela `video`
+--
+
+INSERT INTO `video` (`id`, `vid_cur_id`, `titulo`, `descricao`, `duracao`, `frame`, `registro`) VALUES
+(1, 14, 'Introdução', 'Video 0', 57, '<iframe width=\'560\' height=\'315\' src=\'https://www.youtube.com/embed/H4mKZ66P0qk\' frameborder=\'0\' allow=\'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>', '2019-12-07 17:49:03'),
+(2, 14, 'Requisitos', 'Video 1', 90, '<iframe width=\'560\' height=\'315\' src=\'https://www.youtube.com/embed/sgp8KCm7Exw\' frameborder=\'0\' allow=\'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>', '2019-12-09 00:44:16'),
+(3, 14, 'Orientacao a objetos', 'Video 2', 55, '<iframe width=\'560\' height=\'315\' src=\'https://www.youtube.com/embed/J8mB0aJANos\' frameborder=\'0\' allow=\'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture\' allowfullscreen></iframe>', '2019-12-09 01:06:15');
 
 --
 -- Indexes for dumped tables
@@ -792,7 +876,7 @@ ALTER TABLE `video`
 -- AUTO_INCREMENT for table `client`
 --
 ALTER TABLE `client`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 --
 -- AUTO_INCREMENT for table `course`
 --
@@ -802,17 +886,17 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `creditcard`
 --
 ALTER TABLE `creditcard`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 --
 -- AUTO_INCREMENT for table `cupom`
 --
 ALTER TABLE `cupom`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 --
 -- AUTO_INCREMENT for table `email`
 --
 ALTER TABLE `email`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 --
 -- AUTO_INCREMENT for table `funcionarios`
 --
@@ -822,7 +906,7 @@ ALTER TABLE `funcionarios`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 --
 -- AUTO_INCREMENT for table `matricula`
 --
@@ -832,7 +916,7 @@ ALTER TABLE `matricula`
 -- AUTO_INCREMENT for table `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 --
 -- AUTO_INCREMENT for table `perfil`
 --
@@ -842,7 +926,7 @@ ALTER TABLE `perfil`
 -- AUTO_INCREMENT for table `phone`
 --
 ALTER TABLE `phone`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 --
 -- AUTO_INCREMENT for table `regional`
 --
@@ -852,7 +936,7 @@ ALTER TABLE `regional`
 -- AUTO_INCREMENT for table `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- AUTO_INCREMENT for table `scupom`
 --
@@ -867,12 +951,12 @@ ALTER TABLE `setor`
 -- AUTO_INCREMENT for table `shopcar`
 --
 ALTER TABLE `shopcar`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `video`
 --
 ALTER TABLE `video`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- Constraints for dumped tables
 --

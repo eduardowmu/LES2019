@@ -86,6 +86,18 @@ public class CourseView implements IViewHelper
 				
 			case "add":
 				course.setId(Integer.parseInt(request.getParameter("codigo")));
+				course.setName("");
+				course.setInstructor("");
+				course.setCategoria("");
+				break;
+				
+			case "active":
+				course.setId(Integer.parseInt(request.getParameter("codigo")));
+				if(request.getParameter("status").equals("ativado"))
+				{course.setStatus("inativado");}
+				
+				else	course.setStatus("ativado");
+				
 				break;
 		}
 		return course;
@@ -142,14 +154,31 @@ public class CourseView implements IViewHelper
 				break;
 				
 			case "delete":
-				result.setMsg("Curso deletado com sucesso");
+				if(result.getMsg() == null)
+				{result.setMsg("Curso deletado com sucesso");}
 				request.getSession().setAttribute("result", result);
 				rd = request.getRequestDispatcher("ListaCursos.jsp");
 				break;
 				
 			case "add":
+				Result res = (Result)request.getSession().getAttribute("result");
+				result.getEntities().addAll(res.getEntities());
+				if(result.getMsg() == null)
+				{	result.setMsg("Lista de Videos");
+					request.getSession().setAttribute("result", result);
+					rd = request.getRequestDispatcher("gerenciarVideos.jsp");
+				}
+				
+				else
+				{	request.getSession().setAttribute("result", result);
+					rd = request.getRequestDispatcher("ListaCursos.jsp");
+				}
+				break;
+				
+			case "active":
+				if(result.getMsg() == null)	{result.setMsg("");}
 				request.getSession().setAttribute("result", result);
-				rd = request.getRequestDispatcher("videos.jsp");
+				rd = request.getRequestDispatcher("ListaCursos.jsp");
 				break;
 		}
 		rd.forward(request, response);

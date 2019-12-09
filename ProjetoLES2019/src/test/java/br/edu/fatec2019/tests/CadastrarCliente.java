@@ -34,13 +34,13 @@ public class CadastrarCliente
 		    driver.get("http://localhost:8080/ProjetoLES2019/cadastroUsuarios.jsp");
 		    try {thread.sleep(1000);}
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-		    driver.findElement(By.name("nome")).sendKeys("Alex");
+		    driver.findElement(By.name("nome")).sendKeys("Anderson");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.name("sobrenome")).sendKeys("Silva");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.name("cpf")).sendKeys("80462086046");
+			driver.findElement(By.name("cpf")).sendKeys("40223524000");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("ddd")).click();
@@ -66,14 +66,14 @@ public class CadastrarCliente
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("email")).click();
-		    driver.findElement(By.id("email")).sendKeys("alex@gmail.com");
+		    driver.findElement(By.id("email")).sendKeys("anderson@gmail.com");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("cardName")).click();
-		    driver.findElement(By.id("cardName")).sendKeys("Alex Silva");
+		    driver.findElement(By.id("cardName")).sendKeys("Anderson Silva");
 		    try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
-			driver.findElement(By.id("cardNumber")).sendKeys("1023045680799074");
+			driver.findElement(By.id("cardNumber")).sendKeys("1032506489070465");
 			try {thread.sleep(1000);} 
 			catch (InterruptedException e) {System.out.println(e.getMessage());}
 			driver.findElement(By.id("seg")).click();

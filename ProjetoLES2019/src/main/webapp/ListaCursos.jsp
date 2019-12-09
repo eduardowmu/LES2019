@@ -151,6 +151,7 @@
 									{	course = (Course)ed;
 										out.print("<form action='CourseServlet' method='post'><tr>" + 
 														"<input type='hidden' name='codigo' value='"+course.getId()+"'/>"+
+														"<input type='hidden' name='status' value='"+course.getStatus()+"'/>"+
 														"<td class='linha' align='center'>"+course.getId()+"</td>"+
 														"<td class='linha' align='center'>"+course.getName()+"</td>"+
 														"<td class='linha' align='center'>"+course.getCategoria()+"</td>"+
@@ -162,9 +163,9 @@
 														"<td class='linha' align='center'>"+
 															"<button type='submit' id='action' name='action' value='show'><img src='imagens/edit_pencil_6320.png'></button></td>"+
 														"<td class='linha' align='center'>"+
-															"<a href='#'>"+
+															"<button type='submit' name='action' value='active'>"+
 																"<img src='imagens/disable_remove_delete_exit_close_11881.png'>"+
-															"</a></td>"+
+															"</button></td>"+
 														"<td class='linha' align='center'>"+
 															"<button type='submit' class='btn-excluir' name='action' id='delete' value='delete'>"+
 																"<img src='imagens/seo-social-web-network-internet_262_icon-icons.com_61518.png'>"+
