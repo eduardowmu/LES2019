@@ -55,12 +55,12 @@
 		    <version>42.2.6</version>
 		</dependency>-->
 		<!-- Driver JDBC do MySQL -->
-		<dependency>
+		<!--dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.34</version>
 			<scope>compile</scope>
-		</dependency>
+		</dependency-->
 		
 		<!-- Mojarra (implementacao do JSF) 
 		<dependency>
